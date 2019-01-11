@@ -73,6 +73,11 @@
 /*===============================================*/
 /* 01. Main Styles                               */
 /*===============================================*/
+@font-face {
+  font-family: 'BickhamScriptPro';
+  src: url('../fonts/fonts/BickhamScriptPro.otf'); /* IE9 Compat Modes */
+ 
+}
 
 body {
   color: #333;
@@ -81,6 +86,26 @@ body {
 	padding:0;
 	min-height:100%;
 	background-color: #fff;
+	height: 100%;
+}
+.pull-left{
+	margin-left: 2em;
+}
+.z-index-slider{
+	width: 70%;
+	height: 90%;
+	z-index: inherit;
+	top: 10px!important;
+}
+
+.aoCuoiSlider .owl-item{
+	    height: 600px!important;
+}
+.aoCuoi {
+	height: 100%;
+	left: 22%;
+}
+.aoCuoi a{
 	height: 100%;
 }
 .pt-20 {
@@ -228,7 +253,7 @@ h2 {
 	font:900 80px marsha, Roboto;
 }
 .gla_middle_titles h2 {
-	font:400 70px/80px marsha, Dosis;
+	font:430 100px/110px BickhamScriptPro;
 	margin-bottom: 60px;
 }
 
@@ -1270,8 +1295,8 @@ label.error{
 	position: relative;
 }
 .gla_section .container {
-	padding-top: 132px;
-	padding-bottom: 128px;
+	padding-top: 70px;
+    padding-bottom: 128px;
 }
 .gla_lg_padding .container {
 	padding-top: 222px;
@@ -1791,7 +1816,7 @@ ul.mega-menu {
 			color:#333;
 			text-transform: uppercase;
 			position: relative;
-			top: 22px;
+			top: 30px;
 			-webkit-transition: all 0.3s;
 			-o-transition: all 0.3s;
 			transition: all 0.3s;
@@ -4474,7 +4499,7 @@ video#video_background  {
 		}
 
 	.gla_news_title {
-		font:400 24px/32px Dosis, Roboto;
+		font:400 24px/32px Roboto;
 		display: block;
 		margin-bottom: 22px;
 		padding: 0 30px;
@@ -5049,12 +5074,16 @@ footer {
 /*08.6 Blog*/
 .price {
 	color: red;
-	font-size: 15px;
+	font-size: 20px;
 	cursor: pointer;
 	font-weight: bold;
 }
 .price:hover{
 	text-decoration: none;
+}
+.goiDichVu{
+	
+    padding-top: 1em;
 }
 .gla_post_item {
 	margin-bottom: 80px;
@@ -5281,11 +5310,10 @@ footer {
 		position: absolute;
 		width:100%;
 		z-index: 2;
-		bottom: -40px
+		bottom: -10px;
+/*		left: -10%;*/
 	}
 	.gla_shop_item_slider .owl-controls {
-		z-index: 3;
-		position: absolute;
 		width:100%;
 		height: 100%;
 		top: 0;
