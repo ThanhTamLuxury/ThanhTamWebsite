@@ -88,8 +88,16 @@ body {
 	background-color: #fff;
 	height: 100%;
 }
+
+.modal-footer .btn{
+	padding-left: 40px!important;
+    padding-right: 40px!important;
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+}
 .pull-left{
 	margin-left: 2em;
+	margin-top: 0.5em;
 }
 .z-index-slider{
 	width: 70%;
@@ -105,6 +113,9 @@ body {
 	height: 100%;
 	left: 22%;
 }
+.aoCuoi-title{
+	text-align: center;
+}
 .aoCuoi a{
 	height: 100%;
 }
@@ -112,6 +123,12 @@ body {
 	padding-top: 20px!important;
 }.pb-10 {
 	padding-bottom: 10px!important;
+}
+.aboutUs  p{
+	font-size: 1.2em;
+}
+.top-video{
+	    padding: 120px 10px 120px 30px!important;
 }
 .gla_noheader {
 	height: 5px;
@@ -400,6 +417,7 @@ blockquote footer {
 }
 .cart-total-item .price {
 	float: right;
+	
 }
 .cart-total-item {
 	border-bottom: 1px solid #ccc;
@@ -1296,7 +1314,7 @@ label.error{
 }
 .gla_section .container {
 	padding-top: 70px;
-    padding-bottom: 128px;
+    padding-bottom: 90px;
 }
 .gla_lg_padding .container {
 	padding-top: 222px;
@@ -5074,7 +5092,7 @@ footer {
 /*08.6 Blog*/
 .price {
 	color: red;
-	font-size: 20px;
+	font-size: 22px;
 	cursor: pointer;
 	font-weight: bold;
 }
@@ -5301,7 +5319,6 @@ footer {
 }
 .gla_shop_item_slider .owl-item{
 	width: 273px;
-    height: 350px; 
 }
 	.gla_shop_item_slider a {
 		display: block;
@@ -5394,6 +5411,7 @@ footer {
 	transition: all 0.3s;
 	padding: 20px;
 	text-align: center;
+	font-weight: bold;
 }
 	.gla_shop_item_title:before,
 	.gla_news_title:before {
@@ -5818,6 +5836,11 @@ footer {
 	font:900 56px Dosis, Roboto;
 }
 
+	.aoCuoiSlider .owl-item{
+		height: 300px!important;
+	}
+
+
 
 .tablet.portrait .gla_second_step .gla_logo,
 .tablet.portrait .gla_logo {
@@ -5859,6 +5882,16 @@ footer {
 .mobile .gla_menu_item b {
 	float: none;
 }
+	.pull-left{
+		margin-left: 0;
+		float: none!important;
+		text-align: center;
+	}
+	.pull-right{
+		margin-top: 20px;
+		float: none!important;
+		text-align: center;
+	}	
 .mobile .gla_team_menu,
 .mobile .gla_menu_item {
 	margin: 0;
@@ -6004,7 +6037,7 @@ header nav.gla_transp_nav {
 }
 
 .gla_middle_titles h2 {
-	font:900 30px/30px Dosis, Roboto;
+	font:900 40px/30px BickhamScriptPro;
 	margin-bottom: 50px;
 }
 .gla_icon_boxes {
@@ -6292,7 +6325,7 @@ header nav.active .gla_logo {
 }
 /*Responsive end*/
 
-.gla_parent:last-child >a:after{
+.gla_parent:first-child >a:after{
 	display: none;
 }
 
