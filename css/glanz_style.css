@@ -88,7 +88,15 @@ body {
 	background-color: #fff;
 	height: 100%;
 }
-
+.xemThemAoCuoi{
+	border: 1px solid #fff!important;
+	color: white!important;
+	background: rgba(0,0,0,0.6)!important;
+	padding-bottom: 20px;
+}
+.xemThemAoCuoi:hover{
+	background: rgba(0,0,0,0.8)!important;
+}
 .modal-footer .btn{
 	padding-left: 40px!important;
     padding-right: 40px!important;
@@ -169,7 +177,7 @@ html {
 	left: 0;
 }
 .gla_large_text {
-	font: 400 18px/30px Dosis, Roboto;
+	font: 400 18px/30px  Roboto;
 }
 .gla_over {
 	width: 100%;
@@ -252,13 +260,13 @@ html {
 
 /*01.2 Titles*/
 h1.gla_h1_title {
-	font:900 44px Dosis, Roboto;
+	font:900 44px  Roboto;
 	text-transform: uppercase;
 	line-height: 1.125;
 	margin-top: 0;
 }
 h2 {
-	font:400 24px Dosis, Roboto;
+	font:400 24px  Roboto;
 	line-height: 1.125;
 	margin-top: 0;
 	color: #333;
@@ -283,7 +291,7 @@ h2 {
 	letter-spacing: 0;
 }
 .gla_thin_titles h2 {
-	font:300 44px Dosis, Roboto;
+	font:300 44px  Roboto;
 	text-transform: uppercase;
 }
 .gla_sml_abs_title {
@@ -292,7 +300,7 @@ h2 {
 	background: #e5e5e5;
 	color: #333;
 	padding: 10px 20px;
-	font:400 20px/20px Dosis, Roboto;
+	font:400 20px/20px  Roboto;
 	-webkit-box-shadow: 0 0 10px rgba(0,0,0,.3);
 	box-shadow: 0 0 20px rgba(0,0,0,.3);
 	transform:rotate(90deg);
@@ -1314,7 +1322,7 @@ label.error{
 }
 .gla_section .container {
 	padding-top: 70px;
-    padding-bottom: 90px;
+    padding-bottom: 50px;
 }
 .gla_lg_padding .container {
 	padding-top: 222px;
@@ -1816,7 +1824,7 @@ ul.mega-menu {
 			} 
 
 		.gla_main_menu_content_menu a {
-			font:400 30px/38px Dosis, Roboto;
+			font:400 30px/38px Roboto;
 			display: block;
 			text-decoration: none;
 		}
@@ -1830,7 +1838,7 @@ ul.mega-menu {
 	display: none;
 }
 		.gla_logo {
-			font:900 24px/18px Dosis, Roboto;
+			font:900 24px/18px  Roboto;
 			color:#333;
 			text-transform: uppercase;
 			position: relative;
@@ -1869,7 +1877,7 @@ ul.mega-menu {
 			}
 		.gla_logo b {
 			display: block;
-			font:500 12px/18px Dosis, Roboto;
+			font:500 12px/18px  Roboto;
 			position: relative;
 			-webkit-transition: all 0.2s;
 			-o-transition: all 0.2s;
@@ -2520,11 +2528,11 @@ ul.mega-menu {
 				font:italic 400 20px/20px marsha, Roboto!important;
 			}
 		.gla_slide_title_great {
-			font:900 86px Dosis, Roboto;
+			font:900 86px  Roboto;
 			line-height: 1.0625;
 		}
 		.gla_slide_title_middle {
-			font:900 56px Dosis, Roboto;
+			font:900 56px  Roboto;
 			line-height: 1.0625;
 			text-transform: uppercase;
 			margin-bottom: 25px;
@@ -2534,7 +2542,7 @@ ul.mega-menu {
 
 		
 		.gla_slide_subtitle {
-			font:400 20px Dosis, Roboto;
+			font:400 20px  Roboto;
 			text-transform: none;
 			line-height: 1.125;
 			margin-bottom: 20px;
@@ -2542,12 +2550,12 @@ ul.mega-menu {
 		}
 
 		.gla_slide_desq {
-			font:400 24px Dosis, Roboto;
+			font:400 24px  Roboto;
 			line-height: 1.35417;
 			margin: 30px 0;
 		}
 		.gla_slide_desq_great {
-			font:500 24px Dosis, Roboto;
+			font:500 24px  Roboto;
 			text-transform: uppercase;
 		}
 			.gla_slide_title_great:after {
@@ -3027,7 +3035,7 @@ ul.mega-menu {
 /*Badges*/
 .gla_badge_i_line1 {
 	position: absolute;
-	font: 400 80px/80px marsha, Dosis, Roboto;
+	font: 400 80px/80px marsha,  Roboto;
 	color: #000;
 	width: 100%;
 	text-align: center;
@@ -3035,7 +3043,7 @@ ul.mega-menu {
 }
 .gla_badge_i_line2 {
 	position: absolute;
-	font: 400 80px/80px marsha, Dosis, Roboto;
+	font: 400 80px/80px marsha,  Roboto;
 	color: #000;
 	width: 100%;
 	text-align: center;
@@ -3445,7 +3453,7 @@ video#video_background  {
 		font: italic 400 24px/24px Playfair Display, Roboto;
 	}
 	.gla_menu_item span {
-		font: 700 30px/30px Dosis, Roboto;
+		font: 700 30px/30px  Roboto;
 	}
 .gla_menu_item p {
 	margin-bottom: 0;
@@ -3468,7 +3476,7 @@ video#video_background  {
 	margin: 0 30px;
 }
 .countdown-amount {
-	font: 400 60px/80px Playfair Display, Dosis, Roboto;
+	font: 400 60px/80px Playfair Display,  Roboto;
 	display: block;
 }
 .gla_countdown_gold .countdown-amount {
@@ -3498,7 +3506,7 @@ video#video_background  {
     margin-top: -10px;
 	}
 	.gla_pricing_table h5 {
-		font: 700 40px/40px Dosis, Roboto;
+		font: 700 40px/40px  Roboto;
 		margin-bottom: 30px;
 	}
 	.gla_pricing_price {
@@ -3581,11 +3589,11 @@ video#video_background  {
 .gla_stat_item {
 	display: inline-block;
 	margin:0 15px;
-	font: 400 20px/24px Dosis, Roboto;
+	font: 400 20px/24px  Roboto;
 	vertical-align: top;
 }
 .gla_stat_item b {
-	font: 600 48px/48px Dosis, Roboto;
+	font: 600 48px/48px  Roboto;
 	float: left;
 	margin-right: 10px;
 }
@@ -3624,7 +3632,7 @@ video#video_background  {
 	margin-top: 0;
 }
 .gla_box_content p.gla_review_txt {
-	font: 400 16px/24px Dosis, Roboto;
+	font: 400 16px/24px  Roboto;
 	margin-top: 20px;
 	padding: 0 20px;
 }
@@ -3817,12 +3825,12 @@ video#video_background  {
 			}
 		.gla_bottom_title h3 {
 			position: relative;
-			font: 700 24px Dosis, Roboto;
+			font: 700 24px  Roboto;
 			margin-bottom: 0;
 		}
 		.gla_bottom_title h2 {
 			position: relative;
-			font: 700 34px Dosis, Roboto;
+			font: 700 34px  Roboto;
 			margin-bottom: 30px;
 		}
 			.gla_bottom_title h2:after {
@@ -3942,7 +3950,7 @@ video#video_background  {
 		}
 		.gla_icon_box h4 strong {
 			display: block;
-			font: 700 60px/60px Dosis, Roboto;
+			font: 700 60px/60px  Roboto;
 			margin-bottom: 20px;
 		}
 	.gla_icon_box i {
@@ -4028,7 +4036,7 @@ video#video_background  {
 		}
 		.gla_testimonials b {
 			display: block;
-			font:500 20px/30px Dosis, Roboto;
+			font:500 20px/30px  Roboto;
 			margin-bottom: 10px;
 		}
 
@@ -4210,7 +4218,7 @@ video#video_background  {
 .gla_team_box h4 b {
 	display: inline-block;
 	margin: 8px 0;
-	font:900 26px/38px Dosis, Roboto;
+	font:900 26px/38px  Roboto;
 }
 .gla_team_box {
 	margin-bottom: 0;
@@ -4634,7 +4642,7 @@ video#video_background  {
 	}
 	.gla_service_block h4 {
 		margin: 15px 0 0;
-		font:900 30px/30px Dosis, Roboto;
+		font:900 30px/30px  Roboto;
 		text-transform: uppercase;
 	}
 	.gla_service_block .gla_simple_block {
@@ -4892,12 +4900,12 @@ footer {
 		color:#333;
 	}
 	.gla_port_title {
-		font:400 24px/28px Dosis, Roboto,sans-serif;
+		font:400 24px/28px  Roboto,sans-serif;
 		display: block;
 		width: 100%;
 	}
 	.gla_port_subtitle {
-		font:400 18px/28px Dosis, Roboto,sans-serif;
+		font:400 18px/28px  Roboto,sans-serif;
 		display: block;
 		width: 100%;
 	}
@@ -5198,7 +5206,7 @@ footer {
 	width: 100%;
 }
 	.widget h6 {
-		font: 600 18px/28px Dosis, Roboto;
+		font: 600 18px/28px  Roboto;
 		text-transform: uppercase;
 		margin-bottom: 20px;
 	}
@@ -5534,7 +5542,7 @@ footer {
 	width: 100%;
 }
 .table_head {
-	font:600 18px/28px Dosis,Roboto;
+	font:600 18px/28px Roboto;
 	margin:10px 0 20px;
 	text-transform: uppercase;
 }
@@ -5833,7 +5841,7 @@ footer {
 }
 
 .tablet .gla_great_titles h2 {
-	font:900 56px Dosis, Roboto;
+	font:900 56px  Roboto;
 }
 
 	.aoCuoiSlider .owl-item{
@@ -5877,7 +5885,7 @@ footer {
 	right: 60px;
 }
 .mobile .gla_menu_item span {
-	font: 700 20px/20px Dosis, Roboto;
+	font: 700 20px/20px  Roboto;
 }
 .mobile .gla_menu_item b {
 	float: none;
@@ -5931,12 +5939,12 @@ footer {
 	right: 15px;
 }
 .gla_slide_title {
-	font:400 40px Dosis, Roboto;
+	font:400 40px  Roboto;
 	width: 100%;
 	text-align: center;
 }
 .gla_slide_title {
-	font:400 40px Dosis, Roboto;
+	font:400 40px  Roboto;
 	width: 100%;
 	text-align: center;
 }
@@ -5948,7 +5956,7 @@ footer {
 		margin: 20px auto;
 	}
 .gla_slide_desq {
-	font:400 18px Dosis, Roboto;
+	font:400 18px  Roboto;
 	text-align: center;
 }
 .gla_slide_txt,
@@ -5966,7 +5974,7 @@ footer {
 	padding: 0 25px;
 }
 .gla_great_titles h2 {
-	font:900 36px Dosis, Roboto;
+	font:900 36px  Roboto;
 	text-align: center;
 }
 	.gla_great_titles h2:after {
@@ -6237,10 +6245,10 @@ header nav.active .gla_logo {
 }
 /*Portfolio*/
 .gla_port_title {
-	font: 400 18px/24px Dosis, Roboto,sans-serif;
+	font: 400 18px/24px  Roboto,sans-serif;
 }
 .gla_port_subtitle {
-	font: 400 14px/22px Dosis, Roboto,sans-serif;
+	font: 400 14px/22px  Roboto,sans-serif;
 }
 /*Text Align*/
 .mobile-text-left {
