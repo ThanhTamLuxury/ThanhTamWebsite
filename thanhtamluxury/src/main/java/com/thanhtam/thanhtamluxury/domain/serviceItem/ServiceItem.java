@@ -1,0 +1,37 @@
+package com.thanhtam.thanhtamluxury.domain.serviceItem;
+
+import com.thanhtam.thanhtamluxury.common.Mapper;
+import com.thanhtam.thanhtamluxury.domain.imageItem.ImageItem;
+import com.thanhtam.thanhtamluxury.domain.priceDetail.PriceDetail;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ServiceItem implements Mapper<ServiceItemDto> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
+    private String type;
+    private float price;
+    private String priceDescription;
+    private String shortDescription;
+    private String description;
+    private String slug;
+    private String serviceType;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceItem")
+    private List<ImageItem> imageItems;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceItem")
+    private List<PriceDetail> priceDetails;
+
+}
