@@ -1,10 +1,12 @@
 # ThanhTamWebsite
 # SETUP BACKEND-API:
-Yêu cầu:
+
+# Yêu cầu:
 - Cài đặt openJdk11
 - sql 2017
 - IDE có support maven (RECOMMEND intellij) 
-Các bước:
+
+# Các bước:
 - Mở project thanhtamluxury
 - Vào src/main/resource/application.properties đổi username và password
 - Tạo database với tên trong src/main/resource/application.properties
