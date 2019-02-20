@@ -9,7 +9,7 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    fetch("http://localhost:8080/api/appointment/all")
+    fetch("/api/appointment/all")
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -31,9 +31,9 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <div className="App-intro">
-            <h2>JUG List</h2>
+            <h1>Thanh Tam luxury</h1>
             {items.map(item => (
-              <div key={item.id}>{item.name}</div>
+              <div key={item.id}>{item.name}, {item.address}, {item.phone}</div>
             ))}
           </div>
         </header>
