@@ -1,7 +1,8 @@
-package com.thanhtam.thanhtamluxury.domain.priceDetail;
+package com.thanhtam.thanhtamluxury.domain.pricedetail;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
-import com.thanhtam.thanhtamluxury.domain.serviceItem.ServiceItem;
+import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItem;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

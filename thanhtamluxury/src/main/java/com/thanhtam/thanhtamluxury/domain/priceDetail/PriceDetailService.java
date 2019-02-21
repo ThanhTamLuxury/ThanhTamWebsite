@@ -1,4 +1,4 @@
-package com.thanhtam.thanhtamluxury.domain.priceDetail;
+package com.thanhtam.thanhtamluxury.domain.pricedetail;
 
 import org.springframework.stereotype.Service;
 

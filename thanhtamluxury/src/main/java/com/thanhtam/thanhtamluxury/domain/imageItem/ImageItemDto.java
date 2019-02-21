@@ -1,4 +1,4 @@
-package com.thanhtam.thanhtamluxury.domain.imageItem;
+package com.thanhtam.thanhtamluxury.domain.imageitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
 import lombok.AllArgsConstructor;
