@@ -5,7 +5,6 @@ import com.thanhtam.thanhtamluxury.common.ThanhTamException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public AppointmentDto getById(int id) {
         return appointmentRepository.findById(id)
-                .orElseThrow(()-> new ThanhTamException(HttpStatus.NOT_FOUND,Constant.APPOINTMENT_ID_NOT_FOUND+id))
+                .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + id))
                 .toMappedClass();
     }
 
@@ -42,7 +41,7 @@ public class AppointmentServiceImp implements AppointmentService {
     public void deleteAppointment(int id) {
         Appointment appointment = appointmentRepository
                 .findById(id)
-                .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND+id));
+                .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + id));
         appointmentRepository.delete(appointment);
     }
 }

@@ -2,7 +2,6 @@ package com.thanhtam.thanhtamluxury.domain.imageitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItem;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
