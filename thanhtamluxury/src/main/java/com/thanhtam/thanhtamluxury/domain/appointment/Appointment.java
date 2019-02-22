@@ -16,8 +16,6 @@ public class Appointment implements Mapper<AppointmentDto> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(length = 50)
     private String name;
     private String address;
     private String email;
