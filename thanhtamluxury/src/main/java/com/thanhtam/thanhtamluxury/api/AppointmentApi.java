@@ -5,6 +5,7 @@ import com.thanhtam.thanhtamluxury.domain.appointment.AppointmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,11 @@ public class AppointmentApi {
     @PostMapping
     public AppointmentDto createAppointment(@RequestBody AppointmentDto appointmentDto) {
         return appointmentService.createAppointment(appointmentDto);
+    }
+
+    @PutMapping
+    public AppointmentDto updateAppointment(@RequestBody @Valid AppointmentDto appointmentDto){
+        return appointmentService.updateAppointment(appointmentDto);
     }
 
     @DeleteMapping("/{id}")

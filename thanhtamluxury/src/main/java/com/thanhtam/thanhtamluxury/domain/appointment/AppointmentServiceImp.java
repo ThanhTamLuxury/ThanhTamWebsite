@@ -44,4 +44,13 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + id));
         appointmentRepository.delete(appointment);
     }
+
+    @Override
+    public AppointmentDto updateAppointment(AppointmentDto appointmentDto) {
+       appointmentRepository.findById(appointmentDto.getId())
+               .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + appointmentDto.getId()));
+
+       return appointmentRepository.save(appointmentDto.toMappedClass())
+               .toMappedClass();
+    }
 }
