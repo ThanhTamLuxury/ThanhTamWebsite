@@ -1,0 +1,1 @@
+export const dresses_path = 'dresses'
