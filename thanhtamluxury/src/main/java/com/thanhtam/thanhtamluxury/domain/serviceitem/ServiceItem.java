@@ -27,6 +27,7 @@ public class ServiceItem implements Mapper<ServiceItemDto> {
     private String description;
     private String slug;
     private String serviceType;
+    private boolean isActive;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceItem")
     private List<ImageItem> imageItems;

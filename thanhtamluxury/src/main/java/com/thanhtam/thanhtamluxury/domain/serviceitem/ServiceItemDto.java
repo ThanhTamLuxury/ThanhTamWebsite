@@ -19,4 +19,5 @@ public class ServiceItemDto implements Mapper<ServiceItem> {
     private String description;
     private String slug;
     private String serviceType;
+    private boolean isActive;
 }

@@ -16,7 +16,5 @@ public class Banner implements Mapper<BannerDto> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "mainBanner")
-    private String mainBanner;
+    private String path;
 }

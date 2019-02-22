@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BannerDto implements Mapper<Banner> {
     private int id;
-    private String mainBanner;
+    private String path;
 }

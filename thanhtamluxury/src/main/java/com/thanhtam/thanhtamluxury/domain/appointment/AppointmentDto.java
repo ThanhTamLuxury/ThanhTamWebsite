@@ -17,5 +17,6 @@ public class AppointmentDto implements Mapper<Appointment> {
     private String email;
     private String phone;
     private String note;
+    private boolean isNew;
 
 }
