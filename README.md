@@ -17,5 +17,5 @@
 - Bật sql Server
 - Chạy app back-end
 - Cmd vào folder front-end, nhấn lệnh npm install để tải package, sau khi chạy xong nhấn lệnh npm start để chạy app, nó sẽ tự 
-động mở app ở port 3000, nếu ra màn hình react có tên của 4 người là thành công.
+động mở app ở port 3001, nếu ra màn hình trang chủ là thành công.
 
