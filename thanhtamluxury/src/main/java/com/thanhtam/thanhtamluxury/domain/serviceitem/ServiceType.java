@@ -1,4 +1,4 @@
-package com.thanhtam.thanhtamluxury.domain.serviceItem;
+package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 public enum ServiceType {
 

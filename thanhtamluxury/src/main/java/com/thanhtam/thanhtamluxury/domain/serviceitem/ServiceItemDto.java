@@ -1,4 +1,4 @@
-package com.thanhtam.thanhtamluxury.domain.serviceItem;
+package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
 import lombok.AllArgsConstructor;

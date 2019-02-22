@@ -1,17 +1,14 @@
-package com.thanhtam.thanhtamluxury.domain.priceDetail;
+package com.thanhtam.thanhtamluxury.domain.imageitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceDetailDto implements Mapper<PriceDetail> {
+public class ImageItemDto implements Mapper<ImageItem> {
     private int id;
-    private LocalDate applyDate;
-    private double price;
+    private String path;
 }
