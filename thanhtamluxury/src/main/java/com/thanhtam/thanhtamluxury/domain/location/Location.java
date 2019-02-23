@@ -22,4 +22,5 @@ public class Location implements Mapper<LocationDto> {
     private String address;
     private String phone;
     private String email;
+    private String location;
 }
