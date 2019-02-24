@@ -60,7 +60,8 @@
     </dependencies>
 
     <build>
-        <plugins>
+    <pluginManagement>
+    	<plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -131,6 +132,8 @@
                 </executions>
             </plugin>
         </plugins>
+    </pluginManagement>
+        
     </build>
 
 </project>
