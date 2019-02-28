@@ -13,11 +13,13 @@ public class ServiceItemDto implements Mapper<ServiceItem> {
     private int id;
     private String name;
     private String type;
-    private float price;
+    private double price;
     private String priceDescription;
     private String shortDescription;
     private String description;
     private String slug;
     private String serviceType;
     private boolean isActive;
+    private String mainImage;
+    private String location;
 }

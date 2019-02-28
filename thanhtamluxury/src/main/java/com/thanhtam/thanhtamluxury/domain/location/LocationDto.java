@@ -13,5 +13,5 @@ public class LocationDto implements Mapper<Location> {
     private String address;
     private String phone;
     private String email;
-    private String location;
+    private String googleLocation;
 }
