@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface ServiceItemRepository extends JpaRepository<ServiceItem, Integer> {
-	@Query(value = "Select Top 3 * From ServiceItem si "
-				+ "Where si.serviceType = ?1 "
-				+ "Order by si.id DESC", nativeQuery = true)
-	public List<ServiceItem> getTopForMenu(String serviceType);
+	@Query(value = "Select * From ServiceItem si "
+				+ "Where si.serviceType = ?1 AND si.isActive = 1 "
+				+ "Order by si.id DESC Limit 3", nativeQuery = true)
+	public List<ServiceItem> getTop3(String serviceType);
 }

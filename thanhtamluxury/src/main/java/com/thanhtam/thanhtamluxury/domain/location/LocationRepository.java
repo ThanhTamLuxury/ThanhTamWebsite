@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface LocationRepository extends JpaRepository<Location, Integer> {
-	@Query(value = "Select Top 1 * From Location l Order by l.id DESC", nativeQuery = true)
+	@Query(value = "Select * From location l Order by l.id DESC Limit 1", nativeQuery = true)
 	public Location getTop();
 }

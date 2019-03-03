@@ -20,4 +20,6 @@ public class ServiceItemDto implements Mapper<ServiceItem> {
     private String slug;
     private String serviceType;
     private boolean isActive;
+    private String mainImage;
+    private String location;
 }
