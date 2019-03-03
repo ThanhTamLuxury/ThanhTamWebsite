@@ -3,13 +3,13 @@ package com.thanhtam.thanhtamluxury.domain.banner;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class BannerServiceImp implements BannerService {
 
-	@Autowired
 	private BannerRepository bannerRepo;
 	
 	@Override
