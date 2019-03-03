@@ -1,0 +1,15 @@
+spring:
+  profiles: dev
+
+  datasource:
+    username: thanhtam
+    password: zaQ@1234
+
+---
+
+spring:
+  profiles: prod
+
+  datasource:
+    username: root
+    password: zaQ@1234
