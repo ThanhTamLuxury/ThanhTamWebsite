@@ -21,7 +21,7 @@ public class ServiceItem implements Mapper<ServiceItemDto> {
     private int id;
     private String name;
     private String type;
-    private double price;
+    private float price;
     private String priceDescription;
     private String shortDescription;
     private String description;
