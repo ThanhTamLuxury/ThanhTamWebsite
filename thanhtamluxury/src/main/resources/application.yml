@@ -2,8 +2,8 @@ spring:
   profiles: dev
 
   datasource:
-    username: thanhtam
-    password: zaQ@1234
+    username: root
+    password: 123456
 
 ---
 
