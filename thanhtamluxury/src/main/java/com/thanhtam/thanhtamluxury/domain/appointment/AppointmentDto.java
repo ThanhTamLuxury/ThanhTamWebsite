@@ -3,15 +3,17 @@ package com.thanhtam.thanhtamluxury.domain.appointment;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentDto implements Mapper<Appointment> {
 
-    private int id;
+    private Integer id;
     private String name;
     private String address;
     private String email;

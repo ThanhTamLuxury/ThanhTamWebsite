@@ -1,16 +1,23 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
+import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceItemDto implements Mapper<ServiceItem> {
 
-    private int id;
+    private Integer id;
     private String name;
     private String type;
     private double price;
@@ -22,4 +29,6 @@ public class ServiceItemDto implements Mapper<ServiceItem> {
     private boolean isActive;
     private String mainImage;
     private String location;
+    private List<ImageItem> imageItems = new ArrayList<>();
+    private List<PriceDetail> priceDetails = new ArrayList<>();
 }

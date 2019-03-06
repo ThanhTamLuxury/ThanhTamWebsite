@@ -1,19 +1,19 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.thanhtam.thanhtamluxury.common.Constant;
+import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.thanhtam.thanhtamluxury.common.Constant;
-import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ServiceItemServiceImp implements ServiceItemService {
 
-	@Autowired
 	private ServiceItemRepository serviceItemRepo;
 
 	@Override
@@ -26,6 +26,16 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
 		}
 	}
-	
-	
+
+	@Override
+	public ServiceItemDto create(ServiceItemDto serviceItemDto) {
+		ServiceItem serviceItem = serviceItemDto.toMappedClass();
+		serviceItem.getImageItems()
+				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
+		serviceItem.getPriceDetails()
+				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
+		return serviceItemRepo.save(serviceItem).toMappedClass();
+	}
+
+
 }
