@@ -15,7 +15,7 @@ public class LocationApi {
 	@Autowired
 	private LocationService locationService;
 	
-	@GetMapping("")
+	@GetMapping("/first")
 	public LocationDto getTop() {
 		return locationService.getTop();
 	}
