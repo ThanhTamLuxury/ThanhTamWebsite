@@ -9,5 +9,7 @@ public interface ServiceItemRepository extends JpaRepository<ServiceItem, Intege
 	@Query(value = "Select * From ServiceItem si "
 				+ "Where si.serviceType = ?1 AND si.isActive = 1 "
 				+ "Order by si.id DESC Limit 3", nativeQuery = true)
-	public List<ServiceItem> getTop3(String serviceType);
+	List<ServiceItem> getTop3(String serviceType);
+
+	List<ServiceItem> findAllByServiceType(String serviceType);
 }

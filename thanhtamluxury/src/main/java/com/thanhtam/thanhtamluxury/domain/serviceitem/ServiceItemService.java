@@ -12,4 +12,8 @@ public interface ServiceItemService {
     ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos);
 
     ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto infoDto);
+
+    List<ServiceItemSmallDto> getAllOutsidePageInfo(String serviceType);
+
+    List<ServiceItemDto> findAllByServiceType(String serviceType);
 }

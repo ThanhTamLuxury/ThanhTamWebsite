@@ -59,4 +59,22 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		serviceItemRepo.save(serviceItem);
 		return dto;
 	}
+
+	@Override
+	public List<ServiceItemSmallDto> getAllOutsidePageInfo(String serviceType) {
+		return serviceItemRepo.findAllByServiceType(serviceType)
+				.stream()
+				.map(item -> item.toMappedClass(ServiceItemSmallDto.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ServiceItemDto> findAllByServiceType(String serviceType) {
+		return serviceItemRepo.findAllByServiceType(serviceType)
+				.stream()
+				.map(Mapper::toMappedClass)
+				.collect(Collectors.toList());
+	}
+
+
 }
