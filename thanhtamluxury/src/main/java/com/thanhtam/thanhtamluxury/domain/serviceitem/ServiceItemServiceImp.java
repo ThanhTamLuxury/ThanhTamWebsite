@@ -7,10 +7,11 @@ import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,15 +55,15 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	@Override
 	public ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto dto){
 		ServiceItem serviceItem = serviceItemRepo.findById(id)
-				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND));
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND));
 		BeanUtils.copyProperties(dto, serviceItem);
 		serviceItemRepo.save(serviceItem);
 		return dto;
 	}
 
 	@Override
-	public List<ServiceItemSmallDto> getAllOutsidePageInfo(String serviceType) {
-		return serviceItemRepo.findAllByServiceType(serviceType)
+	public List<ServiceItemSmallDto> getAllOutsidePageInfo(String serviceType, int size, int page) {
+		return serviceItemRepo.findAllByServiceType(serviceType, PageRequest.of(page, size))
 				.stream()
 				.map(item -> item.toMappedClass(ServiceItemSmallDto.class))
 				.collect(Collectors.toList());
@@ -74,6 +75,13 @@ public class ServiceItemServiceImp implements ServiceItemService {
 				.stream()
 				.map(Mapper::toMappedClass)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public ServiceItemDto findById(Integer id) {
+		return serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
+				.toMappedClass();
 	}
 
 

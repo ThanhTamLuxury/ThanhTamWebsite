@@ -20,6 +20,12 @@ public class ServiceItemApi {
 	public List<ServiceItemDto> getAll(@RequestParam String serviceType) {
 		return serviceItemService.findAllByServiceType(serviceType);
 	}
+
+	@GetMapping("/{id}")
+	public ServiceItemDto getById(@PathVariable Integer id){
+		return serviceItemService.findById(id);
+	}
+
 	@GetMapping("/top")
 	public List<ServiceItemDto> getTopForMenu(@RequestParam String serviceType) {
 		return serviceItemService.getTop3(serviceType);
@@ -41,8 +47,8 @@ public class ServiceItemApi {
 	}
 
 	@GetMapping("/all/outside-page")
-	public List<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType){
-		return serviceItemService.getAllOutsidePageInfo(serviceType);
+	public List<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
+		return serviceItemService.getAllOutsidePageInfo(serviceType, size, page);
 	}
 
 }
