@@ -1,8 +1,12 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.thanhtam.thanhtamluxury.common.Constant;
+import com.thanhtam.thanhtamluxury.common.Mapper;
 import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,5 +41,22 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
+	@Override
+	public ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos) {
+		List<ImageItem> newImages = imageItemDtos.stream().map(Mapper::toMappedClass).collect(Collectors.toList());
+		ServiceItem serviceItem = serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND));
+		serviceItem.removeAllImages();
+		serviceItem.addAllImages(newImages);
+		return serviceItemRepo.save(serviceItem).toMappedClass();
+	}
 
+	@Override
+	public ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto dto){
+		ServiceItem serviceItem = serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND));
+		BeanUtils.copyProperties(dto, serviceItem);
+		serviceItemRepo.save(serviceItem);
+		return dto;
+	}
 }

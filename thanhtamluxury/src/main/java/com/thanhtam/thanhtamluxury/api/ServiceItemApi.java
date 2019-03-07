@@ -1,6 +1,8 @@
 package com.thanhtam.thanhtamluxury.api;
 
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemDto;
+import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemInfoDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,16 @@ public class ServiceItemApi {
 	@PostMapping
 	public ServiceItemDto create(@RequestBody ServiceItemDto serviceItemDto){
 		return serviceItemService.create(serviceItemDto);
+	}
+
+	@PutMapping("/update-imageitems/{id}")
+	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
+		return serviceItemService.updateImageItems(id, imageItemDtos);
+	}
+
+	@PutMapping("/update-info/{id}")
+	public ServiceItemInfoDto updateOnlyInfo(@PathVariable Integer id, @RequestBody ServiceItemInfoDto infoDto){
+		return serviceItemService.updateOnlyInfo(id, infoDto);
 	}
 
 }
