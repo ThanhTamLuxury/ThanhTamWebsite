@@ -3,7 +3,7 @@ package com.thanhtam.thanhtamluxury.api;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
-import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/serviceitem")
-@AllArgsConstructor
 public class ServiceItemApi {
 
+    @Autowired
 	private ServiceItemService serviceItemService;
 
 	@GetMapping("/all")

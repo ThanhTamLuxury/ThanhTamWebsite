@@ -1,16 +1,17 @@
 package com.thanhtam.thanhtamluxury.domain.imageitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
-import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class ImageItemServiceImp implements ImageItemService {
 
+    @Autowired
     private ImageItemRepository imageItemRepo;
 
     @Override

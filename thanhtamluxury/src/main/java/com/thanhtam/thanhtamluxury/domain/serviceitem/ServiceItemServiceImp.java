@@ -5,20 +5,20 @@ import com.thanhtam.thanhtamluxury.common.Mapper;
 import com.thanhtam.thanhtamluxury.common.ThanhTamException;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
-import lombok.AllArgsConstructor;
+
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class ServiceItemServiceImp implements ServiceItemService {
 
+	@Autowired
 	private ServiceItemRepository serviceItemRepo;
 
 	@Override
@@ -82,6 +82,14 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		return serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
 				.toMappedClass();
+	}
+
+	public ServiceItemDto addAnImage(ImageItemDto imageDto, Integer serviceItemId) {
+		 ServiceItem serviceItem = serviceItemRepo.findById(serviceItemId)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
+				.addImage(imageDto.toMappedClass());
+
+		 return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
 

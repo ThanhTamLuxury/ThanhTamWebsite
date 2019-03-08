@@ -3,18 +3,10 @@ package com.thanhtam.thanhtamluxury.domain.imageitem;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thanhtam.thanhtamluxury.common.Mapper;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItem;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ImageItem implements Mapper<ImageItemDto> {
 
     @Id
@@ -27,4 +19,37 @@ public class ImageItem implements Mapper<ImageItemDto> {
     @JsonBackReference
     private ServiceItem serviceItem;
 
+    //<editor-fold desc="Constructors and getter, setter">
+    public ImageItem() {
+    }
+
+    public ImageItem(String path, ServiceItem serviceItem) {
+        this.path = path;
+        this.serviceItem = serviceItem;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public ServiceItem getServiceItem() {
+        return serviceItem;
+    }
+
+    public void setServiceItem(ServiceItem serviceItem) {
+        this.serviceItem = serviceItem;
+    }
+    //</editor-fold>
 }

@@ -2,14 +2,15 @@ package com.thanhtam.thanhtamluxury.config;
 
 import com.thanhtam.thanhtamluxury.domain.user.Account;
 import com.thanhtam.thanhtamluxury.domain.user.AccountRepository;
-import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
 @Component
 public class AppStartupRunner implements CommandLineRunner {
 
+    @Autowired
     private AccountRepository accountRepo;
 
     @Override
