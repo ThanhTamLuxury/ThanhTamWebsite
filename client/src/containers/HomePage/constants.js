@@ -1,0 +1,10 @@
+
+
+// Home Page
+export const FETCH_MENUITEMS = 'FETCH_MENUITEMS';
+export const FETCH_SLIDER = 'FETCH_SLIDER';
+export const FETCH_TOPALBUMS = 'FETCH_TOPALBUMS';
+export const FETCH_TOPVIEOS = 'FETCH_TOPVIEOS';
+export const FETCH_TOPDRESSES = 'FETCH_TOPDRESSES';
+export const FETCH_ABOUTUS = 'FETCH_ABOUTUS';
+

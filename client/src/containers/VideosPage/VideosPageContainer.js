@@ -1,85 +1,7 @@
 import React, { Component } from 'react';
 import { VideoItem } from './../../components/index';
-
-const videosJson ={
-     videos : [
-        {
-            id: 1,
-            title: 'QUAY VIDEO 4K',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-            camera: 'MÁY QUAY CANON XC10 4K',
-            video_director: 'VICTOR VŨ',
-            video_ekip: 'EKIP A',
-            video_src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-        },
-        {
-            id: 2,
-            title: 'QUAY VIDEO HD',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-            camera: 'MÁY QUAY CANON XC10 4K',
-            video_director: 'VICTOR VŨ',
-            video_ekip: 'EKIP A',
-            video_src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-        },
-        {
-            id: 3,
-            title: 'QUAY VIDEO 4K',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-            camera: 'MÁY QUAY CANON XC10 4K',
-            video_director: 'VICTOR VŨ',
-            video_ekip: 'EKIP A',
-            video_src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-        },
-        {
-            id: 4,
-            title: 'QUAY VIDEO HD',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-            camera: 'MÁY QUAY CANON XC10 4K',
-            video_director: 'VICTOR VŨ',
-            video_ekip: 'EKIP A',
-            video_src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-        }
-    ]
-}
-const videos = [
-    {
-        id: 1,
-        title: 'QUAY VIDEO 4K',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-        camera: 'MÁY QUAY CANON XC10 4K',
-        director: 'VICTOR VŨ',
-        ekip: 'EKIP A',
-        src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-    },
-    {
-        id: 2,
-        title: 'QUAY VIDEO HD',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-        camera: 'MÁY QUAY CANON XC10 4K',
-        director: 'VICTOR VŨ',
-        ekip: 'EKIP A',
-        src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-    },
-    {
-        id: 3,
-        title: 'QUAY VIDEO 4K',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-        camera: 'MÁY QUAY CANON XC10 4K',
-        director: 'VICTOR VŨ',
-        ekip: 'EKIP A',
-        src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-    },
-    {
-        id: 4,
-        title: 'QUAY VIDEO HD',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, nostrum, cumque culpa provident aliquam commodi assumenda laudantium magnam illo nostrum. Donec nibh sapien, molestie quis elementum et, dim non atino ipsum.',
-        camera: 'MÁY QUAY CANON XC10 4K',
-        director: 'VICTOR VŨ',
-        ekip: 'EKIP A',
-        src: 'https://www.youtube.com/embed/FN7ALfpGxiI?rel=0&controls=0&showinfo=0'
-    }
-];
-
+import { connect } from 'react-redux';
+import { axios_fetch_videosList } from './axios_call';
 
 const renderVideos = (videos) => {
     var result = null;
@@ -94,12 +16,16 @@ const renderVideos = (videos) => {
 }
 
 class VideosPageContainer extends Component {
+    componentWillMount() {
+        this.props.fetchVideosList();
+    }
     render() {
+        const {videosList}=this.props;
         return (
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-xs-12">
-                        {renderVideos(videos)}
+                        {videosList && renderVideos(videosList.videos)}
                     </div>
                     <nav className="gla_blog_pag">
                         <ul className="pagination">
@@ -118,4 +44,17 @@ class VideosPageContainer extends Component {
     }
 }
 
-export default VideosPageContainer;
+const mapStateToProps = state => {
+    return {
+        videosList: state.videosPage.videosList
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchVideosList: () => {
+            dispatch(axios_fetch_videosList());
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (VideosPageContainer);

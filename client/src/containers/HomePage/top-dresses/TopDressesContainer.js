@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { TopDressesItem } from './../../../components/index';
+import { connect } from 'react-redux';
+import { axios_fetch_TopDresses } from './../axios_call';
 
 const topDressesJson ={
     description :'',
@@ -60,16 +62,20 @@ const renderTopDresses = (dresses) => {
 }
 
 class TopDressesContainer extends Component {
+    componentDidMount() {
+        this.props.fetchTopDresses();
+    }
     render() {
+        var { topDresses } = this.props;
         return (
             <section className="gla_section">
                 <div className="container text-center">
                     <p><img src={"images/animations/flower6.gif" + '?a=' + Math.random()} data-bottom-top="@src:images/animations/flower6.gif; opacity:1" className="gla_animated_flower skrollable skrollable-after" height={110} alt style={{ opacity: 1 }} /></p>
                     <h2>Áo cưới</h2>
                     <h3 className="gla_subtitle">Áo cưới nổi bật</h3>
-                    <p>{description}</p>
+                    <p>{topDresses && topDresses.description}</p>
                     <div className="gla_icon_boxes row text-left">
-                        {renderTopDresses(dresses)}
+                        {topDresses && renderTopDresses(topDresses.dresses)}
                     </div>
                     <div className="gla_post_more clearfix">
                         <div>
@@ -81,5 +87,16 @@ class TopDressesContainer extends Component {
         );
     }
 }
-
-export default TopDressesContainer;
+const mapStateToProps = state => {
+    return {
+        topDresses: state.homePage.topDresses
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchTopDresses: () => {
+            dispatch(axios_fetch_TopDresses());
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps) (TopDressesContainer);

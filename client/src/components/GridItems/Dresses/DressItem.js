@@ -6,9 +6,9 @@ class DressItem extends Component {
     var { dress } = this.props;
     return (
       <div className="col-md-3 gla_anim_box">
-        <div className="gla_shop_item">
+        <div className="gla_shop_item ao-cuoi-item">
           <span className="gla_shop_item_slider">
-            <img src={dress.image} alt />
+            <img src={dress.image_src} alt={dress.name} />
           </span>
           <Link to={dress.slug} className="gla_shop_item_title" >{dress.name}</Link>
         </div>

@@ -124,7 +124,7 @@
 				paginationSpeed : 200, 
 				rewindSpeed : 200,
 				items:1,
-				autoPlay : false, 
+				autoPlay : true, 
 				touchDrag:true,
 				singleItem:true,
 				navigationText:['<i class="ti ti-angle-left"></i>','<i class="ti ti-angle-right"></i>'],
