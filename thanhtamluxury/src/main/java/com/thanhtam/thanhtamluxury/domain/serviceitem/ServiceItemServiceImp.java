@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,10 +21,12 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	private ServiceItemRepository serviceItemRepo;
 
 	@Override
-	public List<ServiceItemDto> getTop3(String serviceType) {
+	public List<ServiceItemSmallDto> getTop3(String serviceType) {
 		try {
+			// todo: check serviceItemSmallDto to auto change to video_src
 			return serviceItemRepo.getTop3(ServiceType.valueOf(serviceType).toString())
-					.stream().map(ServiceItem::toMappedClass)
+					.stream().map(serviceItem -> serviceItem.toMappedClass(ServiceItemSmallDto.class))
+					.peek(dto -> dto.setVideoSrv(dto.getMainImage()))
 					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
@@ -71,10 +72,15 @@ public class ServiceItemServiceImp implements ServiceItemService {
 
 	@Override
 	public List<ServiceItemDto> findAllByServiceType(String serviceType) {
-		return serviceItemRepo.findAllByServiceType(serviceType)
-				.stream()
-				.map(Mapper::toMappedClass)
-				.collect(Collectors.toList());
+		try {
+			return serviceItemRepo.findAllByServiceType(ServiceType.valueOf(serviceType).toString())
+					.stream()
+					.map(Mapper::toMappedClass)
+					.collect(Collectors.toList());
+		} catch (IllegalArgumentException e) {
+			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
+		}
+
 	}
 
 	@Override

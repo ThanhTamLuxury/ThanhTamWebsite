@@ -2,10 +2,7 @@ package com.thanhtam.thanhtamluxury.domain.appointment;
 
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter

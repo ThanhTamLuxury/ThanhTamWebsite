@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/serviceitem")
+@RequestMapping("api/service")
 @AllArgsConstructor
 public class ServiceItemApi {
 
@@ -27,7 +27,7 @@ public class ServiceItemApi {
 	}
 
 	@GetMapping("/top")
-	public List<ServiceItemDto> getTopForMenu(@RequestParam String serviceType) {
+	public List<ServiceItemSmallDto> getTopForMenu(@RequestParam String serviceType) {
 		return serviceItemService.getTop3(serviceType);
 	}
 

@@ -15,4 +15,6 @@ public interface ServiceItemRepository extends JpaRepository<ServiceItem, Intege
 	List<ServiceItem> findAllByServiceType(String serviceType, Pageable pageable);
 
 	List<ServiceItem> findAllByServiceType(String serviceType);
+
+
 }

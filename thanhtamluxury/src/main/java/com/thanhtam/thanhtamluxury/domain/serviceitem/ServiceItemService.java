@@ -5,7 +5,7 @@ import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import java.util.List;
 
 public interface ServiceItemService {
-	List<ServiceItemDto> getTop3(String serviceType);
+	List<ServiceItemSmallDto> getTop3(String serviceType);
 
     ServiceItemDto create(ServiceItemDto serviceItemDto);
 
