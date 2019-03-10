@@ -4,6 +4,8 @@ spring:
   datasource:
     username: thanhtam
     password: zaQ@1234
+server:
+  port: 8181
 
 ---
 
@@ -13,3 +15,5 @@ spring:
   datasource:
     username: root
     password: zaQ@1234
+server:
+  port: 80

@@ -1,5 +1,6 @@
 package com.thanhtam.thanhtamluxury.api;
 
+import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
@@ -47,8 +48,8 @@ public class ServiceItemApi {
 	}
 
 	@GetMapping("/all/outside-page")
-	public List<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
-		return serviceItemService.getAllOutsidePageInfo(serviceType, size, page);
+	public PageDto<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
+		return serviceItemService.getAllSmall(serviceType, size, page);
 	}
 
 }

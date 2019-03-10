@@ -2,6 +2,7 @@ package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.thanhtam.thanhtamluxury.common.Constant;
 import com.thanhtam.thanhtamluxury.common.Mapper;
+import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.common.ThanhTamException;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,11 +65,25 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	public List<ServiceItemSmallDto> getAllOutsidePageInfo(String serviceType, int size, int page) {
-		return serviceItemRepo.findAllByServiceType(serviceType, PageRequest.of(page, size))
-				.stream()
-				.map(item -> item.toMappedClass(ServiceItemSmallDto.class))
-				.collect(Collectors.toList());
+	public PageDto<ServiceItemSmallDto> getAllSmall(String serviceType, int size, int page) {
+		PageDto<ServiceItemSmallDto> response = new PageDto<>();
+		try {
+			String strServiceType = ServiceType.valueOf(serviceType).toString();
+			List<ServiceItemSmallDto> services = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size))
+					.stream()
+					.map(item -> item.toMappedClass(ServiceItemSmallDto.class))
+					.collect(Collectors.toList());
+			Long totalItem = serviceItemRepo.countAllByServiceType(strServiceType);
+			response.setTotalItem(totalItem);
+			response.setTotalPage(totalItem / size + (totalItem % size == 0 ? 0 : 1)); 
+			response.setContent(services);
+			response.setPage(page);
+			response.setSize(size);
+		} catch (IllegalArgumentException e) {
+			response.setContent(new ArrayList<>());
+			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
+		}
+		return response;
 	}
 
 	@Override
