@@ -8,12 +8,15 @@ import TopVideosContainer from './HomePage/top-videos/TopVideosContainer';
 import AboutUsContainer from './HomePage/about-us/AboutUsContainer';
 import QuoteContainer from './HomePage/quote/QuoteContainer';
 
-import AlbumsContainer from './AlbumPage/AlbumsContainer';
+import AlbumsContainer from './AlbumsPage/AlbumsContainer';
 import AlbumDetailsPageContainer from './AlbumDetailsPage/AlbumDetailsPageContainer';
 import DressesPageContainer from './DressesPage/DressesPageContainer';
 import VideosPageContainer from './VideosPage/VideosPageContainer';
 import DressDetailsPageContainer from './DressDetailsPage/DressDetailsPageContainer';
 import AlbumsPricePageContainer from './AlbumsPricePage/AlbumsPricePageContainer';
+import InclusivePricePageContainer from './InclusivePricePage/InclusivePricePageContainer';
+import VideosPricePageContainer from './VideosPricePage/VideosPricePageContainer';
+import AdminPageContainer from './AdminPage/AdminPageContainer';
 export {
     //Home Page
     DefaultSliderContainer,
@@ -39,7 +42,11 @@ export {
     //Video page
     VideosPageContainer,
 
-    //Album price page
+    // Price pages
     AlbumsPricePageContainer,
-    
+    InclusivePricePageContainer,
+    VideosPricePageContainer,
+
+    //Admin page
+    AdminPageContainer,
 };

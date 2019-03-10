@@ -6,6 +6,11 @@ import DressesPage from '../pages/DressesPage';
 import DressDetailsPage from '../pages/DressDetailsPage';
 import VideosPage from '../pages/VideosPage';
 import AlbumsPricePage from './../pages/ServicesPricePage/AlbumsPricePage'
+import InclusivePricePage from './../pages/ServicesPricePage/InclusivePricePage'
+import VideosPricePage from './../pages/ServicesPricePage/VideosPricePage'
+
+import LoginPage from '../pages/LoginPage';
+import AdminPage from '../pages/AdminPage';
 const routes = [
     {
         path: '/',
@@ -45,12 +50,22 @@ const routes = [
     {
         path: '/bang-gia/videos',
         exact: false,
-        main: AlbumsPricePage
+        main: VideosPricePage
     },
     {
         path: '/bang-gia/tron-goi',
         exact: false,
-        main: AlbumsPricePage
+        main: InclusivePricePage
+    },
+    {
+        path: '/login',
+        exact: true,
+        main: LoginPage
+    },
+    {
+        path: '/admin',
+        exact: true,
+        main: AdminPage
     }
 ];
 

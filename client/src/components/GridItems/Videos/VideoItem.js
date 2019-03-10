@@ -13,15 +13,16 @@ class VideoItem extends Component {
         <div className="gla_post_info">
           {video.camera}
           <span className="slash-divider">/</span>
-          Đạo diễn : {video.director}
+          Đạo diễn : {video.video_director}
           <span className="slash-divider">/</span>
-          Ekip: {video.ekip}
+          Ekip: {video.video_ekip}
         </div>
         <p>
           {video.description}
         </p>
-        <div className="gla_post_img">
-          <iframe style={{ width: '100%', height: '600px', border: 0 }} src={video.src} allowFullScreen />
+        <div className="gla_post_img th-video">
+        <iframe width="100%" height="600px" src={"//www.youtube.com/embed/"+video.src+"?autoplay=0&showinfo=0&controls=1"} frameBorder={0} allowFullScreen>
+      </iframe>
         </div>
         <div className="gla_post_more clearfix">
           <div className="pull-left">

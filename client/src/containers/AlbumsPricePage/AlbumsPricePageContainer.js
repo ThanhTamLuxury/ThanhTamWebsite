@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { PostItem } from '../../components/index';
+import { PostItem,DetailedExpansionPanel } from '../../components/index';
+
 const posts = [
     {
         id: 1,
@@ -23,6 +24,91 @@ const posts = [
         content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
         price: '15.000.000',
     },
+    {
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },{
+        id: 3,
+        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
+        location: 'Phim trường Phương Anh',
+        ekip: 'SKT',
+        content: '<ul><strong>Trang Phục:</strong><li>CD: 01 Soiree (khách tự chọn)</li><li>CR: 01 veston (khách tự chọn)</li><li>Hoa và phụ kiện: kèm theo phù hợp trang phục</li></ul><ul><strong>Nhận ngay:</strong><li>01 hình cổng ép gỗ 60x90</li><li>05 hình 13x18&nbsp; đẹp bỏ vào album</li><li>Chụp khoảng 30 file (chép hết file cho khách)</li><li>Tặng voucher giảm 10 % tất cả dịch vụ cho lần sau ghé lại</li></ul><ul><strong>Lưu ý</strong><li>Thêm 1 tấm hình cổng : giá&nbsp; 700.000đ</li><li>Thêm khung: giá&nbsp; 200.000đ</li></ul>',
+        price: '15.000.000',
+    },
 
 ];
 
@@ -31,7 +117,13 @@ const renderPosts = (posts) => {
     var result = null;
     if (posts.length > 0) {
         result = posts.map((post, index) => {
-            return (<PostItem key={index} post={post} />
+            return (
+                <DetailedExpansionPanel
+                    key = {index}
+                    label ={post.name}
+                    itemValue ={<PostItem key={index} post={post} />
+                }
+                />
             );
         });
     }
@@ -42,9 +134,9 @@ class AlbumsPricePageContainer extends Component {
 
     render() {
         return (
-            <div className="container">
-                <p align="center" style={{ paddingBottom: '5em' }}><img src="/images/animations/flower6.gif" data-bottom-top="@src:images/animations/flower6.gif; opacity:1" className="gla_animated_flower skrollable skrollable-after" height={110} alt style={{ opacity: 1 }} /></p>
-                <div className="row " >
+            <div className="container albums_menu">
+                <h2 className="page_title text-center" style={{ marginBottom :'1em' }}>Bảng giá Albums</h2>
+                <div className="row" style={{ marginBottom :'5em' }} >
                     {renderPosts(posts)}
                 </div>
                 <nav className="gla_blog_pag">

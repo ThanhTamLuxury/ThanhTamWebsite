@@ -1,59 +1,8 @@
 import React, { Component } from 'react';
 import { DressItem } from './../../components/index';
-const dressesJson ={
-    dresses : [
-        {
-            id: 1,
-            name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
-            image_src: 'http://www.aocuoithanhtam.com/upload/tinnho/210134448015951866769391318379037n-15041658787_374.86965589155x500.jpg',
-            slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-        },
-        {
-            id: 2,
-            name: 'Chụp hình cưới tại khu du lịch Bửu Long',
-            image_src: 'http://www.aocuoithanhtam.com/upload/tinnho/aocuoithanhtam2-15041657575_410x500.png',
-            slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-        },
-        {
-            id: 3,
-            name: 'Chụp hình cưới tại Hồ Cốc Vũng Tàu',
-            image_src: 'http://www.aocuoithanhtam.com/upload/tinnho/aocuoithanhtam-15041656807_410x500.png',
-            slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-        },
-        {
-            id: 4,
-            name: 'Chụp hình cưới tại phim trường Phương Anh',
-            image_src: 'http://www.aocuoithanhtam.com/upload/tinnho/aocuoithanhtam2-15041657575_410x500.png',
-            slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-        }
-    ]
-}
-const dresses = [
-    {
-        id: 1,
-        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
-        image: 'http://www.aocuoithanhtam.com/upload/tinnho/210134448015951866769391318379037n-15041658787_374.86965589155x500.jpg',
-        slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    },
-    {
-        id: 2,
-        name: 'Chụp hình cưới tại khu du lịch Bửu Long',
-        image: 'http://www.aocuoithanhtam.com/upload/tinnho/aocuoithanhtam2-15041657575_410x500.png',
-        slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    },
-    {
-        id: 3,
-        name: 'Chụp hình cưới tại Hồ Cốc Vũng Tàu',
-        image: 'http://www.aocuoithanhtam.com/upload/tinnho/aocuoithanhtam-15041656807_410x500.png',
-        slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    },
-    {
-        id: 4,
-        name: 'Chụp hình cưới tại phim trường Phương Anh',
-        image: 'http://www.aocuoithanhtam.com/upload/tinnho/aocuoithanhtam2-15041657575_410x500.png',
-        slug: 'ao-cuoi/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    }
-];
+import { connect } from 'react-redux';
+import { axios_fetch_dressesList } from './axios_call';
+
 
 
 const renderDresses = (dresses) => {
@@ -69,11 +18,15 @@ const renderDresses = (dresses) => {
 }
 
 class DressesPageContainer extends Component {
+    componentDidMount() {
+        this.props.fetchDressesList();
+    }
     render() {
+        const {dressesList} = this.props;
         return (
             <div className="container dresses-container">
                 <div className="row">
-                {renderDresses(dresses)}
+                {dressesList && renderDresses(dressesList.dresses)}
                 </div>
                 <nav className="gla_blog_pag">
                     <ul className="pagination">
@@ -90,5 +43,16 @@ class DressesPageContainer extends Component {
         );
     }
 }
-
-export default DressesPageContainer;
+const mapStateToProps = state => {
+    return {
+        dressesList: state.dressesPage.dressesList
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchDressesList: () => {
+            dispatch(axios_fetch_dressesList());
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps) (DressesPageContainer);

@@ -7,10 +7,10 @@ class TopAlbumItem extends Component {
             <div className="col-md-4 col-sm-6 ">
                 <Link to={album.slug} className="gla_news_block" >
                     <span className="gla_news_img " >
-                        <span className="gla_over" data-image={album.image} />
+                        <span className="gla_over" style={{ backgroundImage: "url(" + album.image_src + ")" }} alt />
                     </span>
                     <span className="gla_news_title">{album.name}</span>
-                    <p>{album.location} <strong>{album.city}</strong></p>
+                    <p><strong>{album.location}</strong></p>
                 </Link>
             </div>
         );

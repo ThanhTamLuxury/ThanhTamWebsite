@@ -16,7 +16,7 @@ const MenuLink = ({ label, to, activeOnlyWhenExact, itemSliders }) => {
                         <Link to={to}>
                             {label}
                         </Link>
-                        {to === '/' ? renderItemSlider(label, itemSliders) : <ul>{renderItemSlider(label, itemSliders)}</ul>}
+                        {to === '#' ? <ul>{renderItemSlider(label, itemSliders)}</ul> : null}
                     </li>
                 );
             }}

@@ -86,11 +86,7 @@ class CarouselItem extends Component {
         if (images.length > 0) {
             result = images.map((image, index) => {
                 return (
-                    // <div className="col-sm-4 gla_anim_box grid-item ceremony z-index-slider" style={{ position: 'absolute', left: '0%', top: '0px' }}>
-                    //     <div className="gla_shop_item aoCuoi">
                     <img src={image.src} alt onClick={(e) => this.openLightbox(index, e)} />
-                    //     </div>
-                    // </div>
                 );
 
             });
