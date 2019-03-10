@@ -16,5 +16,5 @@ public interface ServiceItemRepository extends JpaRepository<ServiceItem, Intege
 
 	List<ServiceItem> findAllByServiceType(String serviceType);
 
-
+	Long countAllByServiceType(String serviceType);
 }
