@@ -25,10 +25,8 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	@Override
 	public List<ServiceItemSmallDto> getTop3(String serviceType) {
 		try {
-			// todo: check serviceItemSmallDto to auto change to video_src
 			return serviceItemRepo.getTop3(ServiceType.valueOf(serviceType).toString())
 					.stream().map(serviceItem -> serviceItem.toMappedClass(ServiceItemSmallDto.class))
-					.peek(dto -> dto.setVideoSrv(dto.getMainImage()))
 					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
@@ -36,8 +34,9 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	public ServiceItemDto create(ServiceItemDto serviceItemDto) {
+	public ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto) {
 		ServiceItem serviceItem = serviceItemDto.toMappedClass();
+		serviceItem.setServiceType(serviceType);
 		serviceItem.getImageItems()
 				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
 		serviceItem.getPriceDetails()

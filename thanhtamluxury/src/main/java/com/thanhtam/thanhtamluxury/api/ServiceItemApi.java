@@ -5,7 +5,6 @@ import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,9 +31,19 @@ public class ServiceItemApi {
 		return serviceItemService.getTop3(serviceType);
 	}
 
-	@PostMapping
-	public ServiceItemDto create(@RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.create(serviceItemDto);
+	@PostMapping("/video")
+	public ServiceItemDto createNewVideo(@RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.create(ServiceType.WEDDING_VIDEO.toString(), serviceItemDto);
+	}
+
+	@PostMapping("/dress")
+	public ServiceItemDto createNewDress(@RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.create(ServiceType.WEDDING_DRESS.toString(), serviceItemDto);
+	}
+
+	@PostMapping("/album")
+	public ServiceItemDto createNewAlbum(@RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.create(ServiceType.ALBUM.toString(), serviceItemDto);
 	}
 
 	@PutMapping("/update-imageitems/{id}")

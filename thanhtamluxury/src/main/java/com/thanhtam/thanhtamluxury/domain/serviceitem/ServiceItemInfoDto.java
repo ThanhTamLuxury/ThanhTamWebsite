@@ -1,9 +1,7 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 @Getter
 @Setter
@@ -19,6 +17,17 @@ public class ServiceItemInfoDto {
     private String slug;
     private String serviceType;
     private boolean isActive;
+
+    @Setter(AccessLevel.NONE)
     private String mainImage;
     private String location;
+
+    @Setter(AccessLevel.NONE)
+    @JsonProperty("video_src")
+    private String videoSrc;
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
+        this.videoSrc = mainImage;
+    }
 }

@@ -11,10 +11,17 @@ public class ServiceItemSmallDto {
     private Integer id;
     private String name;
     private String slug;
+
+    @Setter(AccessLevel.NONE)
     private String mainImage;
     private String location;
 
     @JsonProperty("video_src")
+    @Setter(AccessLevel.NONE)
     private String videoSrv;
 
+    public void setMainImage(String mainImage){
+        this.mainImage = mainImage;
+        this.videoSrv = mainImage;
+    }
 }
