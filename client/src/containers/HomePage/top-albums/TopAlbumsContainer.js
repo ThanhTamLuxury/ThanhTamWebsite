@@ -1,63 +1,8 @@
 import React, { Component } from 'react';
 import { TopAlbumItem } from './../../../components/index';
 
-const topAlbumsJson ={
-    description : "",
-    albums : [
-    {
-        id: 1,
-        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
-        location: 'Biên Hòa,',
-        city: '  Đồng Nai',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'albums/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    },
-    {
-        id: 2,
-        name: 'Chụp hình cưới tại khu du lịch Bửu Long',
-        location: 'Bửu Long,',
-        city: '  Đồng Nai',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'albums/2/chup-hinh-cuoi-tai-ha-loi'
-    },
-    {
-        id: 3,
-        name: 'Chụp hình cưới tại phim trường Phương Anh',
-        location: '',
-        city: '  Đà to the Lọt',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'albums/3/chup-hinh-cuoi-tai-da-lot'
-    }
-]
-}
-const description = "Our ceremony and reception will be held at the Liberty House. Located on the Hudson River, it has a beautiful, unobstructed view of the World Trade One building and a convenient ferry that runs between it and Manhattan."
-const albums = [
-    {
-        id: 1,
-        name: 'Chụp hình cưới tại Biên Hòa, Đồng Nai',
-        location: 'Biên Hòa,',
-        city: '  Đồng Nai',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'albums/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    },
-    {
-        id: 2,
-        name: 'Chụp hình cưới tại khu du lịch Bửu Long',
-        location: 'Bửu Long,',
-        city: '  Đồng Nai',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'albums/2/chup-hinh-cuoi-tai-ha-loi'
-    },
-    {
-        id: 3,
-        name: 'Chụp hình cưới tại phim trường Phương Anh',
-        location: '',
-        city: '  Đà to the Lọt',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'albums/3/chup-hinh-cuoi-tai-da-lot'
-    }
-];
-
+import { connect } from 'react-redux';
+import { axios_fetch_TopAlbums } from './../axios_call';
 
 const renderTopAlbums = (albums) => {
     var result = null;
@@ -72,16 +17,21 @@ const renderTopAlbums = (albums) => {
 }
 
 class TopAlbumsContainer extends Component {
+
+    componentDidMount() {
+        this.props.fetchTopAlbums();
+    }
     render() {
+        var { topAlbums } = this.props;
         return (
             <section className="gla_section" id="gla_services">
                 <div className="container text-center">
                     <p><img src={"images/animations/flowers2.gif" + '?a=' + Math.random()} data-bottom-top="@src:images/animations/flowers2.gif" height={150} alt /></p>
                     <h2>Albums</h2>
                     <h3 className="gla_subtitle">Những albums nổi bật</h3>
-                    <p>{description}</p>
+                    <p>{topAlbums && topAlbums.description}</p>
                     <div className="gla_icon_boxes row text-left">
-                        {renderTopAlbums(albums)}
+                        {topAlbums && renderTopAlbums(topAlbums.albums)}
                     </div>
 
                     <div className="gla_post_more clearfix">
@@ -90,10 +40,20 @@ class TopAlbumsContainer extends Component {
                         </div>
                     </div>
                 </div>
-                {/* container end */}
             </section>
         );
     }
 }
-
-export default TopAlbumsContainer;
+const mapStateToProps = state => {
+    return {
+        topAlbums: state.homePage.topAlbums
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchTopAlbums: () => {
+            dispatch(axios_fetch_TopAlbums());
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TopAlbumsContainer);

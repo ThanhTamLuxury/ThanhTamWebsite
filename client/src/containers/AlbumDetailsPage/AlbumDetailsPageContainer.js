@@ -68,7 +68,6 @@ class AlbumDetailsPageContainer extends Component {
         this.openLightbox = this.openLightbox.bind(this);
     }
     componentDidMount() {
-        console.log('a');
         var jQueryBridget = require('jquery-bridget');
         jQueryBridget('isotope', Isotope, $);
         $('.grid').isotope({

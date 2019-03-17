@@ -5,11 +5,11 @@ import java.util.List;
 public interface AppointmentService {
     List<AppointmentDto> getAll();
 
-    AppointmentDto getById(int id);
+    AppointmentDto getById(Integer id);
 
     AppointmentDto createAppointment(AppointmentDto appointmentDto);
 
-    void deleteAppointment(int id);
+    void deleteAppointment(Integer id);
 
     AppointmentDto updateAppointment(AppointmentDto appointmentDto);
 }

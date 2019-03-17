@@ -1,6 +1,5 @@
-export const generate_slug = (headLabel, id, label) => {
-    let slug = headLabel + '/' + label + '-' + id;
-    return eng_convert(slug).replace(/\s/g, "-");
+export const generate_slug = (label) => {
+    return eng_convert(label).replace(/\s/g, "-");
 }
 
 function eng_convert(str) {

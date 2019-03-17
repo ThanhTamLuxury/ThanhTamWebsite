@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import routes from './routes/routes';
 import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
 class App extends Component {
     render() {
         return (
             <Router>
                 <div>
                     {this.showContentMenus(routes)}
-                    <Footer/>
+                    {/* <Footer/> */}
                 </div>
             </Router>
 

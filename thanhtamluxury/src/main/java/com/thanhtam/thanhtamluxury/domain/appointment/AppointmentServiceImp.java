@@ -24,7 +24,7 @@ public class AppointmentServiceImp implements AppointmentService {
     }
 
     @Override
-    public AppointmentDto getById(int id) {
+    public AppointmentDto getById(Integer id) {
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + id))
                 .toMappedClass();
@@ -38,7 +38,7 @@ public class AppointmentServiceImp implements AppointmentService {
     }
 
     @Override
-    public void deleteAppointment(int id) {
+    public void deleteAppointment(Integer id) {
         Appointment appointment = appointmentRepository
                 .findById(id)
                 .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + id));
@@ -47,10 +47,12 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public AppointmentDto updateAppointment(AppointmentDto appointmentDto) {
-       appointmentRepository.findById(appointmentDto.getId())
-               .orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + appointmentDto.getId()));
-
-       return appointmentRepository.save(appointmentDto.toMappedClass())
-               .toMappedClass();
+       if (appointmentRepository.existsById(appointmentDto.getId())){
+           return appointmentRepository.save(appointmentDto.toMappedClass())
+                   .toMappedClass();
+       }
+       else {
+           throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND + appointmentDto.getId());
+       }
     }
 }

@@ -26,5 +26,5 @@ export {
     VideoItem,
     Footer,
     PostItem,
-    DetailedExpansionPanel
+    DetailedExpansionPanel,
 }

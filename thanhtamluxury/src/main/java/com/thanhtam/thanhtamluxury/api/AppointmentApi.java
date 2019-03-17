@@ -21,7 +21,7 @@ public class AppointmentApi {
     }
 
     @GetMapping("/{id}")
-    public AppointmentDto getById(@PathVariable int id) {
+    public AppointmentDto getById(@PathVariable Integer id) {
         return appointmentService.getById(id);
     }
 
@@ -36,7 +36,7 @@ public class AppointmentApi {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAppointment(@PathVariable int id) {
+    public void deleteAppointment(@PathVariable Integer id) {
         appointmentService.deleteAppointment(id);
     }
 

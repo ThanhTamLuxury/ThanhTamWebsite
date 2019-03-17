@@ -1,34 +1,34 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.thanhtam.thanhtamluxury.common.Constant;
+import com.thanhtam.thanhtamluxury.common.Mapper;
+import com.thanhtam.thanhtamluxury.common.PageDto;
+import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import com.thanhtam.thanhtamluxury.common.Constant;
-import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ServiceItemServiceImp implements ServiceItemService {
 
-	@Autowired
 	private ServiceItemRepository serviceItemRepo;
-	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
+
 	@Override
-	public List<ServiceItemDto> getTop3(String serviceType) {
+	public List<ServiceItemSmallDto> getTop3(String serviceType) {
 		try {
 			return serviceItemRepo.getTop3(ServiceType.valueOf(serviceType).toString())
-					.stream().map(ServiceItem::toMappedClass)
+					.stream().map(serviceItem -> serviceItem.toMappedClass(ServiceItemSmallDto.class))
 					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
@@ -36,32 +36,76 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	public PageDto<ServiceItemDto> getAll(String serviceType, int page, int size) {
-		PageDto<ServiceItemDto> data = new PageDto<>();
-		StringBuilder selectBuilder = new StringBuilder("SELECT * FROM serviceitem Where serviceType = ?");
-		String countSql = "SELECT COUNT(*) FROM (SELECT * FROM serviceitem) D Where serviceType = ?";
-		selectBuilder.append(page >= 0 ? String.format(" LIMIT %d", size) : "")
-					.append(size > 0 ? String.format(" OFFSET %d", page * size) : "");
-		List<ServiceItemDto> listData = jdbcTemplate.query(selectBuilder.toString(), new Object[]{serviceType}, new RowMapper<ServiceItemDto>() {
-
-			@Override
-			public ServiceItemDto mapRow(ResultSet rs, int arg1) throws SQLException {
-				ServiceItemDto dto = new ServiceItemDto();
-				dto.setId(rs.getInt("id"));
-				dto.setName(rs.getString("name"));
-				dto.setMainImage(rs.getString("mainImage"));
-				dto.setSlug(rs.getString("slug"));
-				return dto;
-			}
-		});
-		data.setPage(page);
-		data.setSize(size);
-		int totalItem = jdbcTemplate.queryForObject(countSql, new Object[]{serviceType}, Integer.class);
-		data.setContent(listData);
-		data.setTotalItems(totalItem);
-		data.setTotalPageNumber(totalItem / size + (totalItem % size >= 0 ? 1 : 0));
-		return data;
+	public ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto) {
+		ServiceItem serviceItem = serviceItemDto.toMappedClass();
+		serviceItem.setServiceType(serviceType);
+		serviceItem.getImageItems()
+				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
+		serviceItem.getPriceDetails()
+				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
+		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
-	
-	
+
+	@Override
+	public ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos) {
+		List<ImageItem> newImages = imageItemDtos.stream().map(Mapper::toMappedClass).collect(Collectors.toList());
+		ServiceItem serviceItem = serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND));
+		serviceItem.removeAllImages();
+		serviceItem.addAllImages(newImages);
+		return serviceItemRepo.save(serviceItem).toMappedClass();
+	}
+
+	@Override
+	public ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto dto){
+		ServiceItem serviceItem = serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND));
+		BeanUtils.copyProperties(dto, serviceItem);
+		serviceItemRepo.save(serviceItem);
+		return dto;
+	}
+
+	@Override
+	public PageDto<ServiceItemSmallDto> getAllSmall(String serviceType, int size, int page) {
+		PageDto<ServiceItemSmallDto> response = new PageDto<>();
+		try {
+			String strServiceType = ServiceType.valueOf(serviceType).toString();
+			List<ServiceItemSmallDto> services = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size))
+					.stream()
+					.map(item -> item.toMappedClass(ServiceItemSmallDto.class))
+					.collect(Collectors.toList());
+			Long totalItem = serviceItemRepo.countAllByServiceType(strServiceType);
+			response.setTotalItem(totalItem);
+			response.setTotalPage(totalItem / size + (totalItem % size == 0 ? 0 : 1)); 
+			response.setContent(services);
+			response.setPage(page);
+			response.setSize(size);
+		} catch (IllegalArgumentException e) {
+			response.setContent(new ArrayList<>());
+			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
+		}
+		return response;
+	}
+
+	@Override
+	public List<ServiceItemDto> findAllByServiceType(String serviceType) {
+		try {
+			return serviceItemRepo.findAllByServiceType(ServiceType.valueOf(serviceType).toString())
+					.stream()
+					.map(Mapper::toMappedClass)
+					.collect(Collectors.toList());
+		} catch (IllegalArgumentException e) {
+			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
+		}
+
+	}
+
+	@Override
+	public ServiceItemDto findById(Integer id) {
+		return serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
+				.toMappedClass();
+	}
+
+
 }

@@ -2,6 +2,8 @@ package com.thanhtam.thanhtamluxury.common;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +15,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PageDto<T> {
 	
+	@JsonProperty("current_page")
 	private int page;
 	
 	private int size;
 	
-	private int totalPageNumber;
+	private Long totalPage;
 	
-	private int totalItems;
+	private Long totalItem;
 	
 	private List<T> content;
 }

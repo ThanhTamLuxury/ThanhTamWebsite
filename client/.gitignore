@@ -86,4 +86,5 @@ yarn-error.log*
 *.max
 
 #others
+/.vscode
 /.idea
