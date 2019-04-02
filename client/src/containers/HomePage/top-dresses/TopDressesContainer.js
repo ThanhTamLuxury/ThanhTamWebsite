@@ -75,7 +75,7 @@ class TopDressesContainer extends Component {
                     <h3 className="gla_subtitle">Áo cưới nổi bật</h3>
                     <p>{topDresses && topDresses.description}</p>
                     <div className="gla_icon_boxes row text-left">
-                        {topDresses && renderTopDresses(topDresses.dresses)}
+                        {topDresses && renderTopDresses(topDresses)}
                     </div>
                     <div className="gla_post_more clearfix">
                         <div>

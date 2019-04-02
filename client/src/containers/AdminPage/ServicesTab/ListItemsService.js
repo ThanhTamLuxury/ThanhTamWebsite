@@ -159,7 +159,7 @@ class ListItemsService extends Component {
     render() {
         const { page, data, selected, rowsPerPage,totalItems } = this.state;
         const { serviceCode } = this.props;
-        
+        console.log(data);
         return (
             <div>
                 <div className="services-table">
@@ -243,6 +243,7 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = (dispatch, props) => {
+    console.log('fetchServicesList');
     return {
         fetchServicesList: () => {
             dispatch(axios_fetch_services());

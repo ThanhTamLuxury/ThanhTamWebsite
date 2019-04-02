@@ -2,36 +2,58 @@ import React, { Component } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import * as Constant from '../constants';
-import { generate_slug } from './../../../methods/function_lib'
-import { Editor } from '@tinymce/tinymce-react';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Button from '@material-ui/core/Button';
-
+import { generate_slug } from './../../../methods/function_lib';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 class AlbumsPriceForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isEditing: false,
+            txtSlug: '',
             txtName: '',
-            txtLink: '',
-            txtDescription: '',
-            txtCamera: '',
-            txtDirectorEkip: '',
+            txtShortDescription: '',
+            txtTitle:'',
+            txtPrice: '',
+            events: [],
+            editorState: EditorState.createEmpty(),
+            inputs: ['input-0'],
         };
     }
 
+    onEditorStateChange = (editorState) => {
+        this.setState({
+            editorState,
+        });
+    };
 
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
+
+        console.log(target.value);
         this.setState({
             [name]: target.value
         });
+        if (name === 'txtName') {
+            let slug = generate_slug(target.value);
+            this.setState({
+                txtSlug: slug
+            })
+        }
     }
     handleEditorChange = (e) => {
         console.log('Content was updated:', e.target.getContent());
-      }
-      
+    }
+
     componentDidMount() {
         this.setState({
             imageData: [
@@ -93,16 +115,19 @@ class AlbumsPriceForm extends Component {
         // }
         // history.goBack(); // save xong thì back lại trang cũ ! có thể xài push để vào trang mới
     }
-    onDeleteImage = (id) => {
-        this.setState(prevState => {
-            const imageData = prevState.imageData.filter(image => image.id !== id);
-            return { imageData };
-        });
-
+    addEvents = () => {
+        var newEvents = [];
+        this.setState({
+            events: newEvents
+        })
     }
+    appendInput() {
+        var newInput = `input-${this.state.inputs.length}`;
+        this.setState(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
+    }
+
     render() {
-        var { txtName, txtLink, txtCamera, txtDirectorEkip, txtDescription, isEditing } = this.state;
-        var { serviceItem } = this.props;
+        var { txtName, txtSlug, txtShortDescription,txtTitle, txtPrice, isEditing, editorState } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -110,7 +135,7 @@ class AlbumsPriceForm extends Component {
                     <form onSubmit={this.onSave} >
                         <div className="form-group">
                             <TextField
-                                label="Tên video"
+                                label="Tên bảng giá"
                                 name="txtName"
                                 className="form-input"
                                 value={txtName}
@@ -121,8 +146,18 @@ class AlbumsPriceForm extends Component {
                         <div className="form-group">
                             <TextField
                                 label="Đường dẫn"
-                                name="txtLink"
-                                value={txtLink}
+                                name="txtSlug"
+                                className="form-input"
+                                value={txtSlug}
+                                onChange={this.onChange}
+                                variant="outlined"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <TextField
+                                label="Thông tin"
+                                name="txtShortDescription"
+                                value={txtShortDescription}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -130,45 +165,76 @@ class AlbumsPriceForm extends Component {
                         </div>
                         <div className="form-group">
                             <TextField
-                                label="Máy quay"
-                                name="txtCamera"
+                                label="Giá khởi điểm"
+                                name="txtPrice"
                                 className="form-input"
-                                value={txtCamera}
+                                value={txtPrice}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
                         </div>
-                        <div className="form-group">
-                            <TextField
-                                label="Đạo diễn + Ekip"
-                                name="txtDirectorEkip"
-                                className="form-input"
-                                value={txtDirectorEkip}
-                                onChange={this.onChange}
-                                variant="outlined"
-                            />
-                        </div>
-                        <div className="form-group">
-                            <TextField
-                                id="standard-textarea"
-                                multiline
-                                label="Đặc điểm nổi bật"
-                                name="txtDescription"
-                                value={txtDescription}
-                                className="form-input"
-                                onChange={this.onChange}
-                                variant="outlined"
-                            />
-                        </div>
-                        <Editor
-                            initialValue=""
-                            init={{
-                                plugins: 'link image code',
-                                toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-                            }}
-                            onChange={this.handleEditorChange}
-                        />
 
+                        <ExpansionPanel style={{ background: 'none' }}>
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography>Danh sách giá theo ngày</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography style={{ width: '30%' }}>
+                                    <Button type="submit" variant="contained" color="primary"style={{ width: '80%' }} onClick={() => this.appendInput()}>
+                                        Thêm giá</Button>
+                                </Typography>
+
+                                <ul className="event-date-picker">
+                                    {this.state.inputs.map((input,index) =>
+                                        <li key ={index}>
+                                            <div className="form-group">
+                                                <TextField
+                                                    label="Thông tin, khuyến mãi, giá theo ngày,.."
+                                                    name="txtTitle"
+                                                    className="form-input"
+                                                    value={txtTitle}
+                                                    onChange={this.onChange}
+                                                    variant="outlined"
+                                                />
+                                            </div>
+
+                                            <div className="form-group">
+                                                <TextField
+                                                    label="Ngày bắt đầu"
+                                                    name="startDate"
+                                                    type="date"
+                                                    style={{marginRight:"6em"}}
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+                                                <TextField
+                                                    label="Ngày kết thúc"
+                                                    name="endDate"
+                                                    type="date"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+
+                                            </div>
+
+                                        </li>
+                                    )
+                                    }
+                                </ul>
+
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <div>
+                            <Editor
+                                editorState={editorState}
+                                wrapperClassName="demo-wrapper"
+                                editorClassName="demo-editor"
+                                onEditorStateChange={this.onEditorStateChange}
+                            />
+                        </div>
+                        <h2></h2>
                         <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>

@@ -7650,7 +7650,7 @@ img.avatar {
 .admin_content {
 	font-size: 0.9em!important;
 }
-.admin_content table span, th, tr, td, span, option{
+.admin_content table span, th, tr, td, option{
 	font-family: inherit;
 	font-size: 1.1em!important;
 }
@@ -7674,6 +7674,17 @@ img.avatar {
 	overflow-y: scroll;
 }
 
+.demo-editor{
+	height: 500px!important;
+	border: 1px solid rgba(0, 0, 0, 0.05)!important;
+    height: 400px!important;
+    background: white!important;
+}
+.event-date-picker{
+	width: 100%;
+	padding-left: 2em;
+	
+}
 /* Maybe change font of table tr th */
 /* font-size: 0.9em!important;
 padding: 2px 10px 2px 1px; */

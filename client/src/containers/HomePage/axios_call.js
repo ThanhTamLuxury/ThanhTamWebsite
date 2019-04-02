@@ -4,50 +4,52 @@ import callApi from "../../utils/apiCaller";
 // TOTO : CHANGE TO CALL API WITH SERVICESTYPE
 
 // Fetch
-export const axios_fetch_MenusItems = () => {
-  return dispatch => {
-    return callApi("menus_json", "GET", null).then(res => {
-      dispatch(Actions.actFetchMenuItemsJson(res.data));
-    });
-  };
-};
 export const axios_fetch_Sliders = () => {
   return dispatch => {
-    return callApi("sliders_json", "GET", null).then(res => {
-      console.log(res.data);
-      dispatch(Actions.actFetchSlidersJson(res.data));
+    return callApi("banner", "GET", null).then(res => {
+      console.log(res);
+      if(res!=null){
+        dispatch(Actions.actFetchSlidersJson(res.data));
+      }
     });
   };
 };
 export const axios_fetch_TopAlbums = () => {
   return dispatch => {
     return callApi("service/top?serviceType=ALBUM", "GET", null).then(res => {
-      console.log(res.data);
-      dispatch(Actions.actFetchTopAlbumsJson(res.data));
+      if(res!=null){
+        dispatch(Actions.actFetchTopAlbumsJson(res.data));
+      }console.log(res);
     });
   };
 };
 
 export const axios_fetch_TopVideos = () => {
   return dispatch => {
-    return callApi("top_videos_json", "GET", null).then(res => {
+    return callApi("service/top?serviceType=WEDDING_VIDEO", "GET", null).then(res => {
+      if(res!=null){
       dispatch(Actions.actFetchTopVideosJson(res.data));
+      }console.log(res);
     });
   };
 };
 
 export const axios_fetch_TopDresses = () => {
   return dispatch => {
-    return callApi("top_dresses_json", "GET", null).then(res => {
+    return callApi("service/top?serviceType=WEDDING_DRESS", "GET", null).then(res => {
+      if(res!=null){
       dispatch(Actions.actFetchTopDressesJson(res.data));
+      }console.log(res);
     });
   };
 };
 
 export const axios_fetch_AboutUsDetails = () => {
   return dispatch => {
-    return callApi("about_us_json", "GET", null).then(res => {
+    return callApi("location", "GET", null).then(res => {
+      if(res!=null){
       dispatch(Actions.actFetchAboutUsJson(res.data));
+      }console.log(res);
     });
   };
 };

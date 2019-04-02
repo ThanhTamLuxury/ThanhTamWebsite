@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Menu from '../../../components/Menu/Menu';
-import { connect } from 'react-redux';
-import { axios_fetch_MenusItems } from './../axios_call';
 
 const defaultMenu = [
     {
@@ -50,29 +48,13 @@ const defaultMenu = [
 
 class MenuContainer extends Component {
 
-    componentDidMount() {
-        this.props.fetchMenuItems();
-    }
     render() {
-        var { menuItems } = this.props;
         return (
-            <Menu menus={menuItems != null ? menuItems.menus : defaultMenu} />
+            <Menu menus={defaultMenu} />
         );
     }
 }
 
 
-const mapStateToProps = state => {
-    return {
-        menuItems: state.homePage.menuItems
-    }
-}
-const mapDispatchToProps = (dispatch, props) => {
-    return {
-        fetchMenuItems: () => {
-            dispatch(axios_fetch_MenusItems());
-        },
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);
+export default MenuContainer;

@@ -8,7 +8,7 @@ class TopDressesItem extends Component {
             <div className="col-md-4 col-sm-6">
                 <Link to={dress.slug} className="gla_news_block" onClick ={() => this.onDelete(dress.id)} >
                     <span className="gla_news_img ao-cuoi-em">
-                        <span className="gla_over" style={{ backgroundImage: "url(" + dress.image_src + ")" }} />
+                        <span className="gla_over" style={{ backgroundImage: "url(" + dress.mainImage + ")" }} />
                     </span>
                     <span className="gla_news_title aoCuoi-title">{dress.name}  </span>
                 </Link>
