@@ -47,7 +47,7 @@ class SliderContainer extends React.PureComponent {
                     stopOnHover={false}
                     showStatus={false}
                 >
-                    {this.renderDefaultSlider(sliderItems.images_src)}
+                    {this.renderDefaultSlider(sliderItems)}
                 </Carousel>}
             </div>
         );
@@ -63,7 +63,7 @@ class SliderContainer extends React.PureComponent {
         if (images.length > 0) {
             result = images.map((image, index) => {
                 return (
-                    <div key={index} className="gla_slider gla_image_bck  gla_wht_txt gla_fixed" style={{ backgroundImage: "url(" + image.src + ")" }} data-stellar-background-ratio="0.8">
+                    <div key={index} className="gla_slider gla_image_bck  gla_wht_txt gla_fixed" style={{ backgroundImage: "url(" + image.path + ")" }} data-stellar-background-ratio="0.8">
                         <img style={{ display: 'none' }} src={image.src} alt />
                         <div className="gla_over" data-color="#9abab6" data-opacity="0.2" />
                         <div className="container">

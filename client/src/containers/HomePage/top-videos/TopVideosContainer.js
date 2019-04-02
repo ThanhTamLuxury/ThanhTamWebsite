@@ -59,7 +59,7 @@ class TopVideosContainer extends Component {
                 <div className="container">
                     <div className="gla_icon_boxes row text-left">
                         <div className="row gla_auto_height">
-                            {topVideos && renderTopVideos(topVideos.videos)}
+                            {topVideos && renderTopVideos(topVideos)}
                         </div>
                     </div >
                 </div>
