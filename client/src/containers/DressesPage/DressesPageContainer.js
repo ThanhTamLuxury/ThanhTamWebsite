@@ -26,7 +26,7 @@ class DressesPageContainer extends Component {
         return (
             <div className="container dresses-container">
                 <div className="row">
-                {dressesList && renderDresses(dressesList.dresses)}
+                {dressesList && renderDresses(dressesList.content)}
                 </div>
                 <nav className="gla_blog_pag">
                     <ul className="pagination">

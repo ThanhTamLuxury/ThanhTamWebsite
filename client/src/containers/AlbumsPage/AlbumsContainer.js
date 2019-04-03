@@ -20,6 +20,7 @@ const renderAlbums = (albums) => {
 class AlbumsContainer extends Component {
     state = {
         curPage: 1,
+        pageArr:[],
     }
     componentWillMount() {
         this.props.fetchTopVideos();
@@ -50,14 +51,13 @@ class AlbumsContainer extends Component {
             </div>
         );
     }
-     onChangePage = (e) => {
-
-        console.log("value", e.target);
+    onChangePage = i => () => {
+        console.log("Hello", i);
     }
      renderPageList = (totalPage, curPage) => {
         var result = [];
         for (var i = 1; i <= totalPage; i++) {
-            result.push(<li key={i} className={curPage === i ? 'active' : ''}><span onClick={(e) => this.onChangePage(e)} value={i} /></li>);
+            result.push(<li style={{cursor:'pointer'}} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
         }
         return result;
     }
