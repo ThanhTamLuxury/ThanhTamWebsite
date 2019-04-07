@@ -34,8 +34,11 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	public ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto) {
-		ServiceItem serviceItem = serviceItemDto.toMappedClass();
+	public ServiceItemDto create(String serviceType, ServiceItemCreateDto serviceItemCreateDto) {
+		ServiceItem serviceItem = new ServiceItem();
+//		serviceItem.set
+		serviceItem.setServiceType(serviceType);
+//		ServiceItem serviceItem = serviceItemDto.toMappedClass();
 		serviceItem.setServiceType(serviceType);
 		serviceItem.getImageItems()
 				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
@@ -102,6 +105,13 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	public ServiceItemDto findById(Integer id) {
 		return serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
+				.toMappedClass();
+	}
+
+	@Override
+	public ServiceItemDto findByIdAndSlug(Integer id, String slug) {
+		return serviceItemRepo.findByIdAndSlug(id, slug)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_NOT_FOUND + id + ", "+ slug))
 				.toMappedClass();
 	}
 

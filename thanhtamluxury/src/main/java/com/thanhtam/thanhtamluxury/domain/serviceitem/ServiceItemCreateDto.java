@@ -1,10 +1,10 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.thanhtam.thanhtamluxury.common.Mapper;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class
-ServiceItemDto implements Mapper<ServiceItem> {
+public class ServiceItemCreateDto {
 
-    private Integer id;
     private String name;
     private String type;
-    private double price;
-    private String priceDescription;
     private String shortDescription;
     private String description;
     private String slug;
@@ -28,17 +24,11 @@ ServiceItemDto implements Mapper<ServiceItem> {
     private boolean isActive;
 
     @Setter(AccessLevel.NONE)
-    private String mainImage;
+    private MultipartFile mainImage;
 
     @JsonProperty("video_src")
     @Setter(AccessLevel.NONE)
     private String videoSrc;
     private String location;
-    private List<ImageItem> imageItems = new ArrayList<>();
-    private List<PriceDetail> priceDetails = new ArrayList<>();
-
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
-        this.videoSrc = mainImage;
-    }
+    private List<MultipartFile> imageItems = new ArrayList<>();
 }

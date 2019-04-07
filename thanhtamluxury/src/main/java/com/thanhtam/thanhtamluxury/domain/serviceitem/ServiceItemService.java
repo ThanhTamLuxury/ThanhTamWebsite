@@ -19,4 +19,6 @@ public interface ServiceItemService {
     List<ServiceItemDto> findAllByServiceType(String serviceType);
 
     ServiceItemDto findById(Integer id);
+
+    ServiceItemDto findByIdAndSlug(Integer id, String slug);
 }

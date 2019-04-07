@@ -16,14 +16,10 @@ public class ServiceItemApi {
 
 	private ServiceItemService serviceItemService;
 
-	@GetMapping("/all")
-	public List<ServiceItemDto> getAll(@RequestParam String serviceType) {
-		return serviceItemService.findAllByServiceType(serviceType);
-	}
 
-	@GetMapping("/{id}")
-	public ServiceItemDto getById(@PathVariable Integer id){
-		return serviceItemService.findById(id);
+	@GetMapping("/{id}/{slug}")
+	public ServiceItemDto getByIdAndSlug(@PathVariable Integer id, @PathVariable String slug){
+		return serviceItemService.findByIdAndSlug(id, slug);
 	}
 
 	@GetMapping("/top")
@@ -31,19 +27,9 @@ public class ServiceItemApi {
 		return serviceItemService.getTop3(serviceType);
 	}
 
-	@PostMapping("/video")
-	public ServiceItemDto createNewVideo(@RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.create(ServiceType.WEDDING_VIDEO.toString(), serviceItemDto);
-	}
-
-	@PostMapping("/dress")
-	public ServiceItemDto createNewDress(@RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.create(ServiceType.WEDDING_DRESS.toString(), serviceItemDto);
-	}
-
-	@PostMapping("/album")
-	public ServiceItemDto createNewAlbum(@RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.create(ServiceType.ALBUM.toString(), serviceItemDto);
+	@PostMapping("/{serviceType}")
+	public ServiceItemDto createNewService(@PathVariable String serviceType, @RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.create(serviceType, serviceItemDto);
 	}
 
 	@PutMapping("/update-imageitems/{id}")
