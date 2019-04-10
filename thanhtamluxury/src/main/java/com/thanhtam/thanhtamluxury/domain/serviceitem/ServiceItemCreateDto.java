@@ -22,12 +22,9 @@ public class ServiceItemCreateDto {
     private String slug;
     private String serviceType;
     private boolean isActive;
-
-    @Setter(AccessLevel.NONE)
     private MultipartFile mainImage;
 
     @JsonProperty("video_src")
-    @Setter(AccessLevel.NONE)
     private String videoSrc;
     private String location;
     private List<MultipartFile> imageItems = new ArrayList<>();

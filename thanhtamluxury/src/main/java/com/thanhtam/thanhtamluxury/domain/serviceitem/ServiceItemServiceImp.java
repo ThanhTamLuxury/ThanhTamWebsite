@@ -1,9 +1,6 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
-import com.thanhtam.thanhtamluxury.common.Constant;
-import com.thanhtam.thanhtamluxury.common.Mapper;
-import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import com.thanhtam.thanhtamluxury.common.*;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import lombok.AllArgsConstructor;
@@ -36,15 +33,17 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	@Override
 	public ServiceItemDto create(String serviceType, ServiceItemCreateDto serviceItemCreateDto) {
 		ServiceItem serviceItem = new ServiceItem();
-//		serviceItem.set
+		serviceItem.fromServiceItemCreate(serviceItemCreateDto);
 		serviceItem.setServiceType(serviceType);
-//		ServiceItem serviceItem = serviceItemDto.toMappedClass();
-		serviceItem.setServiceType(serviceType);
-		serviceItem.getImageItems()
-				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
-		serviceItem.getPriceDetails()
-				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
-		return serviceItemRepo.save(serviceItem).toMappedClass();
+		UploadFileUtil.uploadMultipleFiles(serviceItemCreateDto.getImageItems().stream()
+				.map(image -> new UploadModel(serviceItemCreateDto.getName(), null, image))
+				.collect(Collectors.toList()));
+		return null;
+//		serviceItem.getImageItems()
+//				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
+//		serviceItem.getPriceDetails()
+//				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
+//		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
 	@Override

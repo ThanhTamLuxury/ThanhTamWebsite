@@ -8,7 +8,7 @@ import java.util.List;
 public interface ServiceItemService {
 	List<ServiceItemSmallDto> getTop3(String serviceType);
 
-    ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto);
+    ServiceItemDto create(String serviceType, ServiceItemCreateDto serviceItemDto);
 
     ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos);
 

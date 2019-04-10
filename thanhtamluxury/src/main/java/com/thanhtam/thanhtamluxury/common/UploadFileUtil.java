@@ -12,25 +12,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class UploadFileUtil {
 
     private static String UPLOADED_FOLDER = "D://uploadImages//";
 
-    public String uploadSingleFile(UploadModel uploadModel){
-        return saveUploadedFiles(Arrays.asList(uploadModel)).stream()
+    public static String uploadSingleFile(UploadModel uploadModel){
+        return saveUploadedFiles(Collections.singletonList(uploadModel)).stream()
                 .findFirst()
                 .orElse(null);
     }
 
-    public List<String> uploadMultipleFiles(List<UploadModel> uploadModels){
+    public static List<String> uploadMultipleFiles(List<UploadModel> uploadModels){
         return saveUploadedFiles(uploadModels);
     }
 
-    private List<String> saveUploadedFiles(List<UploadModel> uploadModelFiles){
+    private static List<String> saveUploadedFiles(List<UploadModel> uploadModelFiles){
 
         List<String> nameAfterUploaded = new ArrayList<>();
 
@@ -39,29 +41,17 @@ public class UploadFileUtil {
                 continue;
             }
             try {
-                String fileName = uploadModel.getRootName() + "_" + LocalDateTime.now().toString();
+                MultipartFile file = uploadModel.getUploadFile();
+                String fileName = uploadModel.getRootName() + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
                 byte[] bytes = uploadModel.getUploadFile().getBytes();
-                Path path = Paths.get(UPLOADED_FOLDER + fileName);
+                String extensionFile = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                Path path = Paths.get(UPLOADED_FOLDER + fileName + extensionFile);
                 Files.write(path, bytes);
                 nameAfterUploaded.add(fileName);
             } catch (Exception e) {
-                continue;
+                e.printStackTrace();
             }
         }
         return nameAfterUploaded;
-    }
-}
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-class UploadModel {
-    private String rootName;
-    private String url;
-    private MultipartFile uploadFile;
-
-    public boolean checkValid(){
-        return rootName != null && !uploadFile.isEmpty();
     }
 }

@@ -1,11 +1,15 @@
 package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
+import com.thanhtam.thanhtamluxury.common.UploadFileUtil;
+import com.thanhtam.thanhtamluxury.common.UploadModel;
+import com.thanhtam.thanhtamluxury.common.UploadModel2;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,7 +19,6 @@ import java.util.List;
 public class ServiceItemApi {
 
 	private ServiceItemService serviceItemService;
-
 
 	@GetMapping("/{id}/{slug}")
 	public ServiceItemDto getByIdAndSlug(@PathVariable Integer id, @PathVariable String slug){
@@ -27,9 +30,15 @@ public class ServiceItemApi {
 		return serviceItemService.getTop3(serviceType);
 	}
 
+	@PutMapping("/uploadImage")
+	public String testUpload(@RequestParam("file") MultipartFile file, @RequestBody UploadModel2 uploadModel2){
+		UploadModel um = new UploadModel(uploadModel2.getRootName(), uploadModel2.getUrl(), file);
+		return UploadFileUtil.uploadSingleFile(um);
+	}
+
 	@PostMapping("/{serviceType}")
-	public ServiceItemDto createNewService(@PathVariable String serviceType, @RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.create(serviceType, serviceItemDto);
+	public ServiceItemDto createNewService(@PathVariable String serviceType, @RequestBody ServiceItemCreateDto dto){
+		return serviceItemService.create(serviceType, dto);
 	}
 
 	@PutMapping("/update-imageitems/{id}")
