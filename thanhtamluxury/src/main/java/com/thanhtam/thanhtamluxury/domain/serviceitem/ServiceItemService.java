@@ -18,7 +18,7 @@ public interface ServiceItemService {
 
     PageDto<ServiceItemSmallDto> getAllSmall(String serviceType, int size, int page);
 
-    List<ServiceItemDto> findAllByServiceType(String serviceType);
-
     ServiceItemDto findById(Integer id);
+
+    ServiceItemDto findByIdAndSlug(Integer id, String slug);
 }
