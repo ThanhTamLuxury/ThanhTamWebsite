@@ -28,7 +28,7 @@ public class ServiceItemApi {
 	}
 
 	@PostMapping("/{serviceType}")
-	public ServiceItemDto createNewService(@PathVariable String serviceType, @RequestBody ServiceItemCreateDto dto){
+	public ServiceItemDto createNewService(@PathVariable String serviceType, @RequestBody ServiceItemDto dto){
 		return serviceItemService.create(serviceType, dto);
 	}
 

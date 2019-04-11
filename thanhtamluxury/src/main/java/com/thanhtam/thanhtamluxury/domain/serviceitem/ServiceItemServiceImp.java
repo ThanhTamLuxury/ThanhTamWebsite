@@ -29,21 +29,15 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
 		}
 	}
-
 	@Override
-	public ServiceItemDto create(String serviceType, ServiceItemCreateDto serviceItemCreateDto) {
-		ServiceItem serviceItem = new ServiceItem();
-		serviceItem.fromServiceItemCreate(serviceItemCreateDto);
+	public ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto) {
+		ServiceItem serviceItem = serviceItemDto.toMappedClass();
 		serviceItem.setServiceType(serviceType);
-		UploadFileUtil.uploadMultipleFiles(serviceItemCreateDto.getImageItems().stream()
-				.map(image -> new UploadModel(serviceItemCreateDto.getName(), null, image))
-				.collect(Collectors.toList()));
-		return null;
-//		serviceItem.getImageItems()
-//				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
-//		serviceItem.getPriceDetails()
-//				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
-//		return serviceItemRepo.save(serviceItem).toMappedClass();
+		serviceItem.getImageItems()
+				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
+		serviceItem.getPriceDetails()
+				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
+		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
 	@Override
@@ -85,19 +79,6 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
 		}
 		return response;
-	}
-
-	@Override
-	public List<ServiceItemDto> findAllByServiceType(String serviceType) {
-		try {
-			return serviceItemRepo.findAllByServiceType(ServiceType.valueOf(serviceType).toString())
-					.stream()
-					.map(Mapper::toMappedClass)
-					.collect(Collectors.toList());
-		} catch (IllegalArgumentException e) {
-			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
-		}
-
 	}
 
 	@Override
