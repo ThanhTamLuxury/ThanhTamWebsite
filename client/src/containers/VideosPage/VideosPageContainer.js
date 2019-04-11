@@ -25,7 +25,7 @@ class VideosPageContainer extends Component {
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 col-xs-12">
-                        {videosList && renderVideos(videosList.videos)}
+                        {videosList && renderVideos(videosList.content)}
                     </div>
                     <nav className="gla_blog_pag">
                         <ul className="pagination">

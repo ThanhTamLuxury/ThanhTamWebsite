@@ -14,7 +14,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PriceDetailDto implements Mapper<PriceDetail> {
     private Integer id;
-    private LocalDate applyDate;
+    private String title;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private double price;
     private Integer serviceItemId;
 }

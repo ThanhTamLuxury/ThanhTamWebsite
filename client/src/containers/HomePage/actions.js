@@ -1,12 +1,6 @@
 
 import * as Types from './constants';
 
-export const actFetchMenuItemsJson = (menuItems) => {
-    return {
-        type : Types.FETCH_MENUITEMS,
-        menuItems
-    }
-}
 
 export const actFetchSlidersJson = (sliderItems) => {
     return {

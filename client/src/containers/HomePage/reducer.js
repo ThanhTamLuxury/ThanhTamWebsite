@@ -1,7 +1,6 @@
 import * as Types from './constants';
 
 const initialState = {
-    menuItems: null,
     sliderItems: null,
     topAlbums: null,
     topVideos: null,
@@ -12,10 +11,6 @@ const initialState = {
 const homePage = (state = initialState, action) => {
     console.log(action);
     switch (action.type) {
-        case Types.FETCH_MENUITEMS:
-            return Object.assign({}, state, {
-                menuItems: action.menuItems
-            });
         case Types.FETCH_SLIDER:
             return Object.assign({}, state, {
                 sliderItems: action.sliderItems

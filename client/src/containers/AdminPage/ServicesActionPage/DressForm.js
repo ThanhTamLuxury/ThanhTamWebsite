@@ -34,9 +34,17 @@ class DressForm extends Component {
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
+
+        console.log(target.value);
         this.setState({
             [name]: target.value
         });
+        if (name === 'txtName') {
+            let slug = generate_slug(target.value);
+            this.setState({
+                txtSlug: slug
+            })
+        }
     }
     componentDidMount() {
         this.setState({

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { axios_fetch_albumsList } from './axios_call';
 
 const renderAlbums = (albums) => {
+
     var result = null;
     if (albums.length > 0) {
         result = albums.map((album, index) => {
@@ -15,16 +16,22 @@ const renderAlbums = (albums) => {
     return result;
 }
 
+
 class AlbumsContainer extends Component {
+    state = {
+        curPage: 1,
+        pageArr:[],
+    }
     componentWillMount() {
         this.props.fetchTopVideos();
     }
     render() {
         const { albumsList } = this.props;
+        const { curPage } = this.state;
         return (
             <div className="container">
                 <div className="row">
-                    {albumsList && renderAlbums(albumsList.albums)}
+                    {albumsList && renderAlbums(albumsList.content)}
                 </div>
                 <nav className="gla_blog_pag">
                     <ul className="pagination">
@@ -33,21 +40,7 @@ class AlbumsContainer extends Component {
                                 <i className="ti ti-angle-left" />
                             </a>
                         </li>
-                        <li className="active">
-                            <a href="#">1</a>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
+                        {albumsList && this.renderPageList(albumsList.totalPage, curPage)}
                         <li>
                             <a href="#">
                                 <i className="ti ti-angle-right" />
@@ -58,8 +51,19 @@ class AlbumsContainer extends Component {
             </div>
         );
     }
+    onChangePage = i => () => {
+        console.log("Hello", i);
+    }
+     renderPageList = (totalPage, curPage) => {
+        var result = [];
+        for (var i = 1; i <= totalPage; i++) {
+            result.push(<li style={{cursor:'pointer'}} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
+        }
+        return result;
+    }
 }
 const mapStateToProps = state => {
+    console.log(state);
     return {
         albumsList: state.albumsPage.albumsList
     }

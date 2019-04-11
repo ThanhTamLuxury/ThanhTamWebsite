@@ -25,22 +25,26 @@ class AlbumForm extends Component {
             txtDescription: '',
             txtSlug: '',
             imageData: [],
+            mainImage :"https://genknews.genkcdn.vn/2017/photo-0-1504160949054.jpg",
         };
     }
 
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
-
-        console.log(target.value);
-        this.setState({
-            [name]: target.value
-        });
         if (name === 'txtName') {
             let slug = generate_slug(target.value);
             this.setState({
                 txtSlug: slug
             })
+        }else if(name === 'mainImage'){
+            this.setState({
+                mainImage: URL.createObjectURL(target.files[0])
+              })
+        }else{
+            this.setState({
+                [name]: target.value
+            });
         }
     }
     componentDidMount() {
@@ -112,7 +116,7 @@ class AlbumForm extends Component {
 
     }
     render() {
-        var { txtName, txtPrice, txtSlug, isEditing, imageData } = this.state;
+        var { txtName, txtPrice, txtSlug, isEditing, imageData,mainImage } = this.state;
         var { serviceItem } = this.props;
         return (
             <div>
@@ -120,11 +124,21 @@ class AlbumForm extends Component {
                     <h2></h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group text-center">
-                            <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src="https://genknews.genkcdn.vn/2017/photo-0-1504160949054.jpg" alt="album main image" />
+                            <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="album main image" />
                             <br /><br />
-                            <Button type="submit" variant="outlined" color="primary" style={{ width: '20%', margin: 'auto' }}>
+                            <input
+                                name="mainImage"
+                                accept="image/*"
+                                style={{ display:'none'}}
+                                id="contained-button-file"
+                                type="file"
+                                onChange={this.onChange}
+                            />
+                             <label htmlFor="contained-button-file" style={{ width: '18%', margin: 'auto',fontSize:'1.1em!important' }}>
+                            <Button  variant="outlined" color="primary" component="span">
                                 {isEditing ? 'Sửa ảnh chính' : 'Thêm ảnh chính'}
                             </Button>
+                            </label>
                         </div>
                         <div className="form-group">
                             <TextField
