@@ -46,5 +46,4 @@ public class ServiceItemApi {
 	public PageDto<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
 		return serviceItemService.getAllSmall(serviceType, size, page);
 	}
-
 }
