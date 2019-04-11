@@ -109,16 +109,5 @@ public class ServiceItem implements Mapper<ServiceItemDto> {
         priceDetails.addAll(newPriceDetail);
         return this;
     }
-    @JsonIgnore
-    ServiceItem fromServiceItemCreate(ServiceItemCreateDto dto){
-        setName(dto.getName());
-        setServiceType(dto.getServiceType());
-        setActive(dto.isActive());
-        setDescription(dto.getDescription());
-        setShortDescription(dto.getShortDescription());
-        setSlug(dto.getSlug());
-        setLocation(dto.getLocation());
-        return this;
-    }
 
 }
