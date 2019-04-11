@@ -1,9 +1,6 @@
 package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.common.UploadFileUtil;
-import com.thanhtam.thanhtamluxury.common.UploadModel;
-import com.thanhtam.thanhtamluxury.common.UploadModel2;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
@@ -28,12 +25,6 @@ public class ServiceItemApi {
 	@GetMapping("/top")
 	public List<ServiceItemSmallDto> getTopForMenu(@RequestParam String serviceType) {
 		return serviceItemService.getTop3(serviceType);
-	}
-
-	@PutMapping("/uploadImage")
-	public String testUpload(@RequestParam("file") MultipartFile file, @RequestBody UploadModel2 uploadModel2){
-		UploadModel um = new UploadModel(uploadModel2.getRootName(), uploadModel2.getUrl(), file);
-		return UploadFileUtil.uploadSingleFile(um);
 	}
 
 	@PostMapping("/{serviceType}")
