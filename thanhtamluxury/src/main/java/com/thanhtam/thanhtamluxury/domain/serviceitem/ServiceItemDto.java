@@ -13,8 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class
-ServiceItemDto implements Mapper<ServiceItem> {
+public class ServiceItemDto implements Mapper<ServiceItem> {
 
     private Integer id;
     private String name;
