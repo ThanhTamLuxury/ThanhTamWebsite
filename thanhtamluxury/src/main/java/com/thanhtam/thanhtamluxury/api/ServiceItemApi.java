@@ -1,20 +1,5 @@
 package com.thanhtam.thanhtamluxury.api;
 
-<<<<<<< HEAD
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemDto;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemService;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceType;
-=======
 import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
@@ -23,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
->>>>>>> origin/master
 
 @RestController
 @RequestMapping("api/service")
@@ -46,15 +30,6 @@ public class ServiceItemApi {
 	public List<ServiceItemSmallDto> getTopForMenu(@RequestParam String serviceType) {
 		return serviceItemService.getTop3(serviceType);
 	}
-<<<<<<< HEAD
-	
-	@GetMapping("/all")
-	public PageDto<ServiceItemDto> getAll(@RequestParam(name = "serviceType", required = true) String serviceType,
-			@RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "size", defaultValue = "10") int size) {
-		return serviceItemService.getAll(serviceType, page, size);
-	}
-=======
 
 	@PostMapping("/video")
 	public ServiceItemDto createNewVideo(@RequestBody ServiceItemDto serviceItemDto){
@@ -85,6 +60,4 @@ public class ServiceItemApi {
 	public PageDto<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
 		return serviceItemService.getAllSmall(serviceType, size, page);
 	}
-
->>>>>>> origin/master
 }
