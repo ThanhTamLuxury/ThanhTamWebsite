@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import * as Constant from '../constants';
 class DressItem extends Component {
   render() {
     var { dress } = this.props;
@@ -10,7 +10,7 @@ class DressItem extends Component {
           <span className="gla_shop_item_slider">
             <img src={dress.mainImage} alt={dress.name} />
           </span>
-          <Link to={dress.slug} className="gla_shop_item_title" >{dress.name}</Link>
+          <Link to={Constant.SLUG_WEDDING_DRESS + dress.id + "/" + dress.slug} className="gla_shop_item_title" >{dress.name}</Link>
         </div>
       </div>
 

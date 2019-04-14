@@ -21,13 +21,3 @@ export const axios_fetch_serviceByID = (id) => {
         });
     };
 }
-
-export const addService = (service,serviceType) => {
-    // return dispatch => {
-    //     return callApi(`service/${serviceType}`, 'POST', null).then(res => {
-    //         if (res != null) {
-    //             dispatch(Actions.actFetchServiceByID(res.data));
-    //         }
-    //     });
-    // };
-}

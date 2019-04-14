@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import * as Constant from '../constants';
+import * as Constant from '../../constants';
 import { connect } from 'react-redux';
 import { axios_fetch_services } from './../axios_call';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,66 +11,43 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Button } from '@material-ui/core';
+import { onOpenAddNewForm, onEditItem, onCheckPriceDetail } from '../actions';
 
-
-const services_json = {
-    totalItems: 15,
-    services: [
-        {
-            id: 1,
-            name: 'Albums chụp hình cưới tại Đồng Nai1',
-            dateCreated: '30-03-2019'
-        }, {
-            id: 2,
-            name: 'Albums chụp hình cưới tại Đồng Nai2',
-            dateCreated: '30-03-2019'
-        }, {
-            id: 3,
-            name: 'Albums chụp hình cưới tại Đồng Nai3',
-            dateCreated: '30-03-2019'
-        }, {
-            id: 4,
-            name: 'Albums chụp hình cưới tại Đồng Nai4',
-            dateCreated: '30-03-2019'
-        },
-    ]
-}
 
 
 class ListItemsService extends Component {
 
 
     state = {
-        page: 0,
+        page: 1,
         data: [],
         rowsPerPage: 5,
         selected: [],
         totalItems: 0,
+        tabCode: '',
     };
 
     componentDidMount() {
-        this.props.fetchServicesList();
-        // let { listServies } = this.props;
-        // console.log(listServies);
-        // console.log(this.state.data);
-
-        // if(services){
-        //     this.setState({
-        //         data: services
-        //     });
-        // }
-       
+        this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
+        if (this.props.servicesResponse != null) {
+            this.setState({
+                data: this.props.servicesResponse.content,
+                totalItems: this.props.servicesResponse.totalItem
+            });
+        }
     }
     onChangePage = (event, page) => {
         this.setState({ page: page });
-        console.log(this.state.page);
     };
 
-    componentWillReceiveProps(nextProps){
-        this.setState({
-             data: nextProps.listServies.services,
-             totalItems:  nextProps.listServies.totalItems
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.servicesResponse != null) {
+            this.setState({
+                data: nextProps.servicesResponse.content,
+                totalItems: nextProps.servicesResponse.totalItem
             });
+        }
+
     }
     onSelectAllClick = event => {
         if (event.target.checked) {
@@ -102,51 +78,23 @@ class ListItemsService extends Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-    onAddOrUpdate = (key, id) => {
-        let tabKey = "";
-        switch (key) {
-            case Constant.SERVICE_ALBUMS:
-                tabKey = Constant.SERVICE_ADDNEW_ALBUM;
-                if (id) {
-                    tabKey = Constant.SERVICE_EDIT_ALBUM;
-                }
-                break;
-            case Constant.SERVICE_DRESSES:
-                tabKey = Constant.SERVICE_ADDNEW_DRESS;
-                if (id) {
-                    tabKey = Constant.SERVICE_EDIT_DRESS;
-                }
-                break;
-            case Constant.SERVICE_VIDEOS:
-                tabKey = Constant.SERVICE_ADDNEW_VIDEO;
-                if (id !== null) {
-                    tabKey = Constant.SERVICE_EDIT_VIDEO;
-                }
-                break;
-            case Constant.SERVICE_PRICE_ALBUMS:
-                tabKey = Constant.SERVICE_ADDNEW_PRICE_ALBUM;
-                if (id !== null) {
-                    tabKey = Constant.SERVICE_EDIT_PRICE_ALBUM;
-                }
-                break;
-            case Constant.SERVICE_PRICE_VIDEOS:
-                tabKey = Constant.SERVICE_ADDNEW_PRICE_VIDEO;
-                if (id !== null) {
-                    tabKey = Constant.SERVICE_EDIT_PRICE_VIDEO;
-                }
-                break;
-            case Constant.SERVICE_PRICE_INCLUSIVE:
-                tabKey = Constant.SERVICE_ADDNEW_PRICE_INCLUSIVE;
-                if (id !== null) {
-                    tabKey = Constant.SERVICE_EDIT_PRICE_INCLUSIVE;
-                }
-                break;
-            default:
-                tabKey = Constant.SERVICE_HOME
-        }
-        this.props.onChangeTab(tabKey, id);
-    }
 
+    onEditItem = (id) => {
+        let tabCode = this.props.serviceType + '_EDIT';
+        this.props.onEditItem(id);
+        this.props.onChangeTab(this.props.serviceType, tabCode);
+    }
+    onOpenAddNewForm = () => {
+        let tabCode = this.props.serviceType + '_ADD';
+        this.props.onOpenAddNewForm();
+        this.props.onChangeTab(this.props.serviceType, tabCode);
+    }
+    
+    onCheckPriceDetail = (id) => {
+        let tabCode = this.props.serviceType + '_PRICE';
+        this.props.onCheckPriceDetail(id);
+        this.props.onChangeTab(this.props.serviceType, tabCode);
+    }
     onDelete = () => {
         if (this.state.selected.length == 0) {
             alert(Constant.MSG_NO_SELECTED_DELETED);
@@ -155,11 +103,16 @@ class ListItemsService extends Component {
             //call api to delete
         }
     }
+    handleChangePage = (event, page) => {
+        this.setState({ page });
+    };
 
+    handleChangeRowsPerPage = event => {
+        this.setState({ rowsPerPage: event.target.value });
+    };
     render() {
-        const { page, data, selected, rowsPerPage,totalItems } = this.state;
-        const { serviceCode } = this.props;
-        console.log(data);
+        const { page, data, selected, rowsPerPage, totalItems } = this.state;
+        const { tabCode } = this.props;
         return (
             <div>
                 <div className="services-table">
@@ -170,10 +123,11 @@ class ListItemsService extends Component {
                                 <TableCell align="left" >Tên</TableCell>
                                 <TableCell align="left">Ngày tạo</TableCell>
                                 <TableCell align="left">Chi tiết</TableCell>
+                                {(tabCode !== Constant.SERVICE_WEDDING_DRESS && tabCode !== Constant.SERVICE_FULL_WEDDING_DAY) ? <TableCell align="left">Bảng giá</TableCell> : null}
                             </TableRow>
                         </TableHead>
                         <TableBody  >
-                            {data && this.renderData(data)}
+                            {data && this.renderData(data, tabCode)}
                         </TableBody>
                         <TableFooter>
                             <TableRow>
@@ -184,8 +138,9 @@ class ListItemsService extends Component {
 
                 </div>
                 <TablePagination
+                    className='table-paging'
                     style={{ fontSize: '1.1em' }}
-                    rowsPerPageOptions={[]}
+                    rowsPerPageOptions={[5, 10, 25]}
                     component="div"
                     count={totalItems}     // số documents
                     rowsPerPage={rowsPerPage}  // default mỗi lần 5 records
@@ -197,6 +152,7 @@ class ListItemsService extends Component {
                         'aria-label': 'Next Page',
                     }}
                     onChangePage={this.onChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 />
                 <Button variant="contained" color="primary"
                     style={{ width: '10%', height: 'auto', marginTop: '2em' }}
@@ -204,15 +160,15 @@ class ListItemsService extends Component {
                     Xóa
                 </Button>
                 <Button variant="contained" color="primary"
-                    style={{width: '10%', height: 'auto', marginLeft: '2em', marginTop: '2em' }}
-                    onClick={() => this.onAddOrUpdate(serviceCode, null)}>
-                    Thêm 
+                    style={{ width: '10%', height: 'auto', marginLeft: '2em', marginTop: '2em' }}
+                    onClick={() => this.onOpenAddNewForm(null)}>
+                    Thêm
                 </Button>
             </div>
         );
     }
 
-    renderData(data) {
+    renderData(data, tabCode) {
         let result = null;
         if (data.length > 0) {
             result = data.map(item => {
@@ -227,8 +183,9 @@ class ListItemsService extends Component {
                         </TableCell>
                         <TableCell align="left">{item.dateCreated}</TableCell>
                         <TableCell align="left">
-                            <Button variant="outlined" color="primary" onClick={() => this.onAddOrUpdate(this.props.serviceCode, item.id)}  >Chi tiết</Button>
+                            <Button variant="outlined" color="primary" onClick={() => this.onEditItem(item.id, Constant.SERVICE_EDIT_ALBUM)}>Chi tiết</Button>
                         </TableCell>
+                        {((tabCode !== Constant.SERVICE_WEDDING_DRESS) && (tabCode !== Constant.SERVICE_FULL_WEDDING_DAY)) ? <TableCell align="left"><Button variant="outlined" color="primary" onClick={() => this.onCheckPriceDetail(item.id)}  >Thông tin</Button></TableCell> : null}
                     </TableRow>
                 )
             })
@@ -239,15 +196,24 @@ class ListItemsService extends Component {
 }
 const mapStateToProps = state => {
     return {
-        listServies: state.adminPage.listServies
+        servicesResponse: state.adminPage.servicesResponse,
+        serviceType: state.adminPage.serviceType
     }
 }
 const mapDispatchToProps = (dispatch, props) => {
-    console.log('fetchServicesList');
     return {
-        fetchServicesList: () => {
-            dispatch(axios_fetch_services());
+        fetchServicesList: (serviceType, page, size) => {
+            dispatch(axios_fetch_services(serviceType, page, size));
         },
+        onOpenAddNewForm: () => {
+            dispatch(onOpenAddNewForm())
+        },
+        onEditItem: (id) => {
+            dispatch(onEditItem(id))
+        },
+        onCheckPriceDetail: (id) => {
+            dispatch(onCheckPriceDetail(id))
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ListItemsService);

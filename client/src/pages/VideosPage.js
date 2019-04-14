@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import * as Constant from './../constants/Constant';
 import { DetailSlider } from './../components/index';
-import { VideosPageContainer } from './../containers/index';
+import { ServiceContainer } from './../containers/index';
 
 
 
@@ -20,7 +20,7 @@ class VideosPage extends Component {
                 <section id="gla_content" className="gla_content">
                     {/* section */}
                     <section className="gla_section">
-                        <VideosPageContainer/>
+                    <ServiceContainer serviceType = {this.props.serviceType} />
                     </section>
                     {/* section end */}
                 </section>

@@ -7685,6 +7685,12 @@ img.avatar {
 	padding-left: 2em;
 	
 }
+a{
+	cursor: pointer;
+}
+.table-paging span {
+	font-size: 1.1em!important;
+}
 /* Maybe change font of table tr th */
 /* font-size: 0.9em!important;
 padding: 2px 10px 2px 1px; */
