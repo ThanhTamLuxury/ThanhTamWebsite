@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import * as Constant from './constants';
+import * as Constant from './../constants';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -32,6 +33,7 @@ import AlbumForm from './ServicesActionPage/AlbumForm';
 import DressForm from './ServicesActionPage/DressForm';
 import VideoForm from './ServicesActionPage/VideoForm';
 import AlbumsPriceForm from './ServicesActionPage/AlbumsPriceForm';
+import { actChangeMenu } from './actions';
 
 
 function HomeIcon(props) {
@@ -78,35 +80,31 @@ function VideoIcon(props) {
 const menus = [
     {
         id: Constant.SERVICE_HOME,
+        tabCode:Constant.SERVICE_HOME,
         name: 'Trang chủ'
     },
     {
-        id: Constant.SERVICE_ALBUMS,
+        id: Constant.SERVICE_ALBUM,
+        tabCode:Constant.SERVICE_ALBUM,
         name: 'Danh sách albums'
     },
     {
-        id: Constant.SERVICE_DRESSES,
+        id: Constant.SERVICE_WEDDING_DRESS,
+        tabCode:Constant.SERVICE_WEDDING_DRESS,
         name: 'Danh sách áo cưới'
     },
     {
-        id: Constant.SERVICE_VIDEOS,
+        id: Constant.SERVICE_WEDDING_VIDEO,
+        tabCode:Constant.SERVICE_WEDDING_VIDEO,
         name: 'Danh sách videos'
     },
-]
-const priceListItems = [
     {
-        id: Constant.SERVICE_PRICE_ALBUMS,
-        name: 'Bảng giá albums'
+        id: Constant.SERVICE_FULL_WEDDING_DAY,
+        tabCode:Constant.SERVICE_FULL_WEDDING_DAY,
+        name: 'Danh sách bảng giá trọn gói'
     },
-    {
-        id: Constant.SERVICE_PRICE_VIDEOS,
-        name: 'Bảng giá videos'
-    },
-    {
-        id: Constant.SERVICE_PRICE_INCLUSIVE,
-        name: 'Bảng giá trọn gói'
-    }
 ]
+
 
 const drawerWidth = 240;
 
@@ -154,9 +152,9 @@ const styles = theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: 'hidden',
-        width: theme.spacing.unit * 7 + 1,
+        width: theme.spacing.unit * 5 + 1,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing.unit * 9 + 1,
+            width: theme.spacing.unit * 7 + 1,
         },
     },
     toolbar: {
@@ -219,7 +217,7 @@ class AdminPageContainer extends Component {
         toggleOpen: false,
         tabLabel: 'Trang chủ',
         displayingTab: Constant.SERVICE_HOME,
-        serviceItem: { key: Constant.SERVICE_HOME, id: 1 }
+        serviceID: 1
     };
 
     handleToggleClick = (text) => {
@@ -235,23 +233,25 @@ class AdminPageContainer extends Component {
     handleDrawerClose = () => {
         this.setState({ open: false });
     };
-
-    onChangeTab = (key, id) => {
-        console.log(key + "- " + id)
-        let label = this.getLabelName(key);
+    componentDidMount() {
+    }
+    onChangeTab = (serviceType,tabCode) => {
+        this.props.onChangeMenu(serviceType,tabCode);
+        let label = this.getLabelName(tabCode);
         this.setState({
             tabLabel: label,
-            displayingTab: key,
-            serviceItem: {
-                key: key,
-                id: id,
-            },
+            displayingTab: tabCode,
         });
     }
+    componentWillReceiveProps(nextProps){
+    }
+
+
+
     render() {
 
         const { classes, theme } = this.props;
-        const { displayingTab, serviceItem } = this.state;
+        const { displayingTab } = this.state;
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -312,51 +312,35 @@ class AdminPageContainer extends Component {
                         </IconButton>
                     </div>
                     <Divider />
-                    <List
-                        style={{ paddingLeft: '0.5em' }}>
+                    <List>
                         {/*DAnh sách các menu ở đây  */}
                         {this.renderServicesMenu(menus)}
                         <Divider />
-                        <ListItem button onClick={() => this.handleToggleClick("Danh sách bảng giá")} >
-                            <ListItemIcon>
-                                <PriceIcon />
-                            </ListItemIcon>
-                            <ListItemText inset primary="Danh sách bảng giá" />
-                            {this.state.toggleOpen ? <ExpandLess /> : <ExpandMore />}
-                        </ListItem>
                     </List>
-
-                    <Collapse in={this.state.toggleOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding style={{ paddingLeft: '0.5em', fontSize: '0.9em' }}>
-
-                            {priceListItems.map((item, index) => (
-                                <ListItem button key={index} onClick={() => this.onChangeTab(item.id)} >
-                                    <ListItemIcon>
-                                        {this.selectIcon(item.id)}
-                                    </ListItemIcon>
-                                    <ListItemText primary={item.name} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Collapse>
-
 
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     {/* Content */}
                     {displayingTab === Constant.SERVICE_HOME && <HomePageService />}
-                    {displayingTab === Constant.SERVICE_ALBUMS && <ListItemsService onChangeTab={this.onChangeTab} serviceCode={Constant.SERVICE_ALBUMS} />}
-                    {displayingTab === Constant.SERVICE_DRESSES && <ListItemsService onChangeTab={this.onChangeTab} serviceCode={Constant.SERVICE_DRESSES} />}
-                    {displayingTab === Constant.SERVICE_VIDEOS && <ListItemsService onChangeTab={this.onChangeTab} serviceCode={Constant.SERVICE_VIDEOS} />}
-                    {displayingTab === Constant.SERVICE_PRICE_ALBUMS && <ListItemsService onChangeTab={this.onChangeTab} serviceCode={Constant.SERVICE_PRICE_ALBUMS} />}
-                    {displayingTab === Constant.SERVICE_PRICE_VIDEOS && <ListItemsService onChangeTab={this.onChangeTab} serviceCode={Constant.SERVICE_PRICE_VIDEOS}/>}
-                    {displayingTab === Constant.SERVICE_PRICE_INCLUSIVE && <ListItemsService onChangeTab={this.onChangeTab} serviceCode={Constant.SERVICE_PRICE_INCLUSIVE}/>}
-                    
-                    {(displayingTab === Constant.SERVICE_EDIT_ALBUM || displayingTab === Constant.SERVICE_ADDNEW_ALBUM) && <AlbumForm serviceItem={serviceItem} />}
-                    {(displayingTab === Constant.SERVICE_EDIT_DRESS || displayingTab === Constant.SERVICE_ADDNEW_DRESS) && <DressForm serviceItem={serviceItem} />}   
-                    {(displayingTab === Constant.SERVICE_EDIT_VIDEO || displayingTab === Constant.SERVICE_ADDNEW_VIDEO) && <VideoForm serviceItem={serviceItem} />}
-                    {(displayingTab === Constant.SERVICE_EDIT_PRICE_ALBUM|| displayingTab === Constant.SERVICE_ADDNEW_PRICE_ALBUM) && <AlbumsPriceForm serviceItem={serviceItem} />}               
+                    {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService onChangeTab={this.onChangeTab}/>}
+                    {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService onChangeTab={this.onChangeTab} />}
+                    {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService onChangeTab={this.onChangeTab} />}
+                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService onChangeTab={this.onChangeTab}/>}
+
+                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm onChangeTab={this.onChangeTab}  />}
+                    {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm onChangeTab={this.onChangeTab}/>}
+                    {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_WEDDING_DRESS_EDIT) && <DressForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_ADD) && <VideoForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm onChangeTab={this.onChangeTab}  />}
+
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <AlbumsPriceForm onChangeTab={this.onChangeTab}  />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <AlbumsPriceForm onChangeTab={this.onChangeTab}  />}
+
+                    {( displayingTab === Constant.TAB_ALBUM_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab}/>}
+                
                 </main>
             </div>
         );
@@ -368,16 +352,14 @@ class AdminPageContainer extends Component {
         switch (text) {
             case Constant.SERVICE_HOME:
                 return <HomeIcon />;
-            case Constant.SERVICE_ALBUMS:
+            case Constant.SERVICE_ALBUM:
                 return <AlbumIcon />;
-            case Constant.SERVICE_DRESSES:
+            case Constant.SERVICE_WEDDING_DRESS:
                 return <DressIcon />;
-            case Constant.SERVICE_VIDEOS:
+            case Constant.SERVICE_WEDDING_VIDEO:
                 return <VideoIcon />;
-            case Constant.SERVICE_PRICELIST:
+            case Constant.SERVICE_FULL_WEDDING_DAY:
                 return <PriceIcon />;
-            default:
-                return <StarBorder />;
         }
     }
 
@@ -385,48 +367,38 @@ class AdminPageContainer extends Component {
         switch (key) {
             case Constant.SERVICE_HOME:
                 return 'Trang chủ';
-            case Constant.SERVICE_ALBUMS:
+            case Constant.SERVICE_ALBUM:
                 return 'Danh sách albums';
-            case Constant.SERVICE_DRESSES:
+            case Constant.SERVICE_WEDDING_DRESS:
                 return 'Danh sách áo cưới';
-            case Constant.SERVICE_VIDEOS:
+            case Constant.SERVICE_WEDDING_VIDEO:
                 return 'Danh sách videos';
-            case Constant.SERVICE_PRICELIST:
-                return 'Danh sách bảng giá';
-            case Constant.SERVICE_PRICE_ALBUMS:
-                return 'Bảng giá albums';
-            case Constant.SERVICE_PRICE_VIDEOS:
-                return 'Bảng giá videos';
-            case Constant.SERVICE_PRICE_INCLUSIVE:
-                return 'Bảng giá trọn gói';
-            case Constant.SERVICE_EDIT_ALBUM:
-                return 'Chỉnh sửa album';
-            case Constant.SERVICE_EDIT_DRESS:
-                return 'Chỉnh sửa áo cưới';
-            case Constant.SERVICE_EDIT_VIDEO:
-                return 'Chỉnh sửa video';
-            case Constant.SERVICE_EDIT_OTHERS:
-                return 'Chỉnh sửa dịch vụ';
-            case Constant.SERVICE_EDIT_PRICE_ALBUM:
-                return 'Chỉnh sửa bảng giá album';
-            case Constant.SERVICE_EDIT_PRICE_VIDEO:
-                return 'Chỉnh sửa bảng giá video';
-            case Constant.SERVICE_EDIT_PRICE_INCLUSIVE:
-                return 'Chỉnh sửa bảng giá trọn gói';
-            case Constant.SERVICE_ADDNEW_ALBUM:
+            case Constant.SERVICE_FULL_WEDDING_DAY:
+                return 'Danh sách bảng giá trọn gói';
+
+                
+            case Constant.TAB_ALBUM_ADD:
                 return 'Thêm mới album';
-            case Constant.SERVICE_ADDNEW_DRESS:
+            case Constant.TAB_WEDDING_DRESS_ADD:
                 return 'Thêm mới áo cưới';
-            case Constant.SERVICE_ADDNEW_VIDEO:
+            case Constant.TAB_WEDDING_VIDEO_ADD:
                 return 'Thêm mới video';
-            case Constant.SERVICE_ADDNEW_OTHERS:
-                return 'Thêm mới dịch vụ';
-            case Constant.SERVICE_ADDNEW_PRICE_ALBUM:
-                return 'Thêm mới bảng giá album';
-            case Constant.SERVICE_ADDNEW_PRICE_VIDEO:
-                return 'Thêm mới bảng giá video';
-            case Constant.SERVICE_ADDNEW_PRICE_INCLUSIVE:
-                return 'Thêm mới bảng giá trọn gói';
+            case Constant.TAB_FULL_WEDDING_DAY_ADD:
+
+            case Constant.TAB_ALBUM_EDIT:
+                return 'Chỉnh sửa album';
+            case Constant.TAB_WEDDING_DRESS_EDIT:
+                return 'Chỉnh sửa áo cưới';
+            case Constant.TAB_WEDDING_VIDEO_EDIT:
+                return 'Chỉnh sửa video';
+            case Constant.TAB_FULL_WEDDING_DAY_EDIT:
+                return 'Chỉnh sửa bảng giá trọn gói';
+
+            case Constant.ALBUM_PRICE:
+                return 'Chỉnh sửa bảng giá album';
+            case Constant.WEDDING_VIDEO_PRICE:
+                return 'Chỉnh sửa bảng giá video';
+                  
             default:
                 return <StarBorder />;
         }
@@ -436,9 +408,8 @@ class AdminPageContainer extends Component {
         if (menus.length > 0) {
             result = menus.map((menu, index) => {
                 return (
-
-                    <ListItem button key={index} onClick={() => this.onChangeTab(menu.id)} >
-                        <ListItemIcon>
+                    <ListItem button key={index} onClick={() => this.onChangeTab(menu.id,menu.tabCode)} >
+                        <ListItemIcon style={{ margin: '0px' }}>
                             {this.selectIcon(menu.id)}
                         </ListItemIcon>
                         <ListItemText primary={menu.name} />
@@ -454,4 +425,19 @@ AdminPageContainer.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };
-export default withStyles(styles, { withTheme: true })(AdminPageContainer);
+const mapStateToProps = state => {
+    return {
+        serviceType: state.adminPage.serviceType,
+        tabCode: state.adminPage.tabCode
+    }
+
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onChangeMenu: (tabCode,serviceType) => {
+            dispatch(actChangeMenu(tabCode,serviceType));
+        }
+        
+    }
+}
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(AdminPageContainer));

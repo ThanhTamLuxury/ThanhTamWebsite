@@ -1,14 +1,10 @@
 import React from 'react';
+import * as Constant from './../constants/Constant';
 import HomePage from '../pages/HomePage';
-import AlbumsPage from '../pages/AlbumsPage';
 import AlbumDetailsPage from '../pages/AlbumDetailsPage';
-import DressesPage from '../pages/DressesPage';
 import DressDetailsPage from '../pages/DressDetailsPage';
-import VideosPage from '../pages/VideosPage';
-import AlbumsPricePage from './../pages/ServicesPricePage/AlbumsPricePage'
-import InclusivePricePage from './../pages/ServicesPricePage/InclusivePricePage'
-import VideosPricePage from './../pages/ServicesPricePage/VideosPricePage'
-
+import ServicesPage from '../pages/ServicesPage';
+import ServiceListPricePage from '../pages/ServiceListPricePage';
 import LoginPage from '../pages/LoginPage';
 import AdminPage from '../pages/AdminPage';
 const routes = [
@@ -20,7 +16,7 @@ const routes = [
     {
         path: '/albums',
         exact: true,
-        main: AlbumsPage
+        main: () => <ServicesPage serviceType={Constant.TYPE_ALBUM} />
     },
     {
         path: '/albums/:id',
@@ -30,7 +26,7 @@ const routes = [
     {
         path: '/ao-cuoi',
         exact: true,
-        main: DressesPage
+        main: () => <ServicesPage serviceType={Constant.TYPE_WEDDING_DRESS} />
     },
     {
         path: '/ao-cuoi/:id',
@@ -40,22 +36,22 @@ const routes = [
     {
         path: '/videos',
         exact: true,
-        main: VideosPage
+        main: () => <ServicesPage serviceType={Constant.TYPE_VIDEO} />
     },
     {
         path: '/bang-gia/albums',
         exact: false,
-        main: AlbumsPricePage
+        main: () => <ServiceListPricePage serviceType={Constant.PRICE_ALBUM} />
     },
     {
         path: '/bang-gia/videos',
         exact: false,
-        main: VideosPricePage
+        main: () => <ServiceListPricePage serviceType={Constant.PRICE_INCLUSIVE} />
     },
     {
         path: '/bang-gia/tron-goi',
         exact: false,
-        main: InclusivePricePage
+        main: () => <ServiceListPricePage serviceType={Constant.PRICE_INCLUSIVE} />
     },
     {
         path: '/login',
@@ -65,7 +61,17 @@ const routes = [
     {
         path: '/admin',
         exact: true,
+        main: AdminPage 
+    },
+    {
+        path: '/admin/services/:serviceType',
+        exact: false,
         main: AdminPage
+    },
+    {
+        path: '/admin/services/:serviceType/:id',
+        exact: false,
+        main : AdminPage
     }
 ];
 

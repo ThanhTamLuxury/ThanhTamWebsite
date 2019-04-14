@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import * as Constant from './../constants/Constant';
 import { DetailSlider } from './../components/index';
-import { DressesPageContainer } from './../containers/index';
+import { ServiceContainer } from './../containers/index';
 
 
 
@@ -16,11 +16,11 @@ class DressesPage extends Component {
         return (
             <div>
                 <Header />
-                <DetailSlider pageTitle={Constant.DRESSDETAILS_PAGE_TITLE} />
+                <DetailSlider pageTitle={Constant.DRESSES_PAGE_TITLE} />
                 <section id="gla_content" className="gla_content">
                     {/* section */}
                     <section className="gla_section">
-                        <DressesPageContainer/>
+                    <ServiceContainer serviceType = {this.props.serviceType} />
                     </section>
                     {/* section end */}
                 </section>

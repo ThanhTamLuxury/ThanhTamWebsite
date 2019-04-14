@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import TextField from '@material-ui/core/TextField';
-import * as Constant from '../constants';
+import * as Constant from '../../constants';
+import { connect } from 'react-redux';
 import { generate_slug } from './../../../methods/function_lib'
 import Button from '@material-ui/core/Button';
+import { axios_fetch_serviceByID } from '../axios_call';
 
 class VideoForm extends Component {
 
@@ -11,11 +13,10 @@ class VideoForm extends Component {
         super(props);
         this.state = {
             isEditing: false,
+            txtID:'',
             txtName: '',
             txtLink:'',
             txtDescription: '',
-            txtCamera:'',
-            txtDirectorEkip:'',
         };
     }
 
@@ -24,7 +25,6 @@ class VideoForm extends Component {
         var target = e.target;
         var name = target.name;
 
-        console.log(target.value);
         this.setState({
             [name]: target.value
         });
@@ -36,50 +36,28 @@ class VideoForm extends Component {
         }
     }
     componentDidMount() {
-        this.setState({
-            imageData: [
-                {
-                    id: '1',
-                    img: 'https://genknews.genkcdn.vn/2017/photo-0-1504160949054.jpg',
-                    title: 'Image',
-                }, {
-                    id: '2',
-                    img: 'https://upload.wikimedia.org/wikipedia/tr/e/e2/SK_Telecom_T1.jpg',
-                    title: 'Image',
-                },
-                {
-                    id: '3',
-                    img: 'https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/062017/untitled-1_57.png?itok=tEAhECSi',
-                    title: 'Image',
-                },
-                {
-                    id: '4',
-                    img: 'https://ih0.redbubble.net/image.270851672.6386/raf,750x1000,075,t,101010:01c5ca27c6.u1.jpg',
-                    title: 'Image',
-                },
-                {
-                    id: '5',
-                    img: 'https://i.ytimg.com/vi/7aBiuSevfTE/maxresdefault.jpg',
-                    title: 'Image',
-                }
-            ]
-        })
-        switch (this.props.serviceItem.key) {
-            case Constant.SERVICE_EDIT_VIDEO:
-                this.setState({
-                    isEditing: true
-                });
-                break;
-            default:
-                this.setState({
-                    isEditing: false
-                });
+        let id = this.props.serviceID;
+        if(id!=null){
+            this.props.fetchServiceItem(this.props.serviceID); 
         }
-
-        // fetch API get Item
+    }
+    componentWillReceiveProps(nextProps){
+        let serviceItem = nextProps.serviceItem;
+        if(serviceItem !=null){
+            this.setState({
+                isEditing: true,
+                txtID: serviceItem.id ,
+                txtName: serviceItem.name,
+                txtLink: Constant.YOUTUBE_PREFIX+serviceItem.mainImage,
+                txtDescription: serviceItem.description,
+            })
+        }else {
+            this.setState({
+                isEditing: false,
+            });
+        }
     }
     onSave = (e) => {
-        console.log('Here');
         e.preventDefault();
         // var { id, txtName, txtPrice, chkbStatus } = this.state;
         // var { history } = this.props;
@@ -104,7 +82,7 @@ class VideoForm extends Component {
 
     }
     render() {
-        var { txtName, txtLink, txtCamera,txtDirectorEkip,txtDescription, isEditing } = this.state;
+        var { txtName, txtLink,txtDescription, isEditing } = this.state;
         var { serviceItem } = this.props;
         return (
             <div>
@@ -131,26 +109,7 @@ class VideoForm extends Component {
                             variant="outlined"
                         />
                     </div>
-                    <div className="form-group">
-                        <TextField
-                            label="Máy quay"
-                            name="txtCamera"
-                            className="form-input"
-                            value={txtCamera}
-                            onChange={this.onChange}
-                            variant="outlined"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <TextField
-                            label="Đạo diễn + Ekip"
-                            name="txtDirectorEkip"
-                            className="form-input"
-                            value={txtDirectorEkip}
-                            onChange={this.onChange}
-                            variant="outlined"
-                        />
-                    </div>
+                   
                     <div className="form-group">
                         <TextField
                             id="standard-textarea"
@@ -175,5 +134,18 @@ class VideoForm extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        serviceID: state.adminPage.serviceID,
+        serviceItem : state.adminPage.serviceItem
+    }
 
-export default VideoForm;
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchServiceItem: (id) => {
+            dispatch(axios_fetch_serviceByID(id));
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(VideoForm);

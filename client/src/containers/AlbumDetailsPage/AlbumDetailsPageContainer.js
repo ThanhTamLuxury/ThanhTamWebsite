@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Lightbox from 'react-images';
-import $ from 'jquery';
-import Isotope from 'isotope-layout';
-
+import { connect } from 'react-redux';
+import {axios_fetch_services} from '../..
 import Masonry from 'react-masonry-component';
 const album =
     {
@@ -68,18 +67,8 @@ class AlbumDetailsPageContainer extends Component {
         this.openLightbox = this.openLightbox.bind(this);
     }
     componentDidMount() {
-        var jQueryBridget = require('jquery-bridget');
-        jQueryBridget('isotope', Isotope, $);
-        $('.grid').isotope({
-            itemSelector: '.grid-item',
-            percentPosition: true,
-            stagger: 0,
-            transitionDuration: '0',
-            isAnimated: true,
-            masonry: {
-                columnWidth: '.grid-item',
-            }
-        });
+
+       
 
     }
     openLightbox(index, event) {
@@ -166,5 +155,17 @@ class AlbumDetailsPageContainer extends Component {
 const masonryOptions = {
     transitionDuration: 0
 };
+const mapStateToProps = state => {
+    return {
+        serviceResponse: state.userPage.serviceResponse
+    }
 
-export default AlbumDetailsPageContainer;
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchSerVices: (serviceType, page, size) => {
+            // dispatch(axios_fetch_services(serviceType, page, size));
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AlbumDetailsPageContainer);
