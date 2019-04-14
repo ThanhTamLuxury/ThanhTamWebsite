@@ -5,6 +5,8 @@ import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 
 import java.util.List;
 
+import com.thanhtam.thanhtamluxury.common.PageDto;
+
 public interface ServiceItemService {
 	List<ServiceItemSmallDto> getTop3(String serviceType);
 
@@ -16,7 +18,7 @@ public interface ServiceItemService {
 
     PageDto<ServiceItemSmallDto> getAllSmall(String serviceType, int size, int page);
 
-    List<ServiceItemDto> findAllByServiceType(String serviceType);
-
     ServiceItemDto findById(Integer id);
+
+    ServiceItemDto findByIdAndSlug(Integer id, String slug);
 }

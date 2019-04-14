@@ -21,9 +21,7 @@ public class PriceDetail implements Mapper<PriceDetailDto> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String title;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate applyDate;
     private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)

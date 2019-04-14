@@ -1,9 +1,6 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
-import com.thanhtam.thanhtamluxury.common.Constant;
-import com.thanhtam.thanhtamluxury.common.Mapper;
-import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.common.ThanhTamException;
+import com.thanhtam.thanhtamluxury.common.*;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import lombok.AllArgsConstructor;
@@ -32,7 +29,6 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
 		}
 	}
-
 	@Override
 	public ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto) {
 		ServiceItem serviceItem = serviceItemDto.toMappedClass();
@@ -86,22 +82,16 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	public List<ServiceItemDto> findAllByServiceType(String serviceType) {
-		try {
-			return serviceItemRepo.findAllByServiceType(ServiceType.valueOf(serviceType).toString())
-					.stream()
-					.map(Mapper::toMappedClass)
-					.collect(Collectors.toList());
-		} catch (IllegalArgumentException e) {
-			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
-		}
-
-	}
-
-	@Override
 	public ServiceItemDto findById(Integer id) {
 		return serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
+				.toMappedClass();
+	}
+
+	@Override
+	public ServiceItemDto findByIdAndSlug(Integer id, String slug) {
+		return serviceItemRepo.findByIdAndSlug(id, slug)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_NOT_FOUND + id + ", "+ slug))
 				.toMappedClass();
 	}
 
