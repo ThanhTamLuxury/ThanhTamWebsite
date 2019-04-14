@@ -17,9 +17,10 @@ public class ServiceItemApi {
 
 	private ServiceItemService serviceItemService;
 
-	@GetMapping("/{id}/{slug}")
-	public ServiceItemDto getByIdAndSlug(@PathVariable Integer id, @PathVariable String slug){
-		return serviceItemService.findByIdAndSlug(id, slug);
+	@GetMapping("/{id}")
+	public ServiceItemDto getById(@PathVariable Integer id){
+		ServiceItemDto dto = serviceItemService.findById(id);
+		return dto;
 	}
 
 	@GetMapping("/top")
