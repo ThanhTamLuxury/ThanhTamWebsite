@@ -12,8 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.UUID;
 
 @Service
 public class FileStorageService {
@@ -42,7 +45,7 @@ public class FileStorageService {
             }
             // calculate filename
             int lastIndexOFDot = fileName.lastIndexOf(".");
-            String newFileName = fileName.substring(0, lastIndexOFDot) + "_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + fileName.substring(lastIndexOFDot);
+            String newFileName = UUID.randomUUID() + "_" + Calendar.getInstance().getTimeInMillis() + fileName.substring(lastIndexOFDot);
 
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(newFileName);

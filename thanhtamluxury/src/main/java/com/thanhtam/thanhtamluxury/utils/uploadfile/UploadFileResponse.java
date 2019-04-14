@@ -10,4 +10,5 @@ public class UploadFileResponse {
     private String fileDownloadUri;
     private String fileType;
     private long size;
+    private boolean success;
 }
