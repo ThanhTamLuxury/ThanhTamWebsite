@@ -2,8 +2,8 @@ package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
+import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +49,11 @@ public class ServiceItemApi {
 	@PutMapping("/update-imageitems/{id}")
 	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
 		return serviceItemService.updateImageItems(id, imageItemDtos);
+	}
+	
+	@PutMapping("/update-pricedetails/{id}")
+	public ServiceItemDto updatePriceDetails(@PathVariable Integer id, @RequestBody List<PriceDetailDto> priceDetailDtos){
+		return serviceItemService.updatePriceDetail(id, priceDetailDtos);
 	}
 
 	@PutMapping("/update-info/{id}")

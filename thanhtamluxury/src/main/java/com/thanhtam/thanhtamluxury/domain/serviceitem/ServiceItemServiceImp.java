@@ -6,6 +6,9 @@ import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.common.ThanhTamException;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
+import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
+import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailDto;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
@@ -51,6 +54,17 @@ public class ServiceItemServiceImp implements ServiceItemService {
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.APPOINTMENT_ID_NOT_FOUND));
 		serviceItem.removeAllImages();
 		serviceItem.addAllImages(newImages);
+		return serviceItemRepo.save(serviceItem).toMappedClass();
+	}
+	
+	@Override
+	public ServiceItemDto updatePriceDetail(Integer id, List<PriceDetailDto> priceDetailDtos) {
+		List<PriceDetail> newPriceDetails = priceDetailDtos.stream().map(Mapper::toMappedClass)
+														   .collect(Collectors.toList());
+		ServiceItem serviceItem = serviceItemRepo.findById(id)
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
+		serviceItem.removeAllPriceDetail();
+		serviceItem.addAllPriceDetail(newPriceDetails);
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
@@ -104,6 +118,5 @@ public class ServiceItemServiceImp implements ServiceItemService {
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND))
 				.toMappedClass();
 	}
-
 
 }
