@@ -47,4 +47,14 @@ public class ServiceItemApi {
 	public PageDto<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
 		return serviceItemService.getAllSmall(serviceType, size, page);
 	}
+
+	@DeleteMapping("{id}")
+	public void deleteService(@PathVariable("id") Integer id){
+		serviceItemService.deleteService(id);
+	}
+
+	@PutMapping()
+	public ServiceItemDto updateService(@RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.updateService(serviceItemDto);
+	}
 }

@@ -21,4 +21,8 @@ public interface ServiceItemService {
     ServiceItemDto findById(Integer id);
 
     ServiceItemDto findByIdAndSlug(Integer id, String slug);
+
+    void deleteService(Integer id);
+
+    ServiceItemDto updateService(ServiceItemDto dto);
 }
