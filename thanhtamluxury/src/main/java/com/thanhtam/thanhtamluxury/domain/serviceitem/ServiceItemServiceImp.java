@@ -4,13 +4,17 @@ import com.thanhtam.thanhtamluxury.common.*;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
+import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 public class ServiceItemServiceImp implements ServiceItemService {
 
 	private ServiceItemRepository serviceItemRepo;
+	private PriceDetailRepository priceDetailRepository;
 
 	@Override
 	public List<ServiceItemSmallDto> getTop3(String serviceType) {
@@ -65,8 +70,18 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		PageDto<ServiceItemSmallDto> response = new PageDto<>();
 		try {
 			String strServiceType = ServiceType.valueOf(serviceType).toString();
-			List<ServiceItemSmallDto> services = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size))
-					.stream()
+
+			//get services entity first
+			List<ServiceItem> serviceEntities = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size));
+			LocalDate today = LocalDate.now();
+			serviceEntities.forEach(service ->{
+				Double currentPrice = priceDetailRepository.findCurrentPriceById(service.getId(), today);
+				if(currentPrice != null){
+					service.setPrice(currentPrice);
+				}
+			});
+
+			List<ServiceItemSmallDto> services = serviceEntities.stream()
 					.map(item -> item.toMappedClass(ServiceItemSmallDto.class))
 					.collect(Collectors.toList());
 			Long totalItem = serviceItemRepo.countAllByServiceType(strServiceType);
