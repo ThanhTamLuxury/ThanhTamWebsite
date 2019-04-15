@@ -10,3 +10,14 @@ export const DRESSDETAILS_PAGE_TITLE = 'Chi tiết Áo cưới';
 export const PRICE_ALBUMS_PAGE_TITLE = 'Bảng giá Albums';
 export const PRICE_VIDEO_PAGE_TITLE = 'Bảng giá quay Videos';
 export const PRICE_ALL_IN_PAGE_TITLE = 'Bảng giá trọn gói';
+
+
+export const TYPE_ALBUM = 'ALBUM';
+export const TYPE_WEDDING_DRESS = 'WEDDING_DRESS';
+export const TYPE_VIDEO = 'WEDDING_VIDEO';
+
+export const PRICE_INCLUSIVE = 'FULL_WEDDING_DAY';
+export const PRICE_ALBUM = 'PRICE_ALBUM';
+export const PRICE_VIDEO = 'PRICE_VIDEO';
+
+

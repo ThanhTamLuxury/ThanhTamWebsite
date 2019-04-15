@@ -28,7 +28,6 @@ class HomePageService extends Component {
 
     }
     onSave = (e) => {
-        console.log('Here');
         e.preventDefault();
         // var { id, txtName, txtPrice, chkbStatus } = this.state;
         // var { history } = this.props;

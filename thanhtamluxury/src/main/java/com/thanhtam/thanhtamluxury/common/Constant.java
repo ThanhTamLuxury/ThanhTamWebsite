@@ -10,4 +10,7 @@ public class Constant {
     public static final String INVALID_SERVICE_ITEM_TYPE = "Invalid service item type: ";
 
     public static final String SERVICE_ITEM_ID_NOT_FOUND = "Cannot find service item with id: ";
+    public final String SERVICE_ITEM_NOT_FOUND = "Cannot find service item with id and slug: ";
+
+    public final String FILE_UPlOAD_NOT_VALID = "Root name is null or multipart file is not valid";
 }

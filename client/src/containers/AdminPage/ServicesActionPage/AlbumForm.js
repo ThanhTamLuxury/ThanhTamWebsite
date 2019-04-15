@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { generate_slug } from './../../../methods/function_lib'
+import { generate_slug } from './../../../methods/function_lib';
+import { connect } from 'react-redux';
+import { axios_fetch_serviceByID } from '../axios_call';
 import TextField from '@material-ui/core/TextField';
-import * as Constant from '../constants';
+import * as Constant from '../../constants';
 import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -48,50 +50,30 @@ class AlbumForm extends Component {
         }
     }
     componentDidMount() {
-        this.setState({
-            imageData: [
-                {
-                    id: '1',
-                    img: 'https://genknews.genkcdn.vn/2017/photo-0-1504160949054.jpg',
-                    title: 'Image',
-                }, {
-                    id: '2',
-                    img: 'https://upload.wikimedia.org/wikipedia/tr/e/e2/SK_Telecom_T1.jpg',
-                    title: 'Image',
-                },
-                {
-                    id: '3',
-                    img: 'https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/062017/untitled-1_57.png?itok=tEAhECSi',
-                    title: 'Image',
-                },
-                {
-                    id: '4',
-                    img: 'https://ih0.redbubble.net/image.270851672.6386/raf,750x1000,075,t,101010:01c5ca27c6.u1.jpg',
-                    title: 'Image',
-                },
-                {
-                    id: '5',
-                    img: 'https://i.ytimg.com/vi/7aBiuSevfTE/maxresdefault.jpg',
-                    title: 'Image',
-                }
-            ]
-        })
-        switch (this.props.serviceItem.key) {
-            case Constant.SERVICE_EDIT_ALBUM:
-                this.setState({
-                    isEditing: true
-                });
-                break;
-            default:
-                this.setState({
-                    isEditing: false
-                });
+        let id = this.props.serviceID;
+        if(id!=null){
+            this.props.fetchServiceItem(this.props.serviceID); 
         }
-
-        // fetch API get Item
+    }
+    componentWillReceiveProps(nextProps){
+        let serviceItem = nextProps.serviceItem;
+        if(serviceItem !=null){
+            this.setState({
+                isEditing: true,
+                txtName: serviceItem.name,
+                txtDescription: serviceItem.description,
+                txtSlug: serviceItem.slug,
+                imageData: serviceItem.imageItems,
+                mainImage :serviceItem.mainImage,
+            })
+        }else{
+            this.setState({
+                isEditing: false,
+            });
+        }
+        
     }
     onSave = (e) => {
-        console.log('Here');
         e.preventDefault();
         // var { id, txtName, txtPrice, chkbStatus } = this.state;
         // var { history } = this.props;
@@ -116,8 +98,7 @@ class AlbumForm extends Component {
 
     }
     render() {
-        var { txtName, txtPrice, txtSlug, isEditing, imageData,mainImage } = this.state;
-        var { serviceItem } = this.props;
+        var { txtName, txtDescription, txtSlug, isEditing, imageData,mainImage } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -166,7 +147,7 @@ class AlbumForm extends Component {
                                 multiline
                                 label="Mô tả"
                                 name="txtDescription"
-                                value={txtPrice}
+                                value={txtDescription}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -201,7 +182,7 @@ class AlbumForm extends Component {
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                         </div>
-                        <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
+                        <Button onClick={() => this.onSave()} type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>
 
@@ -211,5 +192,18 @@ class AlbumForm extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        serviceID: state.adminPage.serviceID,
+        serviceItem : state.adminPage.serviceItem
+    }
 
-export default AlbumForm;
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchServiceItem: (id) => {
+            dispatch(axios_fetch_serviceByID(id));
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps) (AlbumForm);

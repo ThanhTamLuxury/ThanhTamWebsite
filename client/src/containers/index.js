@@ -8,12 +8,12 @@ import TopVideosContainer from './HomePage/top-videos/TopVideosContainer';
 import AboutUsContainer from './HomePage/about-us/AboutUsContainer';
 import QuoteContainer from './HomePage/quote/QuoteContainer';
 
-import AlbumsContainer from './AlbumsPage/AlbumsContainer';
-import AlbumDetailsPageContainer from './AlbumDetailsPage/AlbumDetailsPageContainer';
-import DressesPageContainer from './DressesPage/DressesPageContainer';
-import VideosPageContainer from './VideosPage/VideosPageContainer';
-import DressDetailsPageContainer from './DressDetailsPage/DressDetailsPageContainer';
-import AlbumsPricePageContainer from './AlbumsPricePage/AlbumsPricePageContainer';
+import ServiceContainer from './UserPage/ServiceContainer';
+import AlbumDetailsPageContainer from './UserPage/AlbumDetailsPage/AlbumDetailsPageContainer';
+import DressDetailsPageContainer from './UserPage/DressDetailsPage/DressDetailsPageContainer';
+
+// import ServiceListPrice from './UserPage/page/ServiceListPrice';
+
 import InclusivePricePageContainer from './InclusivePricePage/InclusivePricePageContainer';
 import VideosPricePageContainer from './VideosPricePage/VideosPricePageContainer';
 import AdminPageContainer from './AdminPage/AdminPageContainer';
@@ -28,22 +28,13 @@ export {
     QuoteContainer,
 
     //Albums page
-    AlbumsContainer,
-    
-    //Album details page
+    ServiceContainer,
+
     AlbumDetailsPageContainer,
-
-    //DressesPage
-    DressesPageContainer,
-
-    //Dress details page
     DressDetailsPageContainer,
 
-    //Video page
-    VideosPageContainer,
-
     // Price pages
-    AlbumsPricePageContainer,
+    // ServiceListPrice,
     InclusivePricePageContainer,
     VideosPricePageContainer,
 

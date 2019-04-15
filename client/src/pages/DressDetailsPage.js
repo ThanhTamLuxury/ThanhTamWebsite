@@ -20,7 +20,7 @@ class DressDetailsPage extends Component {
                     {/* section */}
                     <section className="gla_section">
                     
-                        <DressDetailsPageContainer/>
+                        <DressDetailsPageContainer dressID={this.props.match.params.id}/>
                     </section>
                     {/* section end */}
                 </section>

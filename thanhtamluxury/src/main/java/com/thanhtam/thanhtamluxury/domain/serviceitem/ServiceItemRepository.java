@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceItemRepository extends JpaRepository<ServiceItem, Integer> {
 	@Query(value = "Select * From ServiceItem si "
@@ -17,4 +18,6 @@ public interface ServiceItemRepository extends JpaRepository<ServiceItem, Intege
 	List<ServiceItem> findAllByServiceType(String serviceType);
 
 	Long countAllByServiceType(String serviceType);
+
+	Optional<ServiceItem> findByIdAndSlug(Integer id, String slug);
 }

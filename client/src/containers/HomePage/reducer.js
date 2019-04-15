@@ -9,7 +9,6 @@ const initialState = {
 };
 
 const homePage = (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
         case Types.FETCH_SLIDER:
             return Object.assign({}, state, {

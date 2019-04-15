@@ -15,7 +15,6 @@ class DayPicker extends Component {
         var target = e.target;
         var name = target.name;
 
-        console.log(target.value);
         this.setState({
             [name]: target.value
         });
