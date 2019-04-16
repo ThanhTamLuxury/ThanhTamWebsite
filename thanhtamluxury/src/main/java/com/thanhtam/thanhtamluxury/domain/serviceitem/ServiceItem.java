@@ -109,5 +109,5 @@ public class ServiceItem implements Mapper<ServiceItemDto> {
         priceDetails.addAll(newPriceDetail);
         return this;
     }
-
+    
 }

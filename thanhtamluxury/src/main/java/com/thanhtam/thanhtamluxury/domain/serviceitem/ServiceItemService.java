@@ -1,8 +1,6 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
-import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailDto;
 
 import java.util.List;
 
@@ -11,9 +9,9 @@ public interface ServiceItemService {
 
     ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto);
 
-    ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos);
-    
-    ServiceItemDto updatePriceDetail(Integer id, List<PriceDetailDto> priceDetailDtos);
+//    ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos);
+//
+//    ServiceItemDto updatePriceDetail(Integer id, List<PriceDetailDto> priceDetailDtos);
 
     ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto infoDto);
 
@@ -25,5 +23,5 @@ public interface ServiceItemService {
 
     void deleteService(Integer id);
 
-    ServiceItemDto updateService(ServiceItemDto dto);
+    ServiceItemDto updateService(Integer id, ServiceItemDto dto);
 }

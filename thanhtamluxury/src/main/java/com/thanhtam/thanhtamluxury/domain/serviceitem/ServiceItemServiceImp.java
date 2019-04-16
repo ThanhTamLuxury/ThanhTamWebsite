@@ -3,6 +3,7 @@ package com.thanhtam.thanhtamluxury.domain.serviceitem;
 import com.thanhtam.thanhtamluxury.common.*;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
+import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemService;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailDto;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 public class ServiceItemServiceImp implements ServiceItemService {
 
 	private ServiceItemRepository serviceItemRepo;
+
+	private ImageItemService imageItemService;
 
 	@Override
 	public List<ServiceItemSmallDto> getTop3(String serviceType) {
@@ -43,24 +47,26 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
-	@Override
-	public ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos) {
-		List<ImageItem> newImages = imageItemDtos.stream().map(Mapper::toMappedClass).collect(Collectors.toList());
+//	@Override
+	public ServiceItemDto updateImageItems(Integer id, List<ImageItem> imageItemDtos) {
+//		List<ImageItem> newImages = imageItemDtos.stream().map(Mapper::toMappedClass).collect(Collectors.toList());
 		ServiceItem serviceItem = serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND));
-		serviceItem.removeAllImages();
-		serviceItem.addAllImages(newImages);
+
+		serviceItem.getImageItems().clear();
+		imageItemDtos.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
+		serviceItem.getImageItems().addAll(imageItemDtos);
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 	
-	@Override
-	public ServiceItemDto updatePriceDetail(Integer id, List<PriceDetailDto> priceDetailDtos) {
-		List<PriceDetail> newPriceDetails = priceDetailDtos.stream().map(Mapper::toMappedClass)
-														   .collect(Collectors.toList());
+//	@Override
+	public ServiceItemDto updatePriceDetail(Integer id, List<PriceDetail> priceDetailDtos) {
+//		List<PriceDetail> newPriceDetails = priceDetailDtos.stream().map(Mapper::toMappedClass)
+//														   .collect(Collectors.toList());
 		ServiceItem serviceItem = serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
 		serviceItem.removeAllPriceDetail();
-		serviceItem.addAllPriceDetail(newPriceDetails);
+		serviceItem.addAllPriceDetail(priceDetailDtos);
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
@@ -124,21 +130,18 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	public ServiceItemDto updateService(ServiceItemDto dto) {
-		// get service with id
-		Integer id = dto.getId();
+	@Transactional
+	public ServiceItemDto updateService(Integer id, ServiceItemDto dto) {
 		ServiceItem serviceItem = this.serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
 
 		//copy properties
-		BeanUtils.copyProperties(dto, serviceItem);
+		ServiceItemInfoDto infoDto = new ServiceItemInfoDto();
+		BeanUtils.copyProperties(dto, infoDto);
+		BeanUtils.copyProperties(infoDto, serviceItem);
 
-//		//set service item for image item and price details
-//		serviceItem.getImageItems()
-//				.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
-//		serviceItem.getPriceDetails()
-//				.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
-
+		updateImageItems(id, dto.getImageItems());
+		updatePriceDetail(id, dto.getPriceDetails());
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
