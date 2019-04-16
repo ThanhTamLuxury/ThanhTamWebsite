@@ -15,4 +15,10 @@ public class Constant {
     public final String FILE_UPlOAD_NOT_VALID = "Root name is null or multipart file is not valid";
 
     public final String BANNER_ID_NOT_FOUND = "Cannot find banner with id: ";
+
+    public static final String USERNAME_NOT_FOUND = "Cannot find account with username: ";
+
+    public static final String WRONG_OLD_PASSWORD = "Wrong old password";
+
+    public static final String NEW_PASSWORD_MUST_BE_DIFFERENT = "New password must be different with old password";
 }
