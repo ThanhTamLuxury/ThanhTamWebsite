@@ -1,12 +1,9 @@
 package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,9 +14,10 @@ public class ServiceItemApi {
 
 	private ServiceItemService serviceItemService;
 
-	@GetMapping("/{id}/{slug}")
-	public ServiceItemDto getByIdAndSlug(@PathVariable Integer id, @PathVariable String slug){
-		return serviceItemService.findByIdAndSlug(id, slug);
+	@GetMapping("/{id}")
+	public ServiceItemDto getById(@PathVariable Integer id){
+		ServiceItemDto dto = serviceItemService.findById(id);
+		return dto;
 	}
 
 	@GetMapping("/top")
@@ -32,10 +30,15 @@ public class ServiceItemApi {
 		return serviceItemService.create(serviceType, dto);
 	}
 
-	@PutMapping("/update-imageitems/{id}")
-	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
-		return serviceItemService.updateImageItems(id, imageItemDtos);
-	}
+//	@PutMapping("/update-imageitems/{id}")
+//	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
+//		return serviceItemService.updateImageItems(id, imageItemDtos);
+//	}
+//
+//	@PutMapping("/update-pricedetails/{id}")
+//	public ServiceItemDto updatePriceDetails(@PathVariable Integer id, @RequestBody List<PriceDetailDto> priceDetailDtos){
+//		return serviceItemService.updatePriceDetail(id, priceDetailDtos);
+//	}
 
 	@PutMapping("/update-info/{id}")
 	public ServiceItemInfoDto updateOnlyInfo(@PathVariable Integer id, @RequestBody ServiceItemInfoDto infoDto){
@@ -45,5 +48,20 @@ public class ServiceItemApi {
 	@GetMapping("/all/outside-page")
 	public PageDto<ServiceItemSmallDto> getOutsideInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page){
 		return serviceItemService.getAllSmall(serviceType, size, page);
+	}
+
+	@DeleteMapping("{id}")
+	public void deleteService(@PathVariable("id") Integer id){
+		serviceItemService.deleteService(id);
+	}
+
+	@PutMapping("{id}")
+	public ServiceItemDto updateService(@PathVariable("id") Integer id, @RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.updateService(id, serviceItemDto);
+	}
+
+	@GetMapping("/price-info")
+	public PageDto<ServicePriceInfo> getPriceInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page) {
+		return serviceItemService.getPriceInfoInPricePage(serviceType, size, page);
 	}
 }

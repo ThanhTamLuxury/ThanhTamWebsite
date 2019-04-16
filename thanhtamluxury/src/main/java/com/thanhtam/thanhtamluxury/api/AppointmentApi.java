@@ -1,3 +1,4 @@
+/*
 package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.domain.appointment.AppointmentDto;
@@ -40,4 +41,6 @@ public class AppointmentApi {
         appointmentService.deleteAppointment(id);
     }
 
+
 }
+*/
