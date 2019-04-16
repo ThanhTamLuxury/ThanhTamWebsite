@@ -3,9 +3,7 @@ package com.thanhtam.thanhtamluxury.api;
 import com.thanhtam.thanhtamluxury.domain.banner.BannerDto;
 import com.thanhtam.thanhtamluxury.domain.banner.BannerService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +17,20 @@ public class BannerApi {
 	@GetMapping
 	public List<BannerDto> getAll() {
 		return bannerService.getAll();
+	}
+
+	@PutMapping()
+	public BannerDto updateBanner(@RequestBody BannerDto dto) {
+		return bannerService.update(dto);
+	}
+
+	@PostMapping()
+	public BannerDto createBanner(@RequestBody BannerDto dto) {
+		return bannerService.create(dto);
+	}
+
+	@PostMapping("/many")
+	public List<BannerDto> createBanners(@RequestBody List<BannerDto> dtos) {
+		return bannerService.createMany(dtos);
 	}
 }

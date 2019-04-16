@@ -14,4 +14,6 @@ public class Constant {
     public final String SERVICE_ITEM_NOT_FOUND = "Cannot find service item with id and slug: ";
 
     public final String FILE_UPlOAD_NOT_VALID = "Root name is null or multipart file is not valid";
+
+    public final String BANNER_ID_NOT_FOUND = "Cannot find banner with id: ";
 }
