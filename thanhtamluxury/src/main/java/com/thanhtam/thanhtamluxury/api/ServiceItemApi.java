@@ -1,10 +1,7 @@
 package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemDto;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemInfoDto;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemService;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
+import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,5 +58,10 @@ public class ServiceItemApi {
 	@PutMapping("{id}")
 	public ServiceItemDto updateService(@PathVariable("id") Integer id, @RequestBody ServiceItemDto serviceItemDto){
 		return serviceItemService.updateService(id, serviceItemDto);
+	}
+
+	@GetMapping("/price-info")
+	public PageDto<ServicePriceInfo> getPriceInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page) {
+		return serviceItemService.getPriceInfoInPricePage(serviceType, size, page);
 	}
 }

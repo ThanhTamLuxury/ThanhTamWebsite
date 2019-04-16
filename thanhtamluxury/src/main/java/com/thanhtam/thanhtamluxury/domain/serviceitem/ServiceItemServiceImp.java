@@ -160,5 +160,38 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		return serviceItemRepo.save(serviceItem).toMappedClass();
 	}
 
+	@Override
+	public PageDto<ServicePriceInfo> getPriceInfoInPricePage(String serviceType, int size, int page) {
+		PageDto<ServicePriceInfo> response = new PageDto<>();
+		try {
+			String strServiceType = ServiceType.valueOf(serviceType).toString();
+
+			//get services entity first
+			List<ServiceItem> serviceEntities = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size));
+			LocalDate today = LocalDate.now();
+			serviceEntities.forEach(service ->{
+				Double currentPrice = priceDetailRepository.findCurrentPriceById(service.getId(), today);
+				if(currentPrice != null){
+					service.setPrice(currentPrice);
+				}
+			});
+
+			List<ServicePriceInfo> services = serviceEntities.stream()
+					.map(item -> item.toMappedClass(ServicePriceInfo.class))
+					.collect(Collectors.toList());
+
+			Long totalItem = serviceItemRepo.countAllByServiceType(strServiceType);
+			response.setTotalItem(totalItem);
+			response.setTotalPage(totalItem / size + (totalItem % size == 0 ? 0 : 1));
+			response.setContent(services);
+			response.setPage(page);
+			response.setSize(size);
+		} catch (IllegalArgumentException e) {
+			response.setContent(new ArrayList<>());
+			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
+		}
+		return response;
+	}
+
 
 }

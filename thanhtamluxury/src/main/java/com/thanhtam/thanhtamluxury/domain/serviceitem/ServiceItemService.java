@@ -24,4 +24,6 @@ public interface ServiceItemService {
     void deleteService(Integer id);
 
     ServiceItemDto updateService(Integer id, ServiceItemDto dto);
+
+    PageDto<ServicePriceInfo> getPriceInfoInPricePage(String serviceType, int size, int page);
 }
