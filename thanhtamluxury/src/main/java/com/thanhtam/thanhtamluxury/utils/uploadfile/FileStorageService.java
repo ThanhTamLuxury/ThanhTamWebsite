@@ -77,7 +77,7 @@ public class FileStorageService {
 
             String imageUrl = image.getPath();
             int indexOfLastDot = imageUrl.lastIndexOf("/");
-            String fileName = imageUrl.substring(indexOfLastDot);
+            String fileName = imageUrl.substring(indexOfLastDot + 1);
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
 
             if(! Files.exists(targetLocation)){
@@ -98,14 +98,14 @@ public class FileStorageService {
 
         List<String> imageItemFilenames = imageItems.stream().map(imageItem -> {
             String path = imageItem.getPath();
-            return path.substring(path.lastIndexOf("/"));
+            return path.substring(path.lastIndexOf("/") + 1);
         }).collect(Collectors.toList());
 
         for (File file : files) {
             String filename = file.getName();
             int index = imageItemFilenames.indexOf(filename);
-            if( index != -1){
-                invalidFiles.add(files[index]);
+            if( index == -1){
+                invalidFiles.add(file);
             }
         }
 

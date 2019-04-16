@@ -51,6 +51,6 @@ public class ImageItemServiceImp implements ImageItemService {
         response.put("totalRemove", invalidFiles.size() + invalidImages.size());
 
 
-        return null;
+        return response;
     }
 }
