@@ -3,6 +3,7 @@ import * as Types from './constants';
 const initialState = {
     servicesResponse: null,
     serviceItem: null,
+    isLogin: false
 };
 
 const userPage = (state = initialState, action) => {

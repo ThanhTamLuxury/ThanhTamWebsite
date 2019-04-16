@@ -11,6 +11,16 @@ export const axios_fetch_services = (serviceType, page, size) => {
         });
     };
 }
+
+export const axios_fetch_price_services = (serviceType, page, size) => {
+    return dispatch => {
+        return callApi(`service/price-info?serviceType=${serviceType}&page=${page}&size=${size}`, 'GET', null).then(res => {
+            if (res != null) {
+                dispatch(Actions.actFetchPriceServies(res.data));
+            }
+        });
+    };
+}
 // Fetch
 export const axios_fetch_serviceByID = (id) => {
     return dispatch => {

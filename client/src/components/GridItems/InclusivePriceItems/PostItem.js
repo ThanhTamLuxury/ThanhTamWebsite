@@ -53,7 +53,7 @@ class PostItem extends Component {
                         <strong>Địa điểm: </strong>{post.location}
                     </div>
                     <p>
-                        <strong>Ekip: </strong> {post.ekip}<br />
+                        <strong>Thông tin: </strong> {post.description}<br />
                     </p>
                     {/* Content */}
                     <div ref={this.myDiv} dangerouslySetInnerHTML={{ __html: post.content }} />

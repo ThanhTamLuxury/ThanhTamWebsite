@@ -7,6 +7,7 @@ import ServicesPage from '../pages/ServicesPage';
 import ServiceListPricePage from '../pages/ServiceListPricePage';
 import LoginPage from '../pages/LoginPage';
 import AdminPage from '../pages/AdminPage';
+import LoginContainer from '../containers/AdminPage/LoginContainer';
 const routes = [
     {
         path: '/',
@@ -41,22 +42,22 @@ const routes = [
     {
         path: '/bang-gia/albums',
         exact: false,
-        main: () => <ServiceListPricePage serviceType={Constant.PRICE_ALBUM} />
+        main: () => <ServiceListPricePage serviceType={Constant.TYPE_ALBUM} />
     },
     {
         path: '/bang-gia/videos',
         exact: false,
-        main: () => <ServiceListPricePage serviceType={Constant.PRICE_INCLUSIVE} />
+        main: () => <ServiceListPricePage serviceType={Constant.TYPE_VIDEO} />
     },
     {
         path: '/bang-gia/tron-goi',
         exact: false,
-        main: () => <ServiceListPricePage serviceType={Constant.PRICE_INCLUSIVE} />
+        main: () => <ServiceListPricePage serviceType={Constant.TYPE_FULL_WEDDING_DAY} />
     },
     {
         path: '/login',
         exact: true,
-        main: LoginPage
+        main: LoginContainer
     },
     {
         path: '/admin',

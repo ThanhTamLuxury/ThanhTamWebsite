@@ -5,7 +5,7 @@ class DressItem extends Component {
   render() {
     var { dress } = this.props;
     return (
-      <div className="col-md-3 gla_anim_box">
+      <div className="col-md-3 col-xs-3 gla_anim_box">
         <div className="gla_shop_item ao-cuoi-item">
           <span className="gla_shop_item_slider">
             <img src={dress.mainImage} alt={dress.name} />

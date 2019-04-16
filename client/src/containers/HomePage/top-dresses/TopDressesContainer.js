@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TopDressesItem } from './../../../components/index';
+import { DressItem } from './../../../components/index';
 import { connect } from 'react-redux';
 import { axios_fetch_TopDresses } from './../axios_call';
 
@@ -54,7 +54,7 @@ const renderTopDresses = (dresses) => {
     if (dresses.length > 0) {
         result = dresses.map((dress, index) => {
             return (
-                <TopDressesItem key={index} dress={dress} />
+                <DressItem key={index} dress={dress} />
             );
         });
     }

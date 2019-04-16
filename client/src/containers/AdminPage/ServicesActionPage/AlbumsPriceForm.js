@@ -13,7 +13,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { axios_fetch_serviceByID } from '../axios_call';
+import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
 class AlbumsPriceForm extends Component {
 
     constructor(props) {
@@ -57,11 +57,35 @@ class AlbumsPriceForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        var { txtName, txtDescription, txtPrice, } = this.state;
+        var { txtID, txtName, txtDescription, txtPrice, isEditing, priceDetailItems } = this.state;
         let htmlRaw = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-        var service = {
-
+        let service = null;
+        if (isEditing) {
+            service = {
+                id: txtID,
+                name: txtName,
+                description: txtDescription,
+                priceDescription: htmlRaw,
+                price: txtPrice,
+                priceDetails: priceDetailItems
+            }
+            if (service != null) {
+                this.props.onUpdate(service, this.props.serviceType);
+            }
+        } else {
+            service = {
+                id: txtID,
+                name: txtName,
+                description: txtDescription,
+                priceDescription: htmlRaw,
+                price: txtPrice,
+                priceDetails: priceDetailItems
+            }
+            if (service != null) {
+                this.props.onAdd(service, this.props.serviceType);
+            }
         }
+
     }
 
     handlePriceDetailItemNameChange = idx => evt => {
@@ -113,7 +137,6 @@ class AlbumsPriceForm extends Component {
         if (id != null) {
             this.props.fetchServiceItem(1);
         }
-
     }
     componentWillReceiveProps(nextProps) {
         let serviceItem = nextProps.serviceItem;
@@ -122,7 +145,7 @@ class AlbumsPriceForm extends Component {
                 isEditing: true,
                 txtID: serviceItem.id,
                 txtName: serviceItem.name,
-                txtDescription: serviceItem.priceDescription,
+                txtDescription: serviceItem.description,
                 txtPrice: serviceItem.price,
                 priceDetailItems: serviceItem.priceDetails,
             });
@@ -131,7 +154,6 @@ class AlbumsPriceForm extends Component {
                 isEditing: false,
             });
         }
-
     }
 
     render() {
@@ -245,7 +267,8 @@ class AlbumsPriceForm extends Component {
 const mapStateToProps = state => {
     return {
         serviceID: state.adminPage.serviceID,
-        serviceItem: state.adminPage.serviceItem
+        serviceItem: state.adminPage.serviceItem,
+        serviceType: state.adminPage.serviceType
     }
 
 }
@@ -254,6 +277,12 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchServiceItem: (id) => {
             dispatch(axios_fetch_serviceByID(id));
         },
+        onUpdate: (service, serviceType) => {
+            dispatch(axios_add_update_service(service, serviceType,true,dispatch));
+        },
+        onAdd: (service, serviceType) => {
+            dispatch(axios_add_update_service(service, serviceType,false,dispatch));
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumsPriceForm);

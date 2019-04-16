@@ -1,65 +1,33 @@
 import React, { Component } from 'react';
-import { AlbumItem, DressItem, VideoItem, PostItem, DetailedExpansionPanel } from '../../components/index';
+import { PostItem, DetailedExpansionPanel } from '../../components/index';
 import { connect } from 'react-redux';
-import { axios_fetch_services } from './axios_call';
-import * as Constant from './constants';
+import { axios_fetch_price_services } from './axios_call';
 
-const renderService = (services, serviceType) => {
+const renderService = (services) => {
     var result = null;
     if (services.length > 0) {
         result = services.map((item, index) => {
-            switch (serviceType) {
-                case Constant.TYPE_ALBUM:
-                    return (
-                        <AlbumItem key={index} album={item} />
-                    );
-                case Constant.TYPE_WEDDING_DRESS:
-                    return (
-                        <DressItem key={index} dress={item} />
-                    );
-                case Constant.TYPE_VIDEO:
-                    return (
-                        <VideoItem key={index} video={item} />
-                    );
-                case Constant.PRICE_INCLUSIVE:
-                case Constant.PRICE_VIDEO:
-                case Constant.TYPE_VIDEO:
-                    return (
-                        <DetailedExpansionPanel
-                            key={index}
-                            label={item.name}
-                            
-                            // itemValue={<PostItem key={index} post={item} />}
-                        />
-                    );
-            }
-
+            return (
+                <DetailedExpansionPanel
+                    key={index}
+                    label={item.name}
+                    itemValue={<PostItem key={index} post={item} />}
+                />
+            );
         });
     }
     return result;
 }
 
 
-class ServiceContainer extends Component {
+class ServicePriceContainer extends Component {
     state = {
         curPage: 1,
         pageArr: [],
     }
 
-    componentWillMount() {
-        // let type_Price = '';
-        // switch (this.props.serviceType) {
-        //     case Constant.PRICE_ALBUM:
-        //         type_Price = Constant.TYPE_ALBUM;
-        //         break;
-        //     case Constant.PRICE_VIDEO:
-        //         type_Price = Constant.TYPE_WEDDING_DRESS;
-        //         break;
-        //     case Constant.PRICE_INCLUSIVE:
-        //         type_Price = Constant.TYPE_VIDEO
-        //         break;
-        // }
-        this.props.fetchServices(this.props.serviceType, 1, 8);
+    componentDidMount() {
+        this.props.fetchPriceServices(this.props.serviceType, 1, 8);
     }
     render() {
         const { servicesResponse, serviceType } = this.props;
@@ -68,7 +36,7 @@ class ServiceContainer extends Component {
         if (servicesResponse != null) {
             return (
                 <div className="container">
-                    <div align="center" className="row">
+                    <div className="row">
                         {servicesResponse.content.length > 0 ? renderService(servicesResponse.content, serviceType) : <h2>Không có thông tin</h2>}
                     </div>
                     <nav className="gla_blog_pag">
@@ -96,11 +64,11 @@ class ServiceContainer extends Component {
         );
 
     }
-    onChangePage = i => (curPage) => {
+    onChangePage =(newPage) => {
         this.setState({
-            curPage: i
+            curPage: newPage
         })
-        this.props.fetchServices(this.props.serviceType, i, 8);
+        this.props.fetchServices(this.props.serviceType, newPage, 8);
     }
     renderPageList = (totalPage, curPage) => {
         var result = [];
@@ -118,9 +86,9 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchServices: (serviceType, page, size) => {
-            dispatch(axios_fetch_services(serviceType, page, size));
+        fetchPriceServices: (serviceType, page, size) => {
+            dispatch(axios_fetch_price_services(serviceType, page, size));
         },
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ServiceContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ServicePriceContainer);

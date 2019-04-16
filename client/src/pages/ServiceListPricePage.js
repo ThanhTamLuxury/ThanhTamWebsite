@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Constant from '../constants/Constant';
 import { DetailSlider, Header } from '../components/index';
-import { ServiceContainer } from '../containers/index';
+import { ServicePriceContainer } from '../containers/index';
 
 
 
@@ -18,7 +18,7 @@ class ServiceListPricePage extends Component {
     componentDidMount() {
         let serviceType = this.props.serviceType;
         let title = '';
-        switch (serviceType) {
+        switch ("PRICE_"+serviceType) {
             case Constant.PRICE_ALBUM:
                 title = Constant.PRICE_ALBUMS_PAGE_TITLE;
                 break;
@@ -40,7 +40,7 @@ class ServiceListPricePage extends Component {
             <div>
                 <Header />
                 <DetailSlider pageTitle={pageTitle} />
-                <ServiceContainer serviceType = {this.props.serviceType}/>
+                <ServicePriceContainer serviceType = {this.props.serviceType}/>
             </div>
 
         );

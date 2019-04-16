@@ -1,7 +1,9 @@
 
 
+
 // Albums Page
 export const FETCH_SERVICES = 'FETCH_SERVICES';
+export const FETCH_PRICE_SERVICES = 'FETCH_PRICE_SERVICES';
 export const FETCH_SERVICEBYID = 'FETCH_SERVICEBYID';
 
 // ServiceType 
@@ -11,3 +13,4 @@ export const TYPE_VIDEO = 'WEDDING_VIDEO';
 export const PRICE_INCLUSIVE = 'FULL_WEDDING_DAY';
 export const PRICE_ALBUM = 'PRICE_ALBUM';
 export const PRICE_VIDEO = 'PRICE_VIDEO';
+

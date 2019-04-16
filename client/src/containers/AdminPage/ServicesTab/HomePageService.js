@@ -47,7 +47,7 @@ class HomePageService extends Component {
     render() {
         var { txtAddress, txtPhoneNo,txtEmail,txtLocation, isEditing } = this.state;
         return (
-            <div>
+            <div style={{minWidth:'400px'}}>
                 <h2>Thông tin liên lạc</h2>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <h2></h2>

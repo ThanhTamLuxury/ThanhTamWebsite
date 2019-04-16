@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TopAlbumItem } from './../../../components/index';
+import { AlbumItem } from './../../../components/index';
 
 import { connect } from 'react-redux';
 import { axios_fetch_TopAlbums } from './../axios_call';
@@ -10,7 +10,7 @@ const renderTopAlbums = (albums) => {
         if (albums.length > 0) {
             result = albums.map((album, index) => {
                 return (
-                    <TopAlbumItem key={index} album={album} />
+                    <AlbumItem key={index} album={album} />
                 );
             });
         }

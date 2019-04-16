@@ -7,7 +7,7 @@ class AlbumItem extends Component {
     render() {
         var { album } = this.props;
         return (
-            <div className="col-md-3 gla_anim_box">
+            <div className="col-md-3 col-xs-3 gla_anim_box">
                 <div className="gla_shop_item album-item">
                     <span className="gla_shop_item_slider">
                         <img src={album.mainImage} alt={album.name} />

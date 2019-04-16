@@ -11,7 +11,7 @@ import QuoteContainer from './HomePage/quote/QuoteContainer';
 import ServiceContainer from './UserPage/ServiceContainer';
 import AlbumDetailsPageContainer from './UserPage/AlbumDetailsPage/AlbumDetailsPageContainer';
 import DressDetailsPageContainer from './UserPage/DressDetailsPage/DressDetailsPageContainer';
-
+import ServicePriceContainer from './UserPage/ServicePriceContainer';
 // import ServiceListPrice from './UserPage/page/ServiceListPrice';
 
 import InclusivePricePageContainer from './InclusivePricePage/InclusivePricePageContainer';
@@ -34,6 +34,7 @@ export {
     DressDetailsPageContainer,
 
     // Price pages
+    ServicePriceContainer,
     // ServiceListPrice,
     InclusivePricePageContainer,
     VideosPricePageContainer,

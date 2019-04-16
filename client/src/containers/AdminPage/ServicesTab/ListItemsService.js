@@ -11,7 +11,7 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Button } from '@material-ui/core';
-import { onOpenAddNewForm, onEditItem, onCheckPriceDetail } from '../actions';
+import { onOpenAddNewForm, onEditItem, onCheckPriceDetail, onLoading } from '../actions';
 
 
 
@@ -29,17 +29,27 @@ class ListItemsService extends Component {
 
     componentDidMount() {
         this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
-        if (this.props.servicesResponse != null) {
-            this.setState({
-                data: this.props.servicesResponse.content,
-                totalItems: this.props.servicesResponse.totalItem
-            });
-        }
+        this.props.onLoading(true);
+        // if (this.props.servicesResponse != null) {
+        //     this.setState({
+        //         data: this.props.servicesResponse.content,
+        //         totalItems: this.props.servicesResponse.totalItem
+        //     });
+        // }
     }
-    onChangePage = (event, page) => {
+    onChangePage = (e, page) => {
         this.setState({ page: page });
+        this.props.fetchServicesList(this.props.serviceType, page, this.state.rowsPerPage);
+        this.props.onLoading(true);
     };
 
+    handleChangeRowsPerPage = (e) => {
+        let newRowsCount = e.target.value;
+        this.setState({ rowsPerPage:  newRowsCount});
+        this.props.fetchServicesList(this.props.serviceType, this.state.page, newRowsCount);
+        this.props.onLoading(true);
+        
+    };
     componentWillReceiveProps(nextProps) {
         if (nextProps.servicesResponse != null) {
             this.setState({
@@ -103,13 +113,7 @@ class ListItemsService extends Component {
             //call api to delete
         }
     }
-    handleChangePage = (event, page) => {
-        this.setState({ page });
-    };
 
-    handleChangeRowsPerPage = event => {
-        this.setState({ rowsPerPage: event.target.value });
-    };
     render() {
         const { page, data, selected, rowsPerPage, totalItems } = this.state;
         const { tabCode } = this.props;
@@ -202,6 +206,9 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        onLoading: (isLoading)=>{
+            dispatch(onLoading(isLoading));
+        },
         fetchServicesList: (serviceType, page, size) => {
             dispatch(axios_fetch_services(serviceType, page, size));
         },

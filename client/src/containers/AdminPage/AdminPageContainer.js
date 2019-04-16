@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,10 +21,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 import StarBorder from '@material-ui/icons/StarBorder';
-import Collapse from '@material-ui/core/Collapse';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import HomePageService from './ServicesTab/HomePageService';
 import ListItemsService from './ServicesTab/ListItemsService';
@@ -33,7 +34,7 @@ import AlbumForm from './ServicesActionPage/AlbumForm';
 import DressForm from './ServicesActionPage/DressForm';
 import VideoForm from './ServicesActionPage/VideoForm';
 import AlbumsPriceForm from './ServicesActionPage/AlbumsPriceForm';
-import { actChangeMenu } from './actions';
+import { actChangeMenu, onLoading, onAdding,onUpdate } from './actions';
 
 
 function HomeIcon(props) {
@@ -80,27 +81,27 @@ function VideoIcon(props) {
 const menus = [
     {
         id: Constant.SERVICE_HOME,
-        tabCode:Constant.SERVICE_HOME,
+        tabCode: Constant.SERVICE_HOME,
         name: 'Trang chủ'
     },
     {
         id: Constant.SERVICE_ALBUM,
-        tabCode:Constant.SERVICE_ALBUM,
+        tabCode: Constant.SERVICE_ALBUM,
         name: 'Danh sách albums'
     },
     {
         id: Constant.SERVICE_WEDDING_DRESS,
-        tabCode:Constant.SERVICE_WEDDING_DRESS,
+        tabCode: Constant.SERVICE_WEDDING_DRESS,
         name: 'Danh sách áo cưới'
     },
     {
         id: Constant.SERVICE_WEDDING_VIDEO,
-        tabCode:Constant.SERVICE_WEDDING_VIDEO,
+        tabCode: Constant.SERVICE_WEDDING_VIDEO,
         name: 'Danh sách videos'
     },
     {
         id: Constant.SERVICE_FULL_WEDDING_DAY,
-        tabCode:Constant.SERVICE_FULL_WEDDING_DAY,
+        tabCode: Constant.SERVICE_FULL_WEDDING_DAY,
         name: 'Danh sách bảng giá trọn gói'
     },
 ]
@@ -152,7 +153,7 @@ const styles = theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: 'hidden',
-        width: theme.spacing.unit * 5 + 1,
+        width: theme.spacing.unit * 7 + 1,
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing.unit * 7 + 1,
         },
@@ -167,6 +168,7 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing.unit * 3,
+        minWidth:'400px'
     },
     search: {
         position: 'relative',
@@ -213,11 +215,18 @@ const styles = theme => ({
 
 class AdminPageContainer extends Component {
     state = {
+        isLoading: false,
+        isAdding:false,
+        isUpdate:false,
         open: true,
         toggleOpen: false,
         tabLabel: 'Trang chủ',
         displayingTab: Constant.SERVICE_HOME,
-        serviceID: 1
+        serviceID: 1,
+        isUploadFinished: false,
+        uploadMessages: [],
+        isDoneAction:false,
+        msgAction :'',
     };
 
     handleToggleClick = (text) => {
@@ -233,17 +242,71 @@ class AdminPageContainer extends Component {
     handleDrawerClose = () => {
         this.setState({ open: false });
     };
-    componentDidMount() {
-    }
-    onChangeTab = (serviceType,tabCode) => {
-        this.props.onChangeMenu(serviceType,tabCode);
+    handleSnackbarClick = () => {
+        this.setState({ isUploadFinished: true });
+    };
+
+    handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({ isUploadFinished: false });
+    };
+
+    handleActionSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({ isDoneAction: false });
+    };
+
+    onChangeTab = (serviceType, tabCode) => {
+        this.props.onChangeMenu(serviceType, tabCode);
         let label = this.getLabelName(tabCode);
         this.setState({
             tabLabel: label,
             displayingTab: tabCode,
         });
     }
-    componentWillReceiveProps(nextProps){
+    renderUploadMSG = (uploadMessages) => {
+        let result = null;
+        if (uploadMessages != null) {
+            if (uploadMessages.length > 0) {
+                result = uploadMessages.map((item, index) => {
+                    return (
+                        <h5 key={index}>
+                            {item.fileName}
+                            {item.success ? <i className="fa fa-check-circle"
+                                style={{ color: 'green', marginLeft: '1em', float: 'right' }}></i> :
+                                <i className="fa fa-times-circle"
+                                    style={{ color: 'red', marginLeft: '1em', float: 'right' }}></i>}
+                        </h5>
+                    );
+                });
+            }
+        }
+
+        return result;
+    }
+    componentWillReceiveProps(nextProps) {
+        
+        this.setState({
+            isLoading: nextProps.isLoading,
+            isAdding:nextProps.isAdding
+        });
+        if(nextProps.filesStatus){
+            if (nextProps.filesStatus.length > 0 && !nextProps.isAdding) {
+                this.setState({
+                    uploadMessages: nextProps.filesStatus,
+                    isUploadFinished: true,
+                    isDoneAction:true
+                })
+            }
+        }
+        this.props.onAdding(nextProps.isAdding);
+        this.props.onUpdate(nextProps.isUpdate);
+        this.props.onLoading(nextProps.isLoading);
+
     }
 
 
@@ -251,10 +314,13 @@ class AdminPageContainer extends Component {
     render() {
 
         const { classes, theme } = this.props;
-        const { displayingTab } = this.state;
+        const { displayingTab, isLoading,isAdding, uploadMessages,isUpdate,msgAction } = this.state;
         return (
             <div className={classes.root}>
+                
+                {(isLoading || isAdding || isUpdate) ? <LinearProgress color="secondary" style={{position:'fixed', top:'0',zIndex:'9999',width:'100%'}} /> : ''}
                 <CssBaseline />
+                
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {
@@ -289,7 +355,7 @@ class AdminPageContainer extends Component {
                                 />
                             </div>
                         </Typography>
-
+                         <div style={{marginRight: 20,position:'absolute',right:'0'}}>{isLoading ? 'Đang xử lý':''}</div>   
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -323,25 +389,72 @@ class AdminPageContainer extends Component {
                     <div className={classes.toolbar} />
                     {/* Content */}
                     {displayingTab === Constant.SERVICE_HOME && <HomePageService />}
-                    {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService onChangeTab={this.onChangeTab}/>}
+                    {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService onChangeTab={this.onChangeTab} />}
                     {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService onChangeTab={this.onChangeTab} />}
                     {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService onChangeTab={this.onChangeTab} />}
-                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService onChangeTab={this.onChangeTab}/>}
+                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService onChangeTab={this.onChangeTab} />}
 
-                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm onChangeTab={this.onChangeTab}  />}
-                    {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm onChangeTab={this.onChangeTab}/>}
+                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_WEDDING_DRESS_EDIT) && <DressForm onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_WEDDING_VIDEO_ADD) && <VideoForm onChangeTab={this.onChangeTab} />}
-                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm onChangeTab={this.onChangeTab}  />}
+                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm onChangeTab={this.onChangeTab} />}
 
-                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <AlbumsPriceForm onChangeTab={this.onChangeTab}  />}
-                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <AlbumsPriceForm onChangeTab={this.onChangeTab}  />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
 
-                    {( displayingTab === Constant.TAB_ALBUM_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
-                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab}/>}
-                
+                    {(displayingTab === Constant.TAB_ALBUM_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
+
                 </main>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    open={this.state.isUploadFinished}
+                    onClose={this.handleSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={
+                        <div><h5>Files tải lên</h5><hr />{this.renderUploadMSG(uploadMessages)}</div>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.isDoneAction}
+                    onClose={this.handleActionSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<h5>{msgAction}</h5>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleActionSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
             </div>
         );
     }
@@ -376,7 +489,7 @@ class AdminPageContainer extends Component {
             case Constant.SERVICE_FULL_WEDDING_DAY:
                 return 'Danh sách bảng giá trọn gói';
 
-                
+
             case Constant.TAB_ALBUM_ADD:
                 return 'Thêm mới album';
             case Constant.TAB_WEDDING_DRESS_ADD:
@@ -398,7 +511,7 @@ class AdminPageContainer extends Component {
                 return 'Chỉnh sửa bảng giá album';
             case Constant.WEDDING_VIDEO_PRICE:
                 return 'Chỉnh sửa bảng giá video';
-                  
+
             default:
                 return <StarBorder />;
         }
@@ -408,8 +521,8 @@ class AdminPageContainer extends Component {
         if (menus.length > 0) {
             result = menus.map((menu, index) => {
                 return (
-                    <ListItem button key={index} onClick={() => this.onChangeTab(menu.id,menu.tabCode)} >
-                        <ListItemIcon style={{ margin: '0px' }}>
+                    <ListItem className="text-center" button key={index} onClick={() => this.onChangeTab(menu.id, menu.tabCode)} >
+                        <ListItemIcon >
                             {this.selectIcon(menu.id)}
                         </ListItemIcon>
                         <ListItemText primary={menu.name} />
@@ -428,16 +541,31 @@ AdminPageContainer.propTypes = {
 const mapStateToProps = state => {
     return {
         serviceType: state.adminPage.serviceType,
-        tabCode: state.adminPage.tabCode
+        tabCode: state.adminPage.tabCode,
+        response: state.adminPage.response,
+        isLoading: state.adminPage.isLoading,
+        isAdding: state.adminPage.isAdding,
+        filesStatus: state.adminPage.filesStatus,
+
+
     }
 
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onChangeMenu: (tabCode,serviceType) => {
-            dispatch(actChangeMenu(tabCode,serviceType));
-        }
-        
+        onChangeMenu: (tabCode, serviceType) => {
+            dispatch(actChangeMenu(tabCode, serviceType));
+        },
+         onLoading: (isLoading) => {
+            dispatch(onLoading(isLoading));
+        },
+        onAdding: (isAdding) => {
+            dispatch(onAdding(isAdding));
+        },
+        onUpdate: (isUpdate) => {
+            dispatch(onUpdate(isUpdate));
+        },
+
     }
 }
 export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, mapDispatchToProps)(AdminPageContainer));

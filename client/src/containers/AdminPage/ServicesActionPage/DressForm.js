@@ -76,20 +76,7 @@ class DressForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        // var { id, txtName, txtPrice, chkbStatus } = this.state;
-        // var { history } = this.props;
-        // var product = {
-        //     id : id,
-        //     name : txtName,
-        //     price : txtPrice,
-        //     status : chkbStatus
-        // };
-        // if (id) {
-        //     this.props.onUpdateProduct(product);
-        // } else {
-        //     this.props.onAddProduct(product);
-        // }
-        // history.goBack(); // save xong thì back lại trang cũ ! có thể xài push để vào trang mới
+       
     }
     onDeleteImage = (id) => {
         this.setState(prevState => {

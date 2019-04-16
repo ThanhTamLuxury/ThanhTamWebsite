@@ -1,8 +1,19 @@
 
+export const LOG_OUT = 'LOG_OUT';
+export const LOG_IN = 'LOG_IN';
+export const FAILED_LOGIN = 'FAILED_LOGIN';
+export const IS_ADDING_SERVICE = 'IS_ADDING_SERVICE';
+
 
 // ServicesListItem Page
 export const FETCH_SERVICES = 'FETCH_SERVICES_ADMIN';
 export const FETCH_SERVICEBYID = 'FETCH_SERVICEBYID_ADMIN';
+export const ADD_SERVICE = 'ADD_SERVICE';
+export const UPDATE_SERVICE = 'UPDATE_SERVICE';
+export const UPLOAD_FILE = 'UPLOAD_FILE';
+export const UPLOAD_MULTIPLE_FILES = 'UPLOAD_MULTIPLE_FILES';
+export const PAGE_LOADING = 'PAGE_LOADING';
+
 
 //ServiceType
 export const SERVICE_HOME = 'SERVICE_HOME'
