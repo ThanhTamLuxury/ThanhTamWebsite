@@ -1,12 +1,12 @@
 package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
-import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemDto;
-import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
+import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemDto;
+import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemInfoDto;
+import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemService;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemSmallDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,10 +33,15 @@ public class ServiceItemApi {
 		return serviceItemService.create(serviceType, dto);
 	}
 
-	@PutMapping("/update-imageitems/{id}")
-	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
-		return serviceItemService.updateImageItems(id, imageItemDtos);
-	}
+//	@PutMapping("/update-imageitems/{id}")
+//	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
+//		return serviceItemService.updateImageItems(id, imageItemDtos);
+//	}
+//
+//	@PutMapping("/update-pricedetails/{id}")
+//	public ServiceItemDto updatePriceDetails(@PathVariable Integer id, @RequestBody List<PriceDetailDto> priceDetailDtos){
+//		return serviceItemService.updatePriceDetail(id, priceDetailDtos);
+//	}
 
 	@PutMapping("/update-info/{id}")
 	public ServiceItemInfoDto updateOnlyInfo(@PathVariable Integer id, @RequestBody ServiceItemInfoDto infoDto){
@@ -53,8 +58,8 @@ public class ServiceItemApi {
 		serviceItemService.deleteService(id);
 	}
 
-	@PutMapping()
-	public ServiceItemDto updateService(@RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.updateService(serviceItemDto);
+	@PutMapping("{id}")
+	public ServiceItemDto updateService(@PathVariable("id") Integer id, @RequestBody ServiceItemDto serviceItemDto){
+		return serviceItemService.updateService(id, serviceItemDto);
 	}
 }
