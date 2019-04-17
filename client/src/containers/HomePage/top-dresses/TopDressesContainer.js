@@ -79,7 +79,7 @@ class TopDressesContainer extends Component {
                     </div>
                     <div className="gla_post_more clearfix">
                         <div>
-                            <a href="AoCuoi.html" className="btn">Xem thêm</a>
+                            <a href="/ao-cuoi" className="btn">Xem thêm</a>
                         </div>
                     </div>
                 </div>

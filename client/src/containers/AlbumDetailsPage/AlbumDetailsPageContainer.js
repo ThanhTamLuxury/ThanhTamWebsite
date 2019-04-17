@@ -100,7 +100,7 @@ class AlbumDetailsPageContainer extends Component {
         });
     }
     handleClickImage() {
-        if (this.state.currentImage === album.images.length - 1) return;
+        if (this.state.currentImage === album.imageItems.length - 1) return;
 
         this.gotoNext();
     }
@@ -118,11 +118,11 @@ class AlbumDetailsPageContainer extends Component {
                     disableImagesLoaded={false}
                     updateOnEachImageLoad={false}
                 >
-                    {this.renderAlbumImage(album.images)}
+                    {this.renderAlbumImage(album.imageItems)}
                 </Masonry>
                 <Lightbox
                     currentImage={this.state.currentImage}
-                    images={album.images}
+                    images={album.imageItems}
                     isOpen={this.state.lightboxIsOpen}
                     onClickImage={this.handleClickImage}
                     onClickNext={this.gotoNext}
@@ -141,7 +141,7 @@ class AlbumDetailsPageContainer extends Component {
             result = images.map((image, index) => {
                 return (
                     <li className="image-element-class gla_shop_item masonry-item">
-                        <img src={image.src} onClick={(e) => this.openLightbox(index, e)} />
+                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} />
                     </li>
                 );
 

@@ -61,7 +61,7 @@ class DressDetailsPageContainer extends Component {
                             </ul>
                             <div id="myTabContent" className="tab-content">
                                 <div role="tabpanel" className="tab-pane fade in active" id="home" aria-labelledby="home-tab">
-                                    <p>{dress.description}</p>
+                                    <p>{serviceItem.description}</p>
                                 </div>
                             </div>
                         </div>
