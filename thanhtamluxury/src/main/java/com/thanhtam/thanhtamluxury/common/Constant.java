@@ -21,4 +21,6 @@ public class Constant {
     public static final String WRONG_OLD_PASSWORD = "Wrong old password";
 
     public static final String NEW_PASSWORD_MUST_BE_DIFFERENT = "New password must be different with old password";
+
+    public static final String FILE_NAME_NOT_FOUND = "Cannot find file with name ";
 }
