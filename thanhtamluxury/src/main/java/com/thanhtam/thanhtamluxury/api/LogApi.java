@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
@@ -34,6 +36,15 @@ public class LogApi {
     @GetMapping
     public String getTodayLogFile() {
         StringBuilder logContent = new StringBuilder();
+
+        if(! Files.exists(Paths.get(FILE_NAME))){
+            try{
+                Files.createFile(Paths.get(FILE_NAME));
+            }catch (IOException ex){
+                throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.FILE_NAME_NOT_FOUND + FILE_NAME);
+            }
+        }
+
         try(BufferedReader br = Files.newBufferedReader(Paths.get(FILE_NAME))) {
             //Read line by line
             String line = "";
@@ -52,6 +63,15 @@ public class LogApi {
     public String getLogFileOf(@PathVariable("date") String date) {
         StringBuilder logContent = new StringBuilder();
         String filePath = "logs/" + PREFIX_FILE_NAME + "_" + date + ".log";
+
+        if(! Files.exists(Paths.get(filePath))){
+            try{
+                Files.createFile(Paths.get(filePath));
+            }catch (IOException ex){
+                throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.FILE_NAME_NOT_FOUND + filePath);
+            }
+        }
+
         try(BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             //Read line by line
             String line = "";
