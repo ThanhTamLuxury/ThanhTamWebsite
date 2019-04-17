@@ -33,4 +33,9 @@ public class BannerApi {
 	public List<BannerDto> createBanners(@RequestBody List<BannerDto> dtos) {
 		return bannerService.createMany(dtos);
 	}
+
+	@DeleteMapping("{bannerId}")
+	public void deleteBanner(@PathVariable Integer bannerId){
+		bannerService.deleteBanner(bannerId);
+	}
 }

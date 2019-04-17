@@ -10,4 +10,6 @@ public interface BannerService {
     BannerDto create(BannerDto dto);
 
     List<BannerDto> createMany(List<BannerDto> dtos);
+
+    void deleteBanner(Integer id);
 }
