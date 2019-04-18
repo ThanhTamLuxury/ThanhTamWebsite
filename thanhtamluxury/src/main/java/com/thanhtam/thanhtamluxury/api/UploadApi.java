@@ -29,7 +29,7 @@ public class UploadApi {
         try{
             String newFileName = fileStorageService.storeFile(file);
             fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/images/")
+                    .path("/uploadImages/")
                     .path(newFileName)
                     .toUriString();
 
