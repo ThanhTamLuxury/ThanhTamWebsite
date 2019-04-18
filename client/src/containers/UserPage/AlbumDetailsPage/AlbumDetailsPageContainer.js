@@ -99,7 +99,7 @@ class AlbumDetailsPageContainer extends Component {
             result = images.map((image, index) => {
                 return (
                     <li className="image-element-class gla_shop_item masonry-item">
-                        <img src={image.src} onClick={(e) => this.openLightbox(index, e)} />
+                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} />
                     </li>
                 );
 

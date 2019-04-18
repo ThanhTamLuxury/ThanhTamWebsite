@@ -27,7 +27,7 @@ class Header extends Component {
                         <div className="gla_logo_container clearfix">
                             <img src="/images/glanz_logo.png" alt = "Logo" className="gla_logo_rev" />
                             <div className="gla_logo_txt">
-                                <a href="TrangChu.html" className="gla_logo">Thanh tâm luxury</a>
+                                <a href="/" className="gla_logo">Thanh tâm luxury</a>
                             </div>
                         </div>
                         <MenuContainer />
