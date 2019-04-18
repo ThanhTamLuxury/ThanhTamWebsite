@@ -2,6 +2,7 @@ package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,10 @@ public class ServiceItemApi {
 	public void deleteService(@PathVariable("id") Integer id){
 		serviceItemService.deleteService(id);
 	}
+
+	@ApiOperation("Multiple delete service item by list of ids")
+	@DeleteMapping
+	public void multipleDeleteService(@RequestBody List<Integer> ids) {serviceItemService.multipleDeleteService(ids);}
 
 	@PutMapping("{id}")
 	public ServiceItemDto updateService(@PathVariable("id") Integer id, @RequestBody ServiceItemDto serviceItemDto){

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -138,6 +139,26 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		serviceItemRepo.save(serviceItem);
 
 		serviceItemRepo.delete(serviceItem);
+	}
+
+	@Override
+	@Transactional
+	public void multipleDeleteService(List<Integer> ids) {
+		String serviceIdNotExisted = "";
+		for (Integer id: ids) {
+			Optional<ServiceItem> service = serviceItemRepo.findById(id);
+			if(!service.isPresent()) {
+				serviceIdNotExisted += id + ", ";
+			}
+		}
+		if(!serviceIdNotExisted.isEmpty()) {
+			//Remove last comma
+			serviceIdNotExisted = serviceIdNotExisted.substring(0, serviceIdNotExisted.lastIndexOf(","));
+			throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_IDS_NOT_EXISTED + serviceIdNotExisted);
+		}
+		for (Integer id: ids) {
+			deleteService(id);
+		}
 	}
 
 	@Override

@@ -9,10 +9,6 @@ public interface ServiceItemService {
 
     ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto);
 
-//    ServiceItemDto updateImageItems(Integer id, List<ImageItemDto> imageItemDtos);
-//
-//    ServiceItemDto updatePriceDetail(Integer id, List<PriceDetailDto> priceDetailDtos);
-
     ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto infoDto);
 
     PageDto<ServiceItemSmallDto> getAllSmall(String serviceType, int size, int page);
@@ -22,6 +18,8 @@ public interface ServiceItemService {
     ServiceItemDto findByIdAndSlug(Integer id, String slug);
 
     void deleteService(Integer id);
+
+    void multipleDeleteService(List<Integer> ids);
 
     ServiceItemDto updateService(Integer id, ServiceItemDto dto);
 
