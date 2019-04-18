@@ -64,4 +64,11 @@ public class ServiceItemApi {
 	public PageDto<ServicePriceInfo> getPriceInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page) {
 		return serviceItemService.getPriceInfoInPricePage(serviceType, size, page);
 	}
+
+	@GetMapping("search")
+	public PageDto<ServiceItemSmallDto> searchServiceByName(@RequestParam String serviceType, @RequestParam String searchValue,
+															@RequestParam int size, @RequestParam int page) {
+		return serviceItemService.searchServiceByName(serviceType, searchValue, size, page);
+	}
+
 }

@@ -26,4 +26,7 @@ public interface ServiceItemService {
     ServiceItemDto updateService(Integer id, ServiceItemDto dto);
 
     PageDto<ServicePriceInfo> getPriceInfoInPricePage(String serviceType, int size, int page);
+
+    PageDto<ServiceItemSmallDto> searchServiceByName(String serviceType,  String searchValue, int size,  int page);
+
 }
