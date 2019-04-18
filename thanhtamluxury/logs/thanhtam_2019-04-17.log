@@ -537,3 +537,7 @@ java.nio.file.NoSuchFileException: logs\thanhtam_2019-04-18.log
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.16.jar:9.0.16]
 	at java.base/java.lang.Thread.run(Thread.java:834) ~[na:na]
 
+2019-04-17 15:20:17.420  WARN 2140 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-04-17 15:50:14.246  WARN 7468 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-04-17 16:47:05.729  WARN 7468 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m29s562ms551µs157ns).
+2019-04-17 16:48:00.183  WARN 7468 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=59s705ms861µs637ns).

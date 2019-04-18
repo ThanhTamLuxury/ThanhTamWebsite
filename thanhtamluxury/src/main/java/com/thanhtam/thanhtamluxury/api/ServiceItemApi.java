@@ -30,16 +30,6 @@ public class ServiceItemApi {
 		return serviceItemService.create(serviceType, dto);
 	}
 
-//	@PutMapping("/update-imageitems/{id}")
-//	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
-//		return serviceItemService.updateImageItems(id, imageItemDtos);
-//	}
-//
-//	@PutMapping("/update-pricedetails/{id}")
-//	public ServiceItemDto updatePriceDetails(@PathVariable Integer id, @RequestBody List<PriceDetailDto> priceDetailDtos){
-//		return serviceItemService.updatePriceDetail(id, priceDetailDtos);
-//	}
-
 	@PutMapping("/update-info/{id}")
 	public ServiceItemInfoDto updateOnlyInfo(@PathVariable Integer id, @RequestBody ServiceItemInfoDto infoDto){
 		return serviceItemService.updateOnlyInfo(id, infoDto);
