@@ -75,7 +75,9 @@ class AlbumDetailsPageContainer extends Component {
                     </Masonry>
                     <Lightbox
                         currentImage={this.state.currentImage}
-                        images={serviceItem.imageItems}
+                        images={serviceItem.imageItems.map(image =>{
+                            return {src:image.path};
+                        })}
                         isOpen={this.state.lightboxIsOpen}
                         onClickImage={this.handleClickImage}
                         onClickNext={this.gotoNext}
