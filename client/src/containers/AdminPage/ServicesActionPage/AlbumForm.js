@@ -146,7 +146,7 @@ class AlbumForm extends Component {
                 description: txtDescription,
                 slug: txtSlug
             }
-            this.props.onAdd(service, this.props.serviceType,multipleFilesData,mainImageData);
+            this.props.onAdd(service, this.props.serviceType, multipleFilesData, mainImageData);
         }
         this.props.onAdding(true);
         this.props.onLoading(true);

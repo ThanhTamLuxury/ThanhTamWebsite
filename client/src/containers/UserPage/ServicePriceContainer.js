@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PostItem, DetailedExpansionPanel } from '../../components/index';
 import { connect } from 'react-redux';
 import { axios_fetch_price_services } from './axios_call';
+import { onLoading } from './actions';
 
 const renderService = (services) => {
     var result = null;
@@ -22,20 +23,48 @@ const renderService = (services) => {
 
 class ServicePriceContainer extends Component {
     state = {
+        page: 1,
+        data: [],
+        rowsPerPage: 5,
+        selected: [],
+        totalItems: 0,
         curPage: 1,
-        pageArr: [],
     }
 
     componentDidMount() {
         this.props.fetchPriceServices(this.props.serviceType, 1, 8);
+        this.props.onLoading(true);
+    }
+    componentWillReceiveProps(nextProps){
+        if (nextProps.servicesResponse != null) {
+            this.setState({
+                data: nextProps.servicesResponse.content,
+                totalItems: nextProps.servicesResponse.totalItem
+            });
+        }
+    }
+    onChangePage =(newPage) => {
+        this.props.fetchPriceServices(this.props.serviceType, newPage, 8);
+        this.setState({
+            curPage: newPage
+        })
+    }
+    renderPageList = (totalPage, curPage) => {
+        var result = [];
+        for (var i = 1; i < totalPage; i++) {
+            result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
+        }
+        return result;
     }
     render() {
         const { servicesResponse, serviceType } = this.props;
-        const { curPage } = this.state;
+        const { curPage,isLoading } = this.state;
+        
         // TODO : Xét trường hợp k có thông tin
         if (servicesResponse != null) {
             return (
                 <div className="container">
+                {isLoading ? <div className="loading"></div> : ''}
                     <div className="row">
                         {servicesResponse.content.length > 0 ? renderService(servicesResponse.content, serviceType) : <h2>Không có thông tin</h2>}
                     </div>
@@ -64,23 +93,12 @@ class ServicePriceContainer extends Component {
         );
 
     }
-    onChangePage =(newPage) => {
-        this.setState({
-            curPage: newPage
-        })
-        this.props.fetchServices(this.props.serviceType, newPage, 8);
-    }
-    renderPageList = (totalPage, curPage) => {
-        var result = [];
-        for (var i = 1; i < totalPage; i++) {
-            result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
-        }
-        return result;
-    }
+    
 }
 const mapStateToProps = state => {
     return {
-        servicesResponse: state.userPage.servicesResponse
+        servicesResponse: state.userPage.servicesResponse,
+        isLoading: state.userPage.isLoading
     }
 
 }
@@ -88,6 +106,9 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         fetchPriceServices: (serviceType, page, size) => {
             dispatch(axios_fetch_price_services(serviceType, page, size));
+        },
+        onLoading: (isLoading)=>{
+            dispatch(onLoading(isLoading));
         },
     }
 }

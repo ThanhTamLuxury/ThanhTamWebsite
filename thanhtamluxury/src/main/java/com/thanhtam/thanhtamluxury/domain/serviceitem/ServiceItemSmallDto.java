@@ -16,6 +16,7 @@ public class ServiceItemSmallDto {
     private String mainImage;
     private String location;
     private double price;
+    private String description;
 
     @JsonProperty("video_src")
     @Setter(AccessLevel.NONE)

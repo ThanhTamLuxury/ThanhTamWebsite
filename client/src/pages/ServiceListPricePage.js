@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as Constant from '../constants/Constant';
-import { DetailSlider, Header } from '../components/index';
+import { DetailSlider, Header, Footer } from '../components/index';
 import { ServicePriceContainer } from '../containers/index';
 
 
@@ -41,6 +41,7 @@ class ServiceListPricePage extends Component {
                 <Header />
                 <DetailSlider pageTitle={pageTitle} />
                 <ServicePriceContainer serviceType = {this.props.serviceType}/>
+                <Footer/>
             </div>
 
         );
