@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { generate_slug } from './../../../methods/function_lib';
 import { connect } from 'react-redux';
-import { axios_fetch_serviceByID,axios_add_update_with_file_service, axios_upload_file, axios_upload_multipleFiles } from '../axios_call';
+import { axios_fetch_serviceByID, axios_add_update_with_file_service, axios_upload_file, axios_upload_multipleFiles } from '../axios_call';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -15,7 +15,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import { onLoading,actOnAddService } from '../actions';
+import { onLoading, actOnAddService } from '../actions';
 
 class AlbumForm extends Component {
 
@@ -121,13 +121,13 @@ class AlbumForm extends Component {
         if (mainImageFile.length > 0) {
             mainImageData.append("file", mainImageFile[0]);
         }
-        
+
         let multipleFilesData = new FormData();
         imagesFiles.forEach(function (item) {
             multipleFilesData.append("files", item.file);
         });
         ;
-        let responseMainImage =  this.props.response;
+        let responseMainImage = this.props.response;
 
         // let resonseData = await this.props.onUploadFile(mainImageData);
         let service = null;
@@ -138,15 +138,15 @@ class AlbumForm extends Component {
                 description: txtDescription,
                 slug: txtSlug
             }
-            
-            this.props.onUpdate(service, this.props.serviceType,multipleFilesData,mainImageData);
+
+            this.props.onUpdate(service, this.props.serviceType, multipleFilesData, mainImageData);
         } else {
             service = {
                 name: txtName,
                 description: txtDescription,
                 slug: txtSlug
             }
-            this.props.onAdd(service, this.props.serviceType,multipleFilesData,mainImageData);
+            this.props.onAdd(service, this.props.serviceType, multipleFilesData, mainImageData);
         }
         this.props.onAdding(true);
         this.props.onLoading(true);
@@ -159,7 +159,7 @@ class AlbumForm extends Component {
 
     }
     render() {
-        var { txtName, txtDescription, txtSlug, isEditing, images, mainImage, isLoading } = this.state;
+        var { txtName, txtDescription, txtSlug, isEditing, imageData, mainImage, isLoading } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -238,7 +238,7 @@ class AlbumForm extends Component {
                                             </label>
                                         </GridListTile>
                                         {
-                                            images && images.map(image => (
+                                            imageData && imageData.map(image => (
                                                 <GridListTile className="text-center" key={image.id} style={{ border: '1px solid black', minWidth: '300px' }} >
                                                     <img style={{ height: '200px' }} src={image.path} alt={image.path} />
                                                     <GridListTileBar
@@ -285,11 +285,11 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchServiceItem: (id) => {
             dispatch(axios_fetch_serviceByID(id));
         },
-        onUpdate: (service, serviceType,files,file) => {
-            axios_add_update_with_file_service(service, serviceType,files,file,dispatch,true);
+        onUpdate: (service, serviceType, files, file) => {
+            axios_add_update_with_file_service(service, serviceType, files, file, dispatch, true);
         },
-        onAdd: (service, serviceType,files,file) => {
-            axios_add_update_with_file_service(service, serviceType,files,file,dispatch,false);
+        onAdd: (service, serviceType, files, file) => {
+            axios_add_update_with_file_service(service, serviceType, files, file, dispatch, false);
             // dispatch => {axios_add_service(service, serviceType,files)};
         },
         onUploadFile: (data) => {

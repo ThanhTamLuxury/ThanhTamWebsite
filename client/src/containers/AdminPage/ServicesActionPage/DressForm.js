@@ -159,8 +159,8 @@ class DressForm extends Component {
                                     </GridListTile>
                                     {
                                         imageData && imageData.map(image => (
-                                            <GridListTile className="text-center" key={image.img} style={{ border: '1px solid black', }} >
-                                                <img style={{ width: 'auto', height: '200px' }} src={image.img} alt={image.title} />
+                                            <GridListTile className="text-center" key={image.path} style={{ border: '1px solid black', }} >
+                                                <img style={{ width: 'auto', height: '200px' }} src={image.path} alt={image.title} />
                                                 <GridListTileBar
                                                     title={image.title}
                                                     actionIcon={
