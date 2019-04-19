@@ -394,7 +394,7 @@ class AdminPageContainer extends Component {
                     {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService onChangeTab={this.onChangeTab} />}
                     {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService onChangeTab={this.onChangeTab} />}
 
-                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm serviceType={Constant.SERVICE_ALBUM} onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_WEDDING_DRESS_EDIT) && <DressForm onChangeTab={this.onChangeTab} />}

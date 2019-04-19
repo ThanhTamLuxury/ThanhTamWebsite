@@ -11,6 +11,12 @@ export const actFetchPriceServies = (servicesResponse) => {
     return {
         type : Types.FETCH_PRICE_SERVICES,
         servicesResponse
+    } 
+}
+export const onLoading = (isLoading) => {
+    return {
+        type : Types.PAGE_LOADING,
+        isLoading:isLoading
     }
 }
 export const actFetchServiceByID = (serviceItem) => {
