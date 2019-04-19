@@ -104,7 +104,8 @@ class ServiceContainer extends Component {
     }
     renderPageList = (totalPage, curPage) => {
         var result = [];
-        for (var i = 1; i < totalPage; i++) {
+        //backend start from 0 but frontend start from 1
+        for (var i = 1; i <= totalPage; i++) {
             result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
         }
         return result;

@@ -192,6 +192,7 @@ class AlbumsPriceForm extends Component {
                         <div className="form-group">
                             <TextField
                                 label="Thông tin"
+                                multiline
                                 name="txtDescription"
                                 value={txtDescription}
                                 className="form-input"

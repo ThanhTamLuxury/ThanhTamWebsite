@@ -44,19 +44,19 @@ class PostItem extends Component {
         var formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
-          });
+        });
         const localizer = BigCalendar.momentLocalizer(moment);
         var { post } = this.props;
-        var priceDetails = post.priceDetails.map((priceDetail, index) =>{
+
+        var priceDetails = post.priceDetails ? post.priceDetails.map((priceDetail, index) => {
             var date = new Date(Date.parse(priceDetail.applyDate));
             return {
                 id: index,
                 title: formatter.format(priceDetail.price),
                 start: date,
-                end: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1),
+                end: date,
             };
-        });
-
+        }) : null;
 
         return (
             <div className="col-md-10 col-xs-12 ">
@@ -90,7 +90,7 @@ class PostItem extends Component {
                         onClose={this.handleClose}
                         TransitionComponent={Transition}
                     >
-                        <div style={{ overflow: "scroll", padding:'2em',margin:'1em' }}>
+                        <div style={{ overflow: "scroll", padding: '2em', margin: '1em' }}>
                             <BigCalendar
                                 events={priceDetails}
                                 views={['month', 'week', 'day']}

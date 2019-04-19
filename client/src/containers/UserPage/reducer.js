@@ -25,6 +25,10 @@ const userPage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 servicesResponse: action.servicesResponse
             });
+        case Types.FETCH_SERVICES:
+            return Object.assign({}, state, {
+                servicesResponse: action.servicesResponse
+            });
         default:
             return state;
     }
