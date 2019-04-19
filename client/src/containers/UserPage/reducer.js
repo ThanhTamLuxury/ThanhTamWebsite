@@ -1,14 +1,19 @@
 import * as Types from './constants';
 
 const initialState = {
-    servicesResponse: null,
+    servicesResponse: null, 
     serviceItem: null,
-    isLogin: false
+    isLogin: false,
+    isLoading:false,
 };
 
 const userPage = (state = initialState, action) => {
     switch (action.type) {
-        case Types.FETCH_SERVICES:
+        case Types.PAGE_LOADING:
+            return Object.assign({}, state, {
+                isLoading: action.isLoading
+            });
+        case Types.FETCH_PRICE_SERVICES:
             return Object.assign({}, state, {
                 servicesResponse: action.servicesResponse
             });
