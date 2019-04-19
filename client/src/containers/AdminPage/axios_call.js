@@ -40,17 +40,14 @@ export const axios_add_update_with_file_service = async (service, serviceType, f
         const res = await callApi(`upload/uploadFile`, 'POST', file, 'UPLOAD')
         let mainImage = res.data;
         if (mainImage) {
-            let arr = resImage.map((res, index) => ({
-                path: res.fileDownloadUri
-            }));
-            const v = [...arr, ...imagesPath];
+            let mainImagePath = mainImage.fileDownloadUri;
             let filesStatus = [];
             resImage.map(item => {
                 filesStatus.push(item);
             })
             filesStatus.push(mainImage);
             service = {
-                ...service, imageItems: v
+                ...service, imageItems: imagesPath, mainImage: mainImagePath
             }
             if (!isUpdate) {
                 const finalResult = await callApi(`service/${serviceType}`, 'POST', service, 'ADMIN')
