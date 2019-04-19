@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import * as Constant from './../constants/Constant';
-import { DetailSlider } from './../components/index';
+import { DetailSlider, Footer } from './../components/index';
 import {AlbumDetailsPageContainer} from './../containers/index';
 
 class AlbumDetailsPage extends Component {
@@ -19,6 +19,7 @@ class AlbumDetailsPage extends Component {
                 {/* Content */}
                 <section className="gla_section gla_image_bck">
                     <AlbumDetailsPageContainer albumID={this.props.match.params.id} />
+                    <Footer/>
                 </section>
             </div>
 
