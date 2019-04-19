@@ -16,6 +16,10 @@ const userPage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 serviceItem: action.serviceItem
             });
+        case Types.FETCH_PRICE_SERVICES:
+            return Object.assign({}, state, {
+                servicesResponse: action.servicesResponse
+            });
         default:
             return state;
     }

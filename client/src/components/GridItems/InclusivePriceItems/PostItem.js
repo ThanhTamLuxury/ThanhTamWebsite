@@ -41,12 +41,23 @@ class PostItem extends Component {
     };
 
     render() {
-        const localizer = BigCalendar.momentLocalizer(moment);
-        var { post } = this.props
         var formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
           });
+        const localizer = BigCalendar.momentLocalizer(moment);
+        var { post } = this.props;
+        var priceDetails = post.priceDetails.map((priceDetail, index) =>{
+            var date = new Date(Date.parse(priceDetail.applyDate));
+            return {
+                id: index,
+                title: formatter.format(priceDetail.price),
+                start: date,
+                end: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1),
+            };
+        });
+
+
         return (
             <div className="col-md-10 col-xs-12 ">
                 <div className="gla_post_item">
@@ -81,12 +92,12 @@ class PostItem extends Component {
                     >
                         <div style={{ overflow: "scroll", padding:'2em',margin:'1em' }}>
                             <BigCalendar
-                                events={events}
+                                events={priceDetails}
                                 views={['month', 'week', 'day']}
                                 step={60}
                                 showMultiDayTimes
                                 max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
-                                defaultDate={new Date(2015, 3, 1)}
+                                defaultDate={new Date()}
                                 localizer={localizer}
                                 culture={"vi"}
                                 components={{
