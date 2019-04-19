@@ -45,7 +45,7 @@ export const axios_fetch_TopDresses = () => {
 
 export const axios_fetch_AboutUsDetails = () => {
   return dispatch => {
-    return callApi("location", "GET", null).then(res => {
+    return callApi("location/first", "GET", null).then(res => {
       if (res != null) {
         dispatch(Actions.actFetchAboutUsJson(res.data));
       }

@@ -125,7 +125,7 @@ class ListItemsService extends Component {
                             <TableRow>
                                 <TableCell align="left"><Checkbox checked={selected.length === data.length} onClick={this.onSelectAllClick} /></TableCell>
                                 <TableCell align="left" >Tên</TableCell>
-                                <TableCell align="left">Ngày tạo</TableCell>
+                                <TableCell align="left">Giá hôm nay (VNĐ)</TableCell>
                                 <TableCell align="left">Chi tiết</TableCell>
                                 {(tabCode !== Constant.SERVICE_WEDDING_DRESS && tabCode !== Constant.SERVICE_FULL_WEDDING_DAY) ? <TableCell align="left">Bảng giá</TableCell> : null}
                             </TableRow>
@@ -173,6 +173,10 @@ class ListItemsService extends Component {
     }
 
     renderData(data, tabCode) {
+        var formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          });
         let result = null;
         if (data.length > 0) {
             result = data.map(item => {
@@ -185,7 +189,7 @@ class ListItemsService extends Component {
                         <TableCell align="left" component="th" scope="row">
                             {item.name}
                         </TableCell>
-                        <TableCell align="left">{item.dateCreated}</TableCell>
+                        <TableCell align="left">{formatter.format(item.price)}</TableCell>
                         <TableCell align="left">
                             <Button variant="outlined" color="primary" onClick={() => this.onEditItem(item.id, Constant.SERVICE_EDIT_ALBUM)}>Chi tiết</Button>
                         </TableCell>

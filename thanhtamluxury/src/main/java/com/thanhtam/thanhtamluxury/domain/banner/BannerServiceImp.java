@@ -28,9 +28,7 @@ public class BannerServiceImp implements BannerService {
 		if(bannerRepo.existsById(dto.getId())){
 			return bannerRepo.save(dto.toMappedClass()).toMappedClass();
 		}
-		else {
-			throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.BANNER_ID_NOT_FOUND + dto.getId());
-		}
+		else throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.BANNER_ID_NOT_FOUND + dto.getId());
 	}
 
 	@Override
@@ -42,5 +40,12 @@ public class BannerServiceImp implements BannerService {
 	public List<BannerDto> createMany(List<BannerDto> dtos) {
 		List<Banner> banners = dtos.stream().map(BannerDto::toMappedClass).collect(Collectors.toList());
 		return bannerRepo.saveAll(banners).stream().map(Banner::toMappedClass).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteBanner(Integer id) {
+		if(bannerRepo.existsById(id)){
+			bannerRepo.deleteById(id);
+		}else throw new ThanhTamException(HttpStatus.NOT_FOUND, Constant.BANNER_ID_NOT_FOUND + id);
 	}
 }

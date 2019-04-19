@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import * as Constant from './../constants/Constant';
-import { DetailSlider } from './../components/index';
+import { DetailSlider, Footer } from './../components/index';
 import { ServiceContainer } from './../containers/index';
 
 
@@ -23,6 +23,7 @@ class DressesPage extends Component {
                     <ServiceContainer serviceType = {this.props.serviceType} />
                     </section>
                     {/* section end */}
+                    <Footer/>
                 </section>
             </div>
 

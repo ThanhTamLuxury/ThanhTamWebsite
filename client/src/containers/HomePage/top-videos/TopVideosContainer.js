@@ -64,7 +64,7 @@ class TopVideosContainer extends Component {
                     </div >
                 </div>
                 <div align="center" style={{ marginBottom: '2em' }}>
-                    <a href="AoCuoi.html" className="xemThemAoCuoi btn submit">Xem thêm</a>
+                    <a href="/videos" className="xemThemAoCuoi btn submit">Xem thêm</a>
                 </div>
             </section>
         );

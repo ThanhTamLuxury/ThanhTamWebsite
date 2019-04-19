@@ -39,7 +39,7 @@ class TopAlbumsContainer extends Component {
 
                     <div className="gla_post_more clearfix">
                         <div>
-                            <a href="Album.html" className="btn">Xem thêm</a>
+                            <a href="/albums" className="btn">Xem thêm</a>
                         </div>
                     </div>
                 </div>

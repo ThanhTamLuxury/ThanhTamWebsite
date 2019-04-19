@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import * as Constant from './../constants/Constant';
-import { DetailSlider } from './../components/index';
+import { DetailSlider, Footer } from './../components/index';
 import { DressDetailsPageContainer } from './../containers/index';
 
 class DressDetailsPage extends Component {
@@ -23,6 +23,7 @@ class DressDetailsPage extends Component {
                         <DressDetailsPageContainer dressID={this.props.match.params.id}/>
                     </section>
                     {/* section end */}
+                    <Footer/>
                 </section>
             </div>
 

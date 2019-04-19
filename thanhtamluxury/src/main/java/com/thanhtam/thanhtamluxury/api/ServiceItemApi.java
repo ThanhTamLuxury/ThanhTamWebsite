@@ -2,6 +2,7 @@ package com.thanhtam.thanhtamluxury.api;
 
 import com.thanhtam.thanhtamluxury.common.PageDto;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.*;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,16 +31,6 @@ public class ServiceItemApi {
 		return serviceItemService.create(serviceType, dto);
 	}
 
-//	@PutMapping("/update-imageitems/{id}")
-//	public ServiceItemDto updateImageItems(@PathVariable Integer id, @RequestBody List<ImageItemDto> imageItemDtos){
-//		return serviceItemService.updateImageItems(id, imageItemDtos);
-//	}
-//
-//	@PutMapping("/update-pricedetails/{id}")
-//	public ServiceItemDto updatePriceDetails(@PathVariable Integer id, @RequestBody List<PriceDetailDto> priceDetailDtos){
-//		return serviceItemService.updatePriceDetail(id, priceDetailDtos);
-//	}
-
 	@PutMapping("/update-info/{id}")
 	public ServiceItemInfoDto updateOnlyInfo(@PathVariable Integer id, @RequestBody ServiceItemInfoDto infoDto){
 		return serviceItemService.updateOnlyInfo(id, infoDto);
@@ -55,6 +46,10 @@ public class ServiceItemApi {
 		serviceItemService.deleteService(id);
 	}
 
+	@ApiOperation("Multiple delete service item by list of ids")
+	@DeleteMapping
+	public void multipleDeleteService(@RequestBody List<Integer> ids) {serviceItemService.multipleDeleteService(ids);}
+
 	@PutMapping("{id}")
 	public ServiceItemDto updateService(@PathVariable("id") Integer id, @RequestBody ServiceItemDto serviceItemDto){
 		return serviceItemService.updateService(id, serviceItemDto);
@@ -64,4 +59,11 @@ public class ServiceItemApi {
 	public PageDto<ServicePriceInfo> getPriceInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page) {
 		return serviceItemService.getPriceInfoInPricePage(serviceType, size, page);
 	}
+
+	@GetMapping("search")
+	public PageDto<ServiceItemSmallDto> searchServiceByName(@RequestParam String serviceType, @RequestParam String searchValue,
+															@RequestParam int size, @RequestParam int page) {
+		return serviceItemService.searchServiceByName(serviceType, searchValue, size, page);
+	}
+
 }

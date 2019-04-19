@@ -75,7 +75,9 @@ class AlbumDetailsPageContainer extends Component {
                     </Masonry>
                     <Lightbox
                         currentImage={this.state.currentImage}
-                        images={serviceItem.imageItems}
+                        images={serviceItem.imageItems.map(image =>{
+                            return {src:image.path};
+                        })}
                         isOpen={this.state.lightboxIsOpen}
                         onClickImage={this.handleClickImage}
                         onClickNext={this.gotoNext}
@@ -99,7 +101,7 @@ class AlbumDetailsPageContainer extends Component {
             result = images.map((image, index) => {
                 return (
                     <li className="image-element-class gla_shop_item masonry-item">
-                        <img src={image.src} onClick={(e) => this.openLightbox(index, e)} />
+                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} />
                     </li>
                 );
 

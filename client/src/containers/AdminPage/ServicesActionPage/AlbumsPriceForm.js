@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
@@ -18,6 +18,7 @@ class AlbumsPriceForm extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             isEditing: false,
             txtID: '',
@@ -28,8 +29,9 @@ class AlbumsPriceForm extends Component {
             editorState: EditorState.createEmpty(),
             price: "",
             applyDate: "",
-            priceDetailItems: [{ price: "", applyDate: "1991-02-15" }]
+            priceDetailItems: [{ price: "", applyDate: new Date() }]
         };
+
     }
 
     onEditorStateChange = (editorState) => {
@@ -135,12 +137,21 @@ class AlbumsPriceForm extends Component {
         console.log(this.props.serviceID);
         let id = this.props.serviceID;
         if (id != null) {
-            this.props.fetchServiceItem(1);
+            this.props.fetchServiceItem(id);
         }
     }
     componentWillReceiveProps(nextProps) {
         let serviceItem = nextProps.serviceItem;
         if (serviceItem != null) {
+            const contentBlock = convertFromHTML(serviceItem.priceDescription);
+            if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock);
+                const editorState = EditorState.createWithContent(contentState);
+                this.setState( {
+                    editorState,
+                });
+            }
+
             this.setState({
                 isEditing: true,
                 txtID: serviceItem.id,
@@ -148,6 +159,7 @@ class AlbumsPriceForm extends Component {
                 txtDescription: serviceItem.description,
                 txtPrice: serviceItem.price,
                 priceDetailItems: serviceItem.priceDetails,
+                txtPriceDescription: serviceItem.priceDescription
             });
         } else {
             this.setState({
@@ -157,7 +169,11 @@ class AlbumsPriceForm extends Component {
     }
 
     render() {
-        var { txtName, txtDescription, txtPrice, isEditing, editorState } = this.state;
+        var formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          });
+        var { txtName, txtDescription, txtPriceDescription, txtPrice, isEditing, editorState } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -234,11 +250,13 @@ class AlbumsPriceForm extends Component {
                                                     <Button type="submit" variant="contained" color="primary" style={{ width: '30%', float: 'right' }}
                                                         onClick={this.handleRemovePriceDetailItem(idx)}>Xóa
                                                 </Button>
+                                                
                                                 </div>
 
-
                                             </div>
+                                            <br/>
                                         </li>
+                                        
                                     ))}
                                 </ul>
 

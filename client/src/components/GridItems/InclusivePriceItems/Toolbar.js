@@ -12,15 +12,15 @@ export default class CalendarToolbar extends Toolbar {
 		return (
 			<div className="rbc-toolbar" >
 				<span className="rbc-btn-group">
-					<button type="button" onClick={() => this.navigate('TODAY')}>Hôm nay</button>
 					<button type="button" onClick={() => this.navigate('PREV')}>Về trước</button>
+					<button type="button" onClick={() => this.navigate('TODAY')}>Hôm nay</button>
 					<button type="button" onClick={() => this.navigate('NEXT')}>Tiếp theo</button>
 				</span>
 				<div className="rbc-toolbar-label">{this.props.label}</div>
 				<div className="rbc-btn-group">
 					<button type="button"  onClick={this.view.bind(null, 'month')}>Tháng</button>
-					<button type="button"  onClick={this.view.bind(null, 'week')}>Tuần</button>
-					<button type="button"  onClick={this.view.bind(null, 'day')}>Ngày</button>
+					{/* <button type="button"  onClick={this.view.bind(null, 'week')}>Tuần</button> */}
+					{/* <button type="button"  onClick={this.view.bind(null, 'day')}>Ngày</button> */}
 				</div>
 			</div>
 		);
