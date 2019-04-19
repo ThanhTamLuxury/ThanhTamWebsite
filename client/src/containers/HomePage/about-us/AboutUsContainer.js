@@ -26,13 +26,13 @@ class AboutUsContainer extends Component {
                             <h4>Thông tin chúng tôi</h4>
                             <p>
                                 Địa chỉ: {aboutUsDetails.address}<br />
-                                Điện thoại: {aboutUsDetails.phoneNo}<br />
-                                <a href={'mailto:' + aboutUsDetails.address}>Email: {aboutUsDetails.email}</a>
+                                Điện thoại: {aboutUsDetails.phone}<br />
+                                <a href={'mailto:' + aboutUsDetails.email}>Email: {aboutUsDetails.email}</a>
                             </p>
                         </div>
                         <div className="col-md-5 col-sm-5">
                             <h4>Địa điểm </h4><br />
-                            <iframe src={aboutUsDetails.location} width="90%" height="260em" frameBorder={0} style={{ border: 0, marginTop: '-20px' }} allowFullScreen />
+                            <iframe src={aboutUsDetails.googleLocation} width="90%" height="260em" frameBorder={0} style={{ border: 0, marginTop: '-20px' }} allowFullScreen />
                         </div>
                     </div>}
                 <div className="row">

@@ -43,6 +43,10 @@ class PostItem extends Component {
     render() {
         const localizer = BigCalendar.momentLocalizer(moment);
         var { post } = this.props
+        var formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          });
         return (
             <div className="col-md-10 col-xs-12 ">
                 <div className="gla_post_item">
@@ -60,13 +64,13 @@ class PostItem extends Component {
                     {/*End Content */}
                     <p />
                     <div className="price-details">
-                        <a className="price"><span>{post.price}</span>VNĐ
+                        <a className="price"><span>{formatter.format(post.price)}</span>
                         </a>
                         <Fab size="small" color="primary" aria-label="Xem thêm giá tham khảo" onClick={this.handleClickOpen} >
                             <AddIcon />
                         </Fab>
                         <div className="pull-right">
-                            <a href="Album.html" className="btn">Albums tham khảo</a>
+                            <a href="" className="btn">Albums tham khảo</a>
                         </div>
                     </div>
                     <Dialog

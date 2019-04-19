@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import * as Constant from '../constants/Constant';
-import { DetailSlider } from '../components/index';
+import { DetailSlider, Footer } from '../components/index';
 import { ServiceContainer } from '../containers/index';
 class ServicesPage extends Component {
     constructor(props) {
@@ -40,6 +40,7 @@ class ServicesPage extends Component {
                     <section className="gla_section">
                         <ServiceContainer serviceType = {this.props.serviceType} />
                     </section>
+                    <Footer/>
                 </section>
             </div>
         );

@@ -7,7 +7,7 @@ import {
     QuoteContainer
 } from './../containers/index';
 
-import { Header, Appointment } from './../components/index';
+import { Header, Appointment, Footer } from './../components/index';
 
 
 class HomePage extends Component {
@@ -30,6 +30,7 @@ class HomePage extends Component {
                         <TopDressesContainer />
                         <QuoteContainer />
                         <Appointment />
+                        <Footer/>
                     </section>
                 </div>
             </div>
