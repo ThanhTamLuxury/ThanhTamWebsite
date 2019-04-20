@@ -29,7 +29,7 @@ class TopAlbumsContainer extends Component {
         return (
             <section className="gla_section" id="gla_services">
                 <div className="container text-center">
-                    <p><img src={"images/animations/flowers2.gif" + '?a=' + Math.random()} data-bottom-top="@src:images/animations/flowers2.gif" height={150} alt /></p>
+                    <p><img src={"images/animations/flowers2.gif"} data-bottom-top="@src:images/animations/flowers2.gif" height={150} alt /></p>
                     <h2>Albums</h2>
                     <h3 className="gla_subtitle">Những albums nổi bật</h3>
                     <p>{topAlbums && topAlbums.description}</p>

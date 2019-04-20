@@ -69,7 +69,7 @@ class SliderContainer extends React.PureComponent {
                         <div className="container">
                             <div className="gla_slide_txt gla_slide_center_bottom text-center">
                                 <p
-                                ><img src={this.state.loaded + '?a=' + Math.random()} data-top-bottom="@src:images/animations/ourwedding_wh.gif"
+                                ><img src={this.state.loaded} data-top-bottom="@src:images/animations/ourwedding_wh.gif"
                                     alt='ourwedding animation' height={150} />
                                 </p>
                             </div>

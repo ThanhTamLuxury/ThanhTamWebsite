@@ -17,6 +17,7 @@ import com.thanhtam.thanhtamluxury.filter.JWTAuthenticationFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
+	private final String loginUrl = "/api/login";
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -26,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(HttpMethod.GET).permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+			.addFilter(getJWTAuthenticationFilter())
 			.addFilter(new JWTAthorizationFilter(authenticationManager()))
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
@@ -34,5 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
+	}
+
+	public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
+		final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager());
+		filter.setFilterProcessesUrl(loginUrl);
+		return filter;
 	}
 }
