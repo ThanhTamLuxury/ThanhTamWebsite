@@ -9,8 +9,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class StaticResourceConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploadImages/**").addResourceLocations("file:../uploadImages/");
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
+        registry.addResourceHandler("/uploadImages/**")
+                .addResourceLocations("file:../uploadImages/")
+                .setCachePeriod(15 * 60); // 15 minutes
+
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/public/")
+                                                      .setCachePeriod(2 * 60 *60 ); // 2 hours
+
+
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
     }
 

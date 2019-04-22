@@ -66,45 +66,39 @@ public class FileStorageService {
 
     /***
      * Get invalid images, the image path in database but not exist in server
-     * @param images
+     * @param imageUrls
      * @return
      */
-    public List<ImageItem> getInvalidImage(List<ImageItem> images){
+    public List<String> getInvalidImage(List<String> imageUrls){
 
-        List<ImageItem> invalidImages = new ArrayList<>(images.size());
+        List<String> invalidImageUrls = new ArrayList<>(imageUrls.size());
 
-        for (ImageItem image : images) {
+        for (String imageUrl : imageUrls) {
 
-            String imageUrl = image.getPath();
             int indexOfLastDot = imageUrl.lastIndexOf("/");
             String fileName = imageUrl.substring(indexOfLastDot + 1);
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
 
             if(! Files.exists(targetLocation)){
-                invalidImages.add(image);
+                invalidImageUrls.add(imageUrl);
             }
         }
-        return invalidImages;
+        return invalidImageUrls;
     }
 
     /***
      * Invalid file is the file that is not in database
      * @param files
-     * @param imageItems
+     * @param urls
      * @return
      */
-    public List<File> getInvalidFilesInServer(File[] files, List<ImageItem> imageItems){
+    public List<File> getInvalidFilesInServer(File[] files, List<String> urls){
         List<File> invalidFiles = new ArrayList<>();
-
-        List<String> imageItemFilenames = imageItems.stream().map(imageItem -> {
-            String path = imageItem.getPath();
-            return path.substring(path.lastIndexOf("/") + 1);
-        }).collect(Collectors.toList());
 
         for (File file : files) {
             String filename = file.getName();
-            int index = imageItemFilenames.indexOf(filename);
-            if( index == -1){
+            boolean exist = urls.stream().anyMatch(url -> url.contains(filename));
+            if(! exist){
                 invalidFiles.add(file);
             }
         }
