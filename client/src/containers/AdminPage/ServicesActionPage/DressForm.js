@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
-import TextField from '@material-ui/core/TextField';
-import * as Constant from '../../constants';
+import { generate_slug } from './../../../methods/function_lib';
+import * as Constant from './../../constants';
 import { connect } from 'react-redux';
-import { generate_slug } from './../../../methods/function_lib'
+import { axios_fetch_serviceByID, axios_add_update_with_file_service} from '../axios_call';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -16,42 +16,87 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import { axios_fetch_serviceByID } from '../axios_call';
+import { onLoading, actOnAddService } from '../actions';
 
-class DressForm extends Component {
+class AlbumForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isEditing: false,
-            mainImage: '',
+            isLoading: false,
             txtID: '',
             txtName: '',
-            txtSlug: '',
-            txtShortDescription: '',
             txtDescription: '',
-            imageData: [],
+            txtShortDescription:'',
+            txtSlug: '',
+            imagesItems:[],
+            images: [],
+            imageItems: [],
+            mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
+            mainImageFile: [],
+            response: {}
         };
     }
 
+    onUploadMainImage = (e) => {
+        var target = e.target;
+        const files = Array.from(target.files);
+        this.setState({
+            mainImageFile: files,
+            mainImage: URL.createObjectURL(files[0]),
+        })
+    }
+    onUploadMultipleImages = (e) => {
+        var { isEditing,images } = this.state;
+        var target = e.target;
+        const files = Array.from(target.files);
+        //- Update string Path
+        // Combine DBI images of service with new upload images (FE only) 
+        let fullImagesPath = [];
+        // New Image
+        let newImagesPath = files.map((file, index) => ({
+            id: index + 'N',
+            path: URL.createObjectURL(file)
+        }));
+        // DBI Images
+        let seriveImagesPath = [];
+        if (isEditing) {
+            seriveImagesPath = images
+        }
+        fullImagesPath = newImagesPath.concat(seriveImagesPath);
+        // Concat
 
+        // Update new file to state
+        let uploadFiles = files.map((file, index) => ({
+            id: index,
+            file: file
+        }));
+        this.setState({
+            imagesFiles: uploadFiles,
+            images: fullImagesPath // image display
+        })
+    }
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
-        this.setState({
-            [name]: target.value
-        });
         if (name === 'txtName') {
             let slug = generate_slug(target.value);
             this.setState({
+                txtName: target.value,
                 txtSlug: slug
             })
+        } else {
+            this.setState({
+                [name]: target.value
+            });
         }
     }
     componentDidMount() {
         let id = this.props.serviceID;
-        if(id!=null){
-            this.props.fetchServiceItem(this.props.serviceID); 
+        if (id !== '') {
+            this.props.fetchServiceItem(id);
+            this.props.onLoading(true);
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -59,12 +104,13 @@ class DressForm extends Component {
         if (serviceItem != null) {
             this.setState({
                 isEditing: true,
-                txtID: serviceItem.id,
+                txtID :serviceItem.id,
                 txtName: serviceItem.name,
+                txtShortDescription : serviceItem.shortDescription,
                 txtDescription: serviceItem.description,
-                txtShortDescription: serviceItem.shortDescription,
                 txtSlug: serviceItem.slug,
-                imageData: serviceItem.imageItems,
+                imageItems: serviceItem.imageItems,
+                images: serviceItem.imageItems,
                 mainImage: serviceItem.mainImage,
             })
         } else {
@@ -76,21 +122,87 @@ class DressForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-       
+        var { txtID, txtName, imageItems, txtDescription,txtShortDescription, txtSlug,images, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
+        let mainImageData = new FormData();
+        if (mainImageFile.length > 0) {
+            mainImageData.append("file", mainImageFile[0]); 
+        }
+        let multipleFilesData = new FormData();
+        if(imagesFiles && imagesFiles.length >0){
+            imagesFiles.forEach(function (item) {
+                multipleFilesData.append("files", item.file);
+            });
+        }
+        
+        let service = null;
+        if (isEditing) {
+            let imgArr = imageItems.map(image=>({
+                id:null,
+                path : image.path
+            }))
+            service = {
+                id: txtID,
+                name: txtName,
+                description: txtDescription,
+                shortDescription : txtShortDescription,
+                slug: txtSlug,
+                mainImage:mainImage,
+                imageItems :imgArr,
+                serviceType: Constant.SERVICE_WEDDING_DRESS,
+                type :Constant.SERVICE_WEDDING_DRESS,
+            }
+
+            this.props.onUpdate(service, Constant.SERVICE_WEDDING_DRESS, multipleFilesData, mainImageData);
+        } else {
+            service = {
+                name: txtName,
+                description: txtDescription,
+                shortDescription : txtShortDescription,
+                slug: txtSlug,
+                imageItems :imageItems,
+                serviceType: this.props.serviceType,
+                type :Constant.SERVICE_WEDDING_DRESS,
+            }
+            this.props.onAdd(service, Constant.SERVICE_WEDDING_DRESS, multipleFilesData, mainImageData);
+        }
+        this.props.onAdding(true);
+        this.props.onLoading(true);
+        this.setState({
+            isEditing: false,
+            isLoading: false,
+            txtID: '',
+            txtName: '',
+            txtDescription: '',
+            txtShortDescription:'',
+            txtSlug: '',
+            imagesItems:[],
+            images: [],
+            imageItems: [],
+            mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
+            mainImageFile: [],
+            response: {}
+        })
     }
     onDeleteImage = (id) => {
+        // image display include blob
         this.setState(prevState => {
-            const imageData = prevState.imageData.filter(image => image.id !== id);
-            return { imageData };
+            const images = prevState.images.filter(image => image.id !== id);
+            return { images };
         });
-
+        // Not include blob
+        this.setState(prevState => {
+            const imageItems = prevState.imageItems.filter(image => image.id !== id);
+            return { imageItems };
+        });
+        
     }
     render() {
-        var { mainImage, txtName, txtSlug, txtDescription, txtShortDescription, isEditing, imageData } = this.state;
+        var { mainImage, txtName, txtSlug, txtDescription, txtShortDescription, isEditing, images } = this.state;
         return (
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h2></h2>
-                <form onSubmit={this.onSave} >
+            <div>
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h2></h2>
+                    <form onSubmit={this.onSave} >
                     <div className="form-group text-center">
                         <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="Dress main image" />
                         <br /><br />
@@ -119,7 +231,7 @@ class DressForm extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <TextField
+                    <TextField
                             id="standard-textarea"
                             multiline
                             label="Miêu tả ngắn"
@@ -150,15 +262,22 @@ class DressForm extends Component {
                             <Divider />
                             <ExpansionPanelDetails >
                                 <GridList cellHeight={200} >
-                                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto', marginBottom: '1em' }}>
-                                        {imageData.length < 3 ?
-                                            <Button variant="contained" color="primary" style={{ width: '20%', height: '100%' }} >
-                                                Thêm ảnh
-                                        </Button> : ''}
-
-                                    </GridListTile>
+                                <GridListTile key="Subheader" cols={2} style={{ height: 'auto', marginBottom: '1em' }}>
+                                            <input
+                                                name="images"
+                                                accept="image/*"
+                                                style={{ display: 'none' }}
+                                                id="images-upload-button"
+                                                type="file"
+                                                multiple={true}
+                                                onChange={this.onUploadMultipleImages}
+                                            />
+                                            <label htmlFor="images-upload-button" style={{ width: '100%', height: '100%', margin: 'auto', fontSize: '1.1em!important' }}>
+                                                <Button variant="contained" color="primary" style={{ width: '100%' }} component="span" >Thêm ảnh</Button>
+                                            </label>
+                                        </GridListTile>
                                     {
-                                        imageData && imageData.map(image => (
+                                        images && images.map(image => (
                                             <GridListTile className="text-center" key={image.path} style={{ border: '1px solid black', }} >
                                                 <img style={{ width: 'auto', height: '200px' }} src={image.path} alt={image.title} />
                                                 <GridListTileBar
@@ -178,22 +297,39 @@ class DressForm extends Component {
                     <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                         {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                 </form>
-            </div>
+
+                </div>
+            </div >
+
         );
     }
 }
 const mapStateToProps = state => {
     return {
         serviceID: state.adminPage.serviceID,
-        serviceItem: state.adminPage.serviceItem
+        serviceItem: state.adminPage.serviceItem,
+        response: state.adminPage.response,
+        isLoading: state.adminPage.isLoading,
     }
 
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        onLoading: (isLoading) => {
+            dispatch(onLoading(isLoading));
+        },
+        onAdding: (isAdding) => {
+            dispatch(onLoading(isAdding));
+        },
         fetchServiceItem: (id) => {
             dispatch(axios_fetch_serviceByID(id));
         },
+        onUpdate: (service, serviceType, files, file) => {
+            axios_add_update_with_file_service(service, serviceType, files, file, dispatch, true);
+        },
+        onAdd: (service, serviceType, files, file) => {
+            axios_add_update_with_file_service(service, serviceType, files, file, dispatch, false);
+        }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(DressForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AlbumForm);

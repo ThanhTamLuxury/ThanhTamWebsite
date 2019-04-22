@@ -5,7 +5,8 @@ import * as Constant from '../../constants';
 import { connect } from 'react-redux';
 import { generate_slug } from './../../../methods/function_lib'
 import Button from '@material-ui/core/Button';
-import { axios_fetch_serviceByID } from '../axios_call';
+import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
+import { onLoading, onAdding } from '../actions';
 
 class VideoForm extends Component {
 
@@ -37,8 +38,9 @@ class VideoForm extends Component {
     }
     componentDidMount() {
         let id = this.props.serviceID;
-        if(id!=null){
-            this.props.fetchServiceItem(this.props.serviceID); 
+        if (id !== '') {
+            this.props.fetchServiceItem(id);
+            this.props.onLoading(true);
         }
     }
     componentWillReceiveProps(nextProps){
@@ -59,20 +61,44 @@ class VideoForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        // var { id, txtName, txtPrice, chkbStatus } = this.state;
-        // var { history } = this.props;
-        // var product = {
-        //     id : id,
-        //     name : txtName,
-        //     price : txtPrice,
-        //     status : chkbStatus
-        // };
-        // if (id) {
-        //     this.props.onUpdateProduct(product);
-        // } else {
-        //     this.props.onAddProduct(product);
-        // }
-        // history.goBack(); // save xong thì back lại trang cũ ! có thể xài push để vào trang mới
+        var { txtID, txtName,txtDescription, txtLink, isEditing } = this.state;
+        let linkArr = txtLink.split('=');
+        let service = null;
+        if (isEditing) {
+            service = {
+                id: txtID,
+                name: txtName,
+                description: txtDescription,
+                mainImage:linkArr[1],
+                serviceType: Constant.SERVICE_WEDDING_VIDEO,
+                type :Constant.SERVICE_WEDDING_VIDEO,
+            }
+
+            this.props.onUpdate(service, Constant.SERVICE_WEDDING_VIDEO);
+        } else {
+            service = {
+                name: txtName,
+                description: txtDescription,
+                mainImage:linkArr[1],
+                serviceType: Constant.SERVICE_WEDDING_VIDEO,
+                type :Constant.SERVICE_WEDDING_VIDEO,
+            }
+            this.props.onAdd(service, Constant.SERVICE_WEDDING_VIDEO);
+        }
+
+        this.setState({
+            isEditing: false,
+            txtID:'',
+            txtName: '',
+            txtLink:'',
+            txtDescription: '',
+        })
+
+        this.props.onAdding(true);
+        this.props.onLoading(true);
+        
+
+        
     }
     onDeleteImage = (id) => {
         this.setState(prevState => {
@@ -83,7 +109,6 @@ class VideoForm extends Component {
     }
     render() {
         var { txtName, txtLink,txtDescription, isEditing } = this.state;
-        var { serviceItem } = this.props;
         return (
             <div>
             <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -143,9 +168,21 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        onLoading: (isLoading) => {
+            dispatch(onLoading(isLoading));
+        },
+        onAdding: (isAdding) => {
+            dispatch(onLoading(isAdding));
+        },
         fetchServiceItem: (id) => {
             dispatch(axios_fetch_serviceByID(id));
         },
+        onUpdate: (service, serviceType) => { 
+            axios_add_update_service(service, serviceType, dispatch, true);
+        },
+        onAdd: (service, serviceType) => {
+            axios_add_update_service(service, serviceType,dispatch, false);
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(VideoForm);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { generate_slug } from './../../../methods/function_lib';
+import * as Constant from './../../constants';
 import { connect } from 'react-redux';
-import { axios_fetch_serviceByID, axios_add_update_with_file_service, axios_upload_file, axios_upload_multipleFiles } from '../axios_call';
+import { axios_fetch_serviceByID, axios_add_update_with_file_service} from '../axios_call';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -28,8 +29,9 @@ class AlbumForm extends Component {
             txtName: '',
             txtDescription: '',
             txtSlug: '',
+            imagesItems:[],
             images: [],
-            imagesFiles: [],
+            imageItems: [],
             mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
             mainImageFile: [],
             response: {}
@@ -45,7 +47,7 @@ class AlbumForm extends Component {
         })
     }
     onUploadMultipleImages = (e) => {
-        var { isEditing } = this.state;
+        var { isEditing,images } = this.state;
         var target = e.target;
         const files = Array.from(target.files);
         //- Update string Path
@@ -59,7 +61,7 @@ class AlbumForm extends Component {
         // DBI Images
         let seriveImagesPath = [];
         if (isEditing) {
-            seriveImagesPath = this.props.serviceItem.imageItems;
+            seriveImagesPath = images
         }
         fullImagesPath = newImagesPath.concat(seriveImagesPath);
         // Concat
@@ -71,7 +73,7 @@ class AlbumForm extends Component {
         }));
         this.setState({
             imagesFiles: uploadFiles,
-            images: fullImagesPath
+            images: fullImagesPath // image display
         })
     }
     onChange = (e) => {
@@ -101,10 +103,12 @@ class AlbumForm extends Component {
         if (serviceItem != null) {
             this.setState({
                 isEditing: true,
+                txtID :serviceItem.id,
                 txtName: serviceItem.name,
                 txtDescription: serviceItem.description,
                 txtSlug: serviceItem.slug,
-                imageData: serviceItem.imageItems,
+                imageItems: serviceItem.imageItems,
+                images: serviceItem.imageItems,
                 mainImage: serviceItem.mainImage,
             })
         } else {
@@ -116,50 +120,79 @@ class AlbumForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID, txtName, images, txtDescription, txtSlug, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
+        var { txtID, txtName, imageItems, txtDescription, txtSlug,images, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
         let mainImageData = new FormData();
         if (mainImageFile.length > 0) {
             mainImageData.append("file", mainImageFile[0]);
         }
-
         let multipleFilesData = new FormData();
-        imagesFiles.forEach(function (item) {
-            multipleFilesData.append("files", item.file);
-        });
-        ;
-        let responseMainImage = this.props.response;
-
-        // let resonseData = await this.props.onUploadFile(mainImageData);
+        if(imagesFiles &&  imagesFiles.length >0){
+            imagesFiles.forEach(function (item) {
+                multipleFilesData.append("files", item.file);
+            });
+        }
+        
         let service = null;
         if (isEditing) {
+            let imgArr = imageItems.map(image=>({
+                id:null,
+                path : image.path
+            }))
             service = {
                 id: txtID,
                 name: txtName,
                 description: txtDescription,
-                slug: txtSlug
+                slug: txtSlug,
+                mainImage:mainImage,
+                imageItems :imgArr,
+                serviceType: Constant.SERVICE_ALBUM,
+                type :this.props.serviceType,
             }
 
-            this.props.onUpdate(service, this.props.serviceType, multipleFilesData, mainImageData);
+            this.props.onUpdate(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
         } else {
             service = {
                 name: txtName,
                 description: txtDescription,
-                slug: txtSlug
+                slug: txtSlug,
+                imageItems :imageItems,
+                serviceType: this.props.serviceType,
+                type :this.props.serviceType,
             }
-            this.props.onAdd(service, this.props.serviceType, multipleFilesData, mainImageData);
+            this.props.onAdd(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
         }
+        this.setState({
+            isEditing: false,
+            isLoading: false,
+            txtID: '',
+            txtName: '',
+            txtDescription: '',
+            txtSlug: '',
+            imagesItems:[],
+            images: [],
+            imageItems: [],
+            mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
+            mainImageFile: [],
+            response: {}
+        })
         this.props.onAdding(true);
         this.props.onLoading(true);
     }
     onDeleteImage = (id) => {
+        // image display include blob
         this.setState(prevState => {
             const images = prevState.images.filter(image => image.id !== id);
             return { images };
         });
-
+        // Not include blob
+        this.setState(prevState => {
+            const imageItems = prevState.imageItems.filter(image => image.id !== id);
+            return { imageItems };
+        });
+        
     }
     render() {
-        var { txtName, txtDescription, txtSlug, isEditing, imageData, mainImage, isLoading } = this.state;
+        var { txtName, txtDescription, txtSlug, isEditing, images, mainImage, isLoading } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -238,7 +271,7 @@ class AlbumForm extends Component {
                                             </label>
                                         </GridListTile>
                                         {
-                                            imageData && imageData.map(image => (
+                                            images && images.map(image => (
                                                 <GridListTile className="text-center" key={image.id} style={{ border: '1px solid black', minWidth: '300px' }} >
                                                     <img style={{ height: '200px' }} src={image.path} alt={image.path} />
                                                     <GridListTileBar
@@ -290,13 +323,6 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onAdd: (service, serviceType, files, file) => {
             axios_add_update_with_file_service(service, serviceType, files, file, dispatch, false);
-            // dispatch => {axios_add_service(service, serviceType,files)};
-        },
-        onUploadFile: (data) => {
-            dispatch(axios_upload_file(data));
-        },
-        onUploadMultipleFiles: (data) => {
-            dispatch(axios_upload_multipleFiles(data));
         }
     }
 }

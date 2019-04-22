@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Constant from '../../constants';
 import { connect } from 'react-redux';
-import { axios_fetch_services } from './../axios_call';
+import { axios_fetch_services, axios_search_services, axios_delete_services } from './../axios_call';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -25,17 +25,21 @@ class ListItemsService extends Component {
         selected: [],
         totalItems: 0,
         tabCode: '',
+        isSearching: false,
+        searchValue :'',
     };
 
     componentDidMount() {
         this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
+        this.setState({
+            isSearching: false
+        })
         this.props.onLoading(true);
-        // if (this.props.servicesResponse != null) {
-        //     this.setState({
-        //         data: this.props.servicesResponse.content,
-        //         totalItems: this.props.servicesResponse.totalItem
-        //     });
-        // }
+        if (this.props.servicesResponse != null) {
+            this.setState({
+                tabCode: this.props.serviceType,
+            });
+        }
     }
     onChangePage = (e, page) => {
         this.setState({ page: page });
@@ -45,10 +49,10 @@ class ListItemsService extends Component {
 
     handleChangeRowsPerPage = (e) => {
         let newRowsCount = e.target.value;
-        this.setState({ rowsPerPage:  newRowsCount});
+        this.setState({ rowsPerPage: newRowsCount });
         this.props.fetchServicesList(this.props.serviceType, this.state.page, newRowsCount);
         this.props.onLoading(true);
-        
+
     };
     componentWillReceiveProps(nextProps) {
         if (nextProps.servicesResponse != null) {
@@ -57,7 +61,13 @@ class ListItemsService extends Component {
                 totalItems: nextProps.servicesResponse.totalItem
             });
         }
-
+        if (nextProps.searchValue !== this.state.searchValue) {
+            this.props.searchServices(nextProps.searchValue, this.props.serviceType, this.state.page, this.state.rowsPerPage);
+            this.setState({
+                isSearching: true,
+                searchValue : nextProps.searchValue,
+            })
+        }
     }
     onSelectAllClick = event => {
         if (event.target.checked) {
@@ -99,24 +109,29 @@ class ListItemsService extends Component {
         this.props.onOpenAddNewForm();
         this.props.onChangeTab(this.props.serviceType, tabCode);
     }
-    
+
     onCheckPriceDetail = (id) => {
         let tabCode = this.props.serviceType + '_PRICE';
         this.props.onCheckPriceDetail(id);
         this.props.onChangeTab(this.props.serviceType, tabCode);
     }
     onDelete = () => {
-        if (this.state.selected.length == 0) {
+        var {isSearching,selected, searchValue, page,rowsPerPage } = this.state;
+        if (selected.length == 0) {
             alert(Constant.MSG_NO_SELECTED_DELETED);
         } else {
-            //TODO
-            //call api to delete
+            this.props.onDelete(selected);
+            if(isSearching){
+                this.props.searchServices(searchValue, this.props.serviceType, page, rowsPerPage);
+            }else{
+                this.props.fetchServicesList(this.props.serviceType, page, rowsPerPage);
+            }
         }
     }
 
     render() {
         const { page, data, selected, rowsPerPage, totalItems } = this.state;
-        const { tabCode } = this.props;
+        const { serviceType } = this.props;
         return (
             <div>
                 <div className="services-table">
@@ -127,11 +142,11 @@ class ListItemsService extends Component {
                                 <TableCell align="left" >Tên</TableCell>
                                 <TableCell align="left">Giá hôm nay (VNĐ)</TableCell>
                                 <TableCell align="left">Chi tiết</TableCell>
-                                {(tabCode !== Constant.SERVICE_WEDDING_DRESS && tabCode !== Constant.SERVICE_FULL_WEDDING_DAY) ? <TableCell align="left">Bảng giá</TableCell> : null}
+                                {((serviceType === Constant.SERVICE_WEDDING_DRESS) || (serviceType === Constant.SERVICE_FULL_WEDDING_DAY)) ? null : <TableCell align="left">Bảng giá</TableCell>}
                             </TableRow>
                         </TableHead>
                         <TableBody  >
-                            {data && this.renderData(data, tabCode)}
+                            {data && this.renderData(data, serviceType)}
                         </TableBody>
                         <TableFooter>
                             <TableRow>
@@ -172,15 +187,17 @@ class ListItemsService extends Component {
         );
     }
 
-    renderData(data, tabCode) {
+    renderData(data, serviceType) {
         var formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
-          });
+        });
+
         let result = null;
         if (data.length > 0) {
             result = data.map(item => {
                 const isSelected = this.isSelected(item.id);
+
                 return (
                     <TableRow key={item.id} onClick={event => this.onChangeSelected(event, item.id)} >
                         <TableCell align="left">
@@ -193,7 +210,7 @@ class ListItemsService extends Component {
                         <TableCell align="left">
                             <Button variant="outlined" color="primary" onClick={() => this.onEditItem(item.id, Constant.SERVICE_EDIT_ALBUM)}>Chi tiết</Button>
                         </TableCell>
-                        {((tabCode !== Constant.SERVICE_WEDDING_DRESS) && (tabCode !== Constant.SERVICE_FULL_WEDDING_DAY)) ? <TableCell align="left"><Button variant="outlined" color="primary" onClick={() => this.onCheckPriceDetail(item.id)}  >Thông tin</Button></TableCell> : null}
+                        {((serviceType === Constant.SERVICE_WEDDING_DRESS) || (serviceType === Constant.SERVICE_FULL_WEDDING_DAY)) ? null : <TableCell align="left"><Button variant="outlined" color="primary" onClick={() => this.onCheckPriceDetail(item.id)}  >Thông tin</Button></TableCell>}
                     </TableRow>
                 )
             })
@@ -210,7 +227,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onLoading: (isLoading)=>{
+        onLoading: (isLoading) => {
             dispatch(onLoading(isLoading));
         },
         fetchServicesList: (serviceType, page, size) => {
@@ -222,9 +239,15 @@ const mapDispatchToProps = (dispatch, props) => {
         onEditItem: (id) => {
             dispatch(onEditItem(id))
         },
+        onDelete: (idArr) => {
+            dispatch(axios_delete_services(idArr))
+        },
         onCheckPriceDetail: (id) => {
             dispatch(onCheckPriceDetail(id))
-        }
+        },
+        searchServices: (searchValue, serviceType, page, size) => {
+            dispatch(axios_search_services(searchValue,serviceType, page, size));
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ListItemsService);

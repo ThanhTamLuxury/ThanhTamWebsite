@@ -14,7 +14,7 @@ class DressDetailsPage extends Component {
         return (
             <div>
                 <Header />
-                <DetailSlider pageTitle={Constant.ALBUMDETAILS_PAGE_TITLE} />
+                <DetailSlider pageTitle={Constant.DRESSDETAILS_PAGE_TITLE} />
                 <section id="gla_content" className="gla_content">
                 
                     {/* section */}

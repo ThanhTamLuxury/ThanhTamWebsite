@@ -62,7 +62,7 @@ class AlbumDetailsPageContainer extends Component {
         if (serviceItem != null) {
             return (
                 <div className="container text-center">
-                    <p><img src="/images/animations/flowers3.gif" data-bottom-top="@src:/images/animations/flowers3.gif" height={130} alt /></p>
+                    <p><img src="/images/animations/flowers3.gif" data-bottom-top="@src:/images/animations/flowers3.gif" height={130} alt="Animation flower" /></p>
                     <h2>{serviceItem.name}</h2>
                     <p>{serviceItem.description}</p>
                     <Masonry
@@ -100,8 +100,8 @@ class AlbumDetailsPageContainer extends Component {
         if (images.length > 0) {
             result = images.map((image, index) => {
                 return (
-                    <li className="image-element-class gla_shop_item masonry-item">
-                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} />
+                    <li key={index} className="image-element-class masonry-item">
+                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} alt ={image.path} />
                     </li>
                 );
 

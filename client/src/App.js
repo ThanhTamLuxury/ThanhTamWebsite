@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import routes from './routes/routes';
 import Footer from './components/Footer/Footer';
+// export const history = createBrowserHistory()
+
 class App extends Component {
     render() {
         return (
-            <Router>
+            <Router >
                 <div>
                     {this.showContentMenus(routes)}
                     {/* <Footer/> */}

@@ -6,6 +6,7 @@ export const IS_ADDING_SERVICE = 'IS_ADDING_SERVICE';
 
 
 // ServicesListItem Page
+export const PAGE_RESET = 'PAGE_RESET';
 export const FETCH_SERVICES = 'FETCH_SERVICES_ADMIN';
 export const FETCH_SERVICEBYID = 'FETCH_SERVICEBYID_ADMIN';
 export const ADD_SERVICE = 'ADD_SERVICE';
@@ -13,6 +14,7 @@ export const UPDATE_SERVICE = 'UPDATE_SERVICE';
 export const UPLOAD_FILE = 'UPLOAD_FILE';
 export const UPLOAD_MULTIPLE_FILES = 'UPLOAD_MULTIPLE_FILES';
 export const PAGE_LOADING = 'PAGE_LOADING';
+export const DELETE_SERVICES = 'DELETE_SERVICES';
 
 
 //ServiceType
@@ -23,6 +25,7 @@ export const SERVICE_WEDDING_VIDEO = 'WEDDING_VIDEO'
 // Price 
 export const SERVICE_FULL_WEDDING_DAY = 'FULL_WEDDING_DAY'
 
+export const FETCH_ABOUTUS = 'FETCH_ABOUTUS'
 
 
 

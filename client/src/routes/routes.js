@@ -63,16 +63,6 @@ const routes = [
         path: '/admin',
         exact: true,
         main: AdminPage 
-    },
-    {
-        path: '/admin/services/:serviceType',
-        exact: false,
-        main: AdminPage
-    },
-    {
-        path: '/admin/services/:serviceType/:id',
-        exact: false,
-        main : AdminPage
     }
 ];
 
