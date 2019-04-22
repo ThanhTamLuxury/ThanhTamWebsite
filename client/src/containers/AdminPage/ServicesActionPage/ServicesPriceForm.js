@@ -7,14 +7,14 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import Button from '@material-ui/core/Button';
-import { generate_slug } from './../../../methods/function_lib';
+import { generate_slug } from '../../../methods/function_lib';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
-class AlbumsPriceForm extends Component {
+class ServicesPriceForm extends Component {
 
     constructor(props) {
         super(props);
@@ -29,7 +29,7 @@ class AlbumsPriceForm extends Component {
             editorState: EditorState.createEmpty(),
             price: "",
             applyDate: "",
-            priceDetailItems: [{ price: "", applyDate: new Date() }]
+            priceDetailItems: []
         };
 
     }
@@ -61,6 +61,7 @@ class AlbumsPriceForm extends Component {
         e.preventDefault();
         var { txtID, txtName, txtDescription, txtPrice, isEditing, priceDetailItems } = this.state;
         let htmlRaw = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+
         let service = null;
         if (isEditing) {
             service = {
@@ -69,11 +70,12 @@ class AlbumsPriceForm extends Component {
                 description: txtDescription,
                 priceDescription: htmlRaw,
                 price: txtPrice,
-                priceDetails: priceDetailItems
+                priceDetails: priceDetailItems,
+                serviceType: this.props.serviceType,
+                type :this.props.serviceType,
             }
-            if (service != null) {
                 this.props.onUpdate(service, this.props.serviceType);
-            }
+            
         } else {
             service = {
                 id: txtID,
@@ -81,13 +83,24 @@ class AlbumsPriceForm extends Component {
                 description: txtDescription,
                 priceDescription: htmlRaw,
                 price: txtPrice,
-                priceDetails: priceDetailItems
+                priceDetails: priceDetailItems,
+                serviceType: this.props.serviceType,
+                type :this.props.serviceType,
             }
-            if (service != null) {
                 this.props.onAdd(service, this.props.serviceType);
-            }
         }
-
+        this.setState({
+            isEditing: false,
+            txtID: '',
+            txtName: '',
+            txtDescription: '',
+            txtPriceDescription: '',
+            txtPrice: '',
+            editorState: EditorState.createEmpty(),
+            price: "",
+            applyDate: "",
+            priceDetailItems: []
+        })
     }
 
     handlePriceDetailItemNameChange = idx => evt => {
@@ -109,7 +122,8 @@ class AlbumsPriceForm extends Component {
     };
 
 
-    handleAddPriceDetailItem = () => {
+    handleAddPriceDetailItem = (e) => {
+        e.preventDefault();
         var date = new Date();
         var dd = date.getDate();
         var mm = date.getMonth() + 1;
@@ -134,24 +148,25 @@ class AlbumsPriceForm extends Component {
     };
 
     componentDidMount() {
-        console.log(this.props.serviceID);
         let id = this.props.serviceID;
-        if (id != null) {
+        if (id !== '') {
             this.props.fetchServiceItem(id);
         }
     }
     componentWillReceiveProps(nextProps) {
         let serviceItem = nextProps.serviceItem;
-        if (serviceItem != null) {
-            const contentBlock = convertFromHTML(serviceItem.priceDescription);
-            if (contentBlock) {
-                const contentState = ContentState.createFromBlockArray(contentBlock);
-                const editorState = EditorState.createWithContent(contentState);
-                this.setState( {
-                    editorState,
-                });
-            }
 
+        if (serviceItem != null) {
+            if(serviceItem.priceDescription){
+                const contentBlock = convertFromHTML(serviceItem.priceDescription);
+                if (contentBlock) {
+                    const contentState = ContentState.createFromBlockArray(contentBlock);
+                    const editorState = EditorState.createWithContent(contentState);
+                    this.setState( {
+                        editorState,
+                    });
+                }
+            }
             this.setState({
                 isEditing: true,
                 txtID: serviceItem.id,
@@ -166,6 +181,7 @@ class AlbumsPriceForm extends Component {
                 isEditing: false,
             });
         }
+
     }
 
     render() {
@@ -173,7 +189,7 @@ class AlbumsPriceForm extends Component {
             style: 'currency',
             currency: 'VND',
           });
-        var { txtName, txtDescription, txtPriceDescription, txtPrice, isEditing, editorState } = this.state;
+        var { txtName, txtDescription, txtPrice, isEditing, editorState,priceDetailItems } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -222,7 +238,7 @@ class AlbumsPriceForm extends Component {
                                 </Typography>
 
                                 <ul className="event-date-picker">
-                                    {this.state.priceDetailItems.map((priceDetailItem, idx) => (
+                                    {(priceDetailItems.length > 0) && priceDetailItems.map((priceDetailItem, idx) => (
                                         <li key={idx}>
                                             <div className="priceDetailItem">
                                                 <div className="form-group">
@@ -297,11 +313,11 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(axios_fetch_serviceByID(id));
         },
         onUpdate: (service, serviceType) => {
-            dispatch(axios_add_update_service(service, serviceType,true,dispatch));
+            axios_add_update_service(service, serviceType,dispatch,true);
         },
         onAdd: (service, serviceType) => {
-            dispatch(axios_add_update_service(service, serviceType,false,dispatch));
+            axios_add_update_service(service, serviceType,dispatch,false);
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AlbumsPriceForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ServicesPriceForm);

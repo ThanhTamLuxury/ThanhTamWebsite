@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import * as Constant from './../constants'
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CalendarToolbar from './Toolbar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import BigCalendar from 'react-big-calendar'
-import events from './events'
 import dates from './../../../utils/dates';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import 'moment/locale/vi';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
@@ -29,6 +30,8 @@ class PostItem extends Component {
         this.myDiv = React.createRef()
         this.state = {
             open: false,
+            label: '',
+            toRelatedPath: '',
         };
     }
 
@@ -40,14 +43,35 @@ class PostItem extends Component {
         this.setState({ open: false });
     };
 
+    componentDidMount() {
+        let serviceType = this.props.serviceType;
+        let path = '';
+        switch (serviceType) {
+            case Constant.TYPE_ALBUM:
+                path = Constant.SLUG_ALBUM
+                break;
+            case Constant.TYPE_VIDEO:
+                path = Constant.SLUG_VIDEO
+                break;
+            // case Constant.TYPE_FULL_WEDDING_DAY:
+            //     path = Constant.
+            //     break;
+        }
+        this.setState({
+            toRelatedPath: path
+        })
+    }
+
     render() {
+        
+        var { post,serviceType } = this.props;
+        var { toRelatedPath } = this.state;
+
         var formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
         });
         const localizer = BigCalendar.momentLocalizer(moment);
-        var { post } = this.props;
-
         var priceDetails = post.priceDetails ? post.priceDetails.map((priceDetail, index) => {
             var date = new Date(Date.parse(priceDetail.applyDate));
             return {
@@ -71,7 +95,7 @@ class PostItem extends Component {
                         <strong>Thông tin: </strong> {post.description}<br />
                     </p>
                     {/* Content */}
-                    <div ref={this.myDiv} dangerouslySetInnerHTML={{ __html: post.content }} />
+                    <div ref={this.myDiv} dangerouslySetInnerHTML={{ __html: post.priceDescription }} />
                     {/*End Content */}
                     <p />
                     <div className="price-details">
@@ -81,7 +105,7 @@ class PostItem extends Component {
                             <AddIcon />
                         </Fab>
                         <div className="pull-right">
-                            <a href="" className="btn">Albums tham khảo</a>
+                            <Link to={"/"+toRelatedPath + post.id + "/" + post.slug} className="btn">{serviceType? serviceType+' tham khảo' :''}</Link>
                         </div>
                     </div>
                     <Dialog

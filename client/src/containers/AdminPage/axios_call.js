@@ -5,10 +5,23 @@ import callApi from '../../utils/apiCaller';
 export const axios_fetch_services = (serviceType, page, size) => {
     return dispatch => {
         //server start from 0 but client start from 1. Substract 1
-        if(page > 0){
-            page --;
+        if (page > 0) {
+            page--;
         }
         return callApi(`service/all/outside-page?serviceType=${serviceType}&page=${page}&size=${size}`, 'GET', null, 'ADMIN').then(res => {
+            if (res != null) {
+                dispatch(Actions.actFetchServies(res.data));
+            }
+        });
+    };
+}
+export const axios_search_services = (searchValue,serviceType, page, size) => {
+    return dispatch => {
+        //server start from 0 but client start from 1. Substract 1
+        if (page > 0) {
+            page--;
+        }
+        return callApi(`service/search?serviceType=${serviceType}&searchValue=${searchValue}&page=${page}&size=${size}`, 'GET', null, 'ADMIN').then(res => {
             if (res != null) {
                 dispatch(Actions.actFetchServies(res.data));
             }
@@ -27,52 +40,62 @@ export const axios_fetch_serviceByID = (id) => {
 }
 
 export const axios_add_update_with_file_service = async (service, serviceType, files, file, dispatch, isUpdate) => {
-    const result = await callApi(`upload/uploadMultipleFiles`, 'POST', files, 'UPLOAD');
-    let resImage = result.data;
+    let resImage = null;
+    let mainImage = null;
     let imagesPath = [];
-    if (resImage) {
-        imagesPath = resImage.map((res, index) => ({
-            path: res.fileDownloadUri
-        }));
-        service = {
-            ...service, imageItems: imagesPath
+    let filesStatus = [];
+    let mainImagePath = null;
+    if (files.entries().next().value) {
+        const result = await callApi(`upload/uploadMultipleFiles`, 'POST', files, 'UPLOAD');
+        resImage = result.data;
+        if (resImage) {
+            resImage.map((res) =>{
+                service.imageItems.push({
+                    id:null,
+                    path : res.fileDownloadUri
+                }); 
+                filesStatus.push(res);
+            });
         }
+    }
+    if (file.entries().next().value) {
         const res = await callApi(`upload/uploadFile`, 'POST', file, 'UPLOAD')
-        let mainImage = res.data;
+
+        mainImage = res.data;
         if (mainImage) {
-            let mainImagePath = mainImage.fileDownloadUri;
-            let filesStatus = [];
-            resImage.map(item => {
-                filesStatus.push(item);
-            })
+            mainImagePath = mainImage.fileDownloadUri;
             filesStatus.push(mainImage);
             service = {
-                ...service, imageItems: imagesPath, mainImage: mainImagePath
+                ...service, mainImage: mainImagePath
             }
-            if (!isUpdate) {
-                const finalResult = await callApi(`service/${serviceType}`, 'POST', service, 'ADMIN')
-                if (finalResult) {
-                    dispatch(Actions.actOnAddService(finalResult, filesStatus));
-                }
-            } else {
-                const finalResult = await callApi(`service/${serviceType}`, 'PUT', service, 'ADMIN')
-                if (finalResult) {
-                    dispatch(Actions.actOnUpdateService(finalResult, filesStatus));
-                }
-            }
-
         };
+    } else if(!isUpdate) {
+        service = {
+            ...service, mainImage: 'defaultMainImage.jpg'
+        }
+    }
+
+    if (!isUpdate) {
+        const finalResult = await callApi(`service/${serviceType}`, 'POST', service, 'ADMIN')
+        if (finalResult) {
+            dispatch(Actions.actOnAddService(finalResult, filesStatus));
+        }
+    } else {
+        const finalResult = await callApi(`service/${service.id}`, 'PUT', service, 'ADMIN')
+        if (finalResult) {
+            dispatch(Actions.actOnUpdateService(finalResult, filesStatus));
+        }
     }
 }
 
-export const axios_add_update_service = async (service, serviceType, isUpdate, dispatch) => {
+export const axios_add_update_service = async (service, serviceType,dispatch,isUpdate) => {
     if (!isUpdate) {
         const finalResult = await callApi(`service/${serviceType}`, 'POST', service, 'ADMIN')
         if (finalResult) {
             dispatch(Actions.actOnAddService(finalResult, []));
         }
     } else {
-        const finalResult = await callApi(`service/${serviceType}`, 'PUT', service, 'ADMIN')
+        const finalResult = await callApi(`service/${service.id}`, 'PUT', service, 'ADMIN')
         if (finalResult) {
             dispatch(Actions.actOnUpdateService(finalResult, []));
         }
@@ -82,31 +105,8 @@ function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
 }
-export const axios_upload_file = (file) => {
-    // return (dispatch) => {
-    // let res = callApi(`upload/uploadFile`, 'POST', file, 'UPLOAD');
-    // if (res != null) {
-    //      dispatch(Actions.uploadFile(res.data));
-    // }
-    // return callApi(`upload/uploadFile`, 'POST', file, 'UPLOAD').then(res => {
-    //     if (res != null) {
-    //         // dispatch(Actions.uploadFile(res.data));
-    //         return res.data;
 
-    //     }
-    // });
-    // };
-}
-export const axios_upload_multipleFiles = (files) => {
-    return dispatch => {
-        return callApi(`upload/uploadMultipleFiles`, 'POST', files, 'UPLOAD').then(res => {
-            if (res != null) {
-                console.log(res);
-                dispatch(Actions.uploadMultipleFiles(res.data));
-            }
-        });
-    };
-}
+
 export const axios_update_service = (service, serviceType) => {
     return dispatch => {
         return callApi(`service/update-info/${service.id}`, 'PUT', service, 'ADMIN').then(res => {
@@ -116,13 +116,17 @@ export const axios_update_service = (service, serviceType) => {
         });
     };
 }
-
-export const login = async (username, password,dispatch) => {
-    // const requestOptions = {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: 
-    // };
+export const axios_delete_services = (idArr) => {
+    return dispatch => {
+        return callApi(`service`, 'DELETE', idArr, 'ADMIN').then(res => {
+            if (res != null) {
+                dispatch(Actions.onDelete('SUCCESS'));
+            }
+        });
+    };
+}
+export const login = async (username, password, dispatch) => {
+   
     const response = await callApi(`/login`, 'POST', JSON.stringify({ username, password }), 'LOGIN')
     if (response) {
         if (!response.ok) {
@@ -153,3 +157,13 @@ function handleResponse(response) {
         return data;
     });
 }
+export const axios_fetch_AboutUsDetails = () => {
+    return dispatch => {
+      return callApi("location/first", "GET", null).then(res => {
+        if (res != null) {
+          dispatch(Actions.actFetchAboutUsJson(res.data));
+        }
+      });
+    };
+  };
+  

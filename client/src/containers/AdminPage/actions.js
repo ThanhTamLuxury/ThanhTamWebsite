@@ -33,7 +33,12 @@ export const onEditItem = (id) => {
         serviceID:id
     }
 }
-
+export const onDelete = (response) => {
+    return {
+        type : Types.DELETE_SERVICES,
+        response:response
+    }
+}
 export const onCheckPriceDetail = (id) => {
     return {
         type : Types.ON_VIEW_PRICE,
@@ -68,6 +73,18 @@ export const uploadMultipleFiles = (response) => {
     return {
         type : Types.UPLOAD_MULTIPLE_FILES,
         response:response
+    }
+}
+export const actFetchAboutUsJson = (aboutUsDetails) => {
+    return {
+        type : Types.FETCH_ABOUTUS,
+        aboutUsDetails
+    }
+}
+
+export const reset = () => {
+    return {
+        type : Types.PAGE_RESET
     }
 }
 export const onLoading = (isLoading) => {

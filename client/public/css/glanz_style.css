@@ -155,9 +155,12 @@ body {
 }
 
 .top-video {
-	padding: 120px 30px 120px 30px !important;
+	padding: 100px 30px 120px 30px !important;
 }
-
+.top-video p {
+	font-size: 1.2em;
+	font-style: italic;
+}
 .gla_noheader {
 	height: 5px;
 }
@@ -1512,6 +1515,10 @@ h6 .label {
 	.services-table{
 		max-height: 80%!important;
 	}
+	.carousel.carousel-slider {
+		max-height: 600px;
+		border-radius: 10px;
+	}
 }
 
 @media (max-width:800px) {
@@ -1523,13 +1530,28 @@ h6 .label {
 		max-width: 200px !important;
 		height: auto;
 	}
-
-	.album-item img {
-		height: 100% !important;
-	}
+	
+	
 
 }
+@media (min-width:650px){
+	.masonry-item{
 
+		width: 30%;
+	}
+}
+@media (max-width:325px) {
+	.gla_logo {
+    font: 900 14px/18px Roboto;
+}
+.masonry-item img{
+	width: 80%!important;
+	
+}
+.masonry-item{
+	margin-left: 0px!important;
+}
+}
 
 
 /*Calendar*/
@@ -5175,14 +5197,18 @@ video#video_background {
 	height: 200px;
 }
 
-.gla_wht_txt .gla_news_block:hover,
+.gla_wht_txt .gla_news_block:hover, 
+.masonry-item:hover,
 .gla_wht_txt .gla_shop_item:hover {
 	-webkit-box-shadow: 0px 9px 32px -1px rgba(0, 0, 0, 0.5);
 	-moz-box-shadow: 0px 9px 32px -1px rgba(0, 0, 0, 0.5);
 	box-shadow: 0px 9px 32px -1px rgba(0, 0, 0, 0.5);
 }
 
+
+
 .gla_news_block:hover,
+.masonry-item:hover,
 .gla_shop_item:hover {
 	text-decoration: none;
 	transform: translateY(-10px);
@@ -6010,9 +6036,8 @@ footer {
 }
 
 .page_title {
-	font: 430 100px/110px BickhamScriptPro;
-	margin-top: 50px;
-	margin-bottom: 60px;
+	font: 430 60px/60px BickhamScriptPro;
+	margin-bottom: 20px;
 	max-width: 80%;
 	margin-left: auto;
 	margin-right: auto;
@@ -6056,7 +6081,9 @@ footer {
 	max-width: 50%;
 	height: auto;
 }
-
+.gla_post_title {
+	margin-bottom: 2em;
+}
 .gla_post_title h3 {
 	font: 600 30px/32px Roboto;
 	text-transform: uppercase;
@@ -6096,6 +6123,7 @@ footer {
 
 .gla_post_more {
 	position: relative;
+	margin-bottom: 50px;
 }
 
 .gla_post_more_link span {
@@ -6253,6 +6281,7 @@ footer {
 	width: 100%;
 	display: block;
 	position: relative;
+	min-height: 320px
 }
 
 .gla_shop_item img {
@@ -6267,8 +6296,8 @@ footer {
 }
 
 .gla_shop_item_slider {
-	width: 70%;
 	margin: auto;
+	max-width: 400px;
 }
 
 .owl-wrapper-outer.owl-item {
@@ -6388,6 +6417,7 @@ footer {
 	padding: 20px;
 	text-align: center;
 	font-weight: bold;
+	min-height: 100px;
 }
 
 .gla_shop_item_title:before,
@@ -6656,10 +6686,7 @@ footer {
 
 
 
-	.masonry-item {
-		width: 40% !important;
 
-	}
 
 	.gla_page {
 		padding: 0;
@@ -6934,9 +6961,7 @@ footer {
 		right: 30px;
 	}
 
-	.my-gallery-class {
-		padding-left: 3.5em !important;
-	}
+
 	.gla_anim_box {
     min-width: 50%;
 }
@@ -7136,10 +7161,10 @@ footer {
 		bottom: 20px;
 	}
 
-	.gla_content h2 {
-		font: 900 40px/30px BickhamScriptPro !important;
+	/* .gla_content h2 {
+		font: 900 50px/50px BickhamScriptPro !important;
 		margin-bottom: 50px !important;
-	}
+	} */
 
 	.gla_icon_boxes {
 		margin-right: 0;
@@ -7509,9 +7534,21 @@ footer {
 
 .masonry-item {
 	margin: 1em;
-	width: 30%;
+	list-style-type: none;
+	min-width: 280px;
+	border-radius: 10px;
+	-webkit-box-shadow: 0 1.5px 9px 0 rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 1.5px 9px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 1.5px 9px 0 rgba(0, 0, 0, 0.2);
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
 }
-
+.masonry-item img{
+	width: 100%;
+	min-width: 290px;
+	border-radius: 10px;
+}
 .album-item img {
 	height: 220px;
 }
@@ -7565,11 +7602,14 @@ footer {
 
 .my-gallery-class {
 	width: 100%;
-	padding-left: 2em;
 }
 
 .top-video .page_title {
 	max-width: 100%;
+	display: -webkit-box;
+    -webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden!important;
 }
 
 .top-video-title {
@@ -7649,8 +7689,17 @@ img.avatar {
 }
 .admin_content input,textarea,p {
 	font-family: inherit;
-	font-size: 1.4em!important;
-	line-height: 1.4!important;
+	font-size: 1.5em;
+	font-style: italic;
+}
+.admin_content p {
+	font-family: inherit;
+	font-size: 1.3em!important;
+	font-style: italic;
+}
+.admin_content textarea {
+	font-size: 1.5em!important;
+	line-height: 20px;
 }
 .admin_content ul span {
 	font-family: inherit;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { axios_fetch_price_services } from './axios_call';
 import { onLoading } from './actions';
 
-const renderService = (services) => {
+const renderService = (services,serviceType) => {
     var result = null;
     if (services.length > 0) {
         result = services.map((item, index) => {
@@ -12,7 +12,9 @@ const renderService = (services) => {
                 <DetailedExpansionPanel
                     key={index}
                     label={item.name}
-                    itemValue={<PostItem key={index} post={item} />}
+                    itemValue={<PostItem key={index} post={item}
+                    serviceType = {serviceType}
+                    />}
                 />
             );
         });
@@ -64,6 +66,7 @@ class ServicePriceContainer extends Component {
         if (servicesResponse != null) {
             return (
                 <div className="container">
+                <h1 className="text-center">Danh sách bảng giá</h1>
                 {isLoading ? <div className="loading"></div> : ''}
                     <div className="row">
                         {servicesResponse.content.length > 0 ? renderService(servicesResponse.content, serviceType) : <h2>Không có thông tin</h2>}

@@ -16,10 +16,19 @@ const initialState = {
     isLogin: false,
     user:{},
     actionsPage:[],
+    idArr:[],
+    message :'',
+    aboutUsDetails:null,
 };
 
 const adminPage = (state = initialState, action) => {
     switch (action.type) {
+        case Constants.PAGE_RESET:
+            return Object.assign({}, state, {
+                isLoading: false,
+                isAdding:false,
+                filesStatus :[],
+            });
         case Constants.PAGE_LOADING:
             return Object.assign({}, state, {
                 isLoading: action.isLoading
@@ -54,6 +63,10 @@ const adminPage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 response: action.response,
                 isLoading: false
+            });
+        case Constants.DELETE_SERVICES:
+            return Object.assign({}, state, {
+                message: action.response,
             });
         case Constants.ON_CHANGE_MENU:
             return Object.assign({}, state, {
@@ -93,6 +106,10 @@ const adminPage = (state = initialState, action) => {
                     mutipleFilesResponse: action.response,
                 },
                 isLoading: true
+            });
+            case Constants.FETCH_ABOUTUS:
+            return Object.assign({}, state, {
+                aboutUsDetails: action.aboutUsDetails
             });
         default:
             return state;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as Constant from '../../constants';
+
 import TextField from '@material-ui/core/TextField';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Button from '@material-ui/core/Button';
@@ -10,7 +10,7 @@ class HomePageService extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            txtID:'',
+            isEditing: true,
             txtAddress: '',
             txtPhoneNo: '',
             txtEmail: '',
@@ -28,53 +28,22 @@ class HomePageService extends Component {
     componentDidMount() {
         this.props.fetchAboutUsDetails();
     }
-    componentWillReceiveProps(nextProps) {
-        let aboutUsDetails = nextProps.aboutUsDetails;
-
-        if (aboutUsDetails != null) {
-            this.setState({
-                txtID: aboutUsDetails.id,
-                txtAddress: aboutUsDetails.address,
-                txtPhoneNo: aboutUsDetails.phone,
-                txtEmail: aboutUsDetails.email,
-                txtLocation: aboutUsDetails.googleLocation,
-            });
-        }
-    }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID,txtAddress, txtPhoneNo, txtEmail, txtLocation } = this.state;
-        let info = {
-            id: txtID,
-            address: txtAddress,
-            phone: txtPhoneNo,
-            email: txtEmail,
-            googleLocation: txtLocation,
-        }
-        this.props.onUpdateAboutUsDetails(info, Constant.SERVICE_WEDDING_VIDEO);
-
-        this.setState({
-            txtAddress: '',
-            txtPhoneNo: '',
-            txtEmail: '',
-            txtLocation: '',
-        })
-
-        this.props.onAdding(true);
-        this.props.onLoading(true);
+       
     }
     render() {
-        var { txtAddress, txtPhoneNo, txtEmail, txtLocation, isEditing } = this.state;
+        var { txtAddress, txtPhoneNo,txtEmail,txtLocation, isEditing } = this.state;
         return (
-            <div style={{ minWidth: '400px' }}>
+            <div style={{minWidth:'400px'}}>
                 <h2>Thông tin liên lạc</h2>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <h2></h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group">
                             <TextField
-                                label="Địa chỉ"
-                                name="txtAddress"
+                                label="Mật khẩu cũ"
+                                name="txtOldPassword"
                                 className="form-input"
                                 value={txtAddress}
                                 onChange={this.onChange}
@@ -84,7 +53,7 @@ class HomePageService extends Component {
                         <div className="form-group">
                             <TextField
                                 label="Số điện thoại"
-                                name="txtPhoneNo"
+                                name="t"
                                 value={txtPhoneNo}
                                 className="form-input"
                                 onChange={this.onChange}
@@ -123,7 +92,7 @@ class HomePageService extends Component {
 }
 const mapStateToProps = state => {
     return {
-        aboutUsDetails: state.adminPage.aboutUsDetails
+        aboutUsDetails: state.homePage.aboutUsDetails
     }
 }
 const mapDispatchToProps = (dispatch, props) => {

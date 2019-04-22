@@ -21,17 +21,6 @@ const renderService = (services, serviceType) => {
                     return (
                         <VideoItem key={index} video={item} />
                     );
-                case Constant.PRICE_INCLUSIVE:
-                case Constant.PRICE_VIDEO:
-                case Constant.TYPE_VIDEO:
-                    return (
-                        <DetailedExpansionPanel
-                            key={index}
-                            label={item.name}
-                            
-                            // itemValue={<PostItem key={index} post={item} />}
-                        />
-                    );
             }
 
         });

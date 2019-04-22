@@ -33,8 +33,8 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import AlbumForm from './ServicesActionPage/AlbumForm';
 import DressForm from './ServicesActionPage/DressForm';
 import VideoForm from './ServicesActionPage/VideoForm';
-import AlbumsPriceForm from './ServicesActionPage/AlbumsPriceForm';
-import { actChangeMenu, onLoading, onAdding,onUpdate } from './actions';
+import ServicesPriceForm from './ServicesActionPage/ServicesPriceForm';
+import { actChangeMenu, onLoading, onAdding,onUpdate, reset } from './actions';
 
 
 function HomeIcon(props) {
@@ -227,6 +227,7 @@ class AdminPageContainer extends Component {
         uploadMessages: [],
         isDoneAction:false,
         msgAction :'',
+        searchValue:'',
     };
 
     handleToggleClick = (text) => {
@@ -268,6 +269,12 @@ class AdminPageContainer extends Component {
             displayingTab: tabCode,
         });
     }
+
+    handleBlur = (e)=>{
+        this.setState({
+            searchValue:e.target.value,
+        })
+    }
     renderUploadMSG = (uploadMessages) => {
         let result = null;
         if (uploadMessages != null) {
@@ -285,11 +292,9 @@ class AdminPageContainer extends Component {
                 });
             }
         }
-
         return result;
     }
-    componentWillReceiveProps(nextProps) {
-        
+    componentWillReceiveProps(nextProps) {  
         this.setState({
             isLoading: nextProps.isLoading,
             isAdding:nextProps.isAdding
@@ -301,21 +306,23 @@ class AdminPageContainer extends Component {
                     isUploadFinished: true,
                     isDoneAction:true
                 })
+                this.props.onResetPage();
             }
         }
         this.props.onAdding(nextProps.isAdding);
         this.props.onUpdate(nextProps.isUpdate);
         this.props.onLoading(nextProps.isLoading);
-
+        
     }
 
 
 
     render() {
-
+       
         const { classes, theme } = this.props;
-        const { displayingTab, isLoading,isAdding, uploadMessages,isUpdate,msgAction } = this.state;
+        const { displayingTab, isLoading,isAdding, uploadMessages,isUpdate,msgAction,searchValue } = this.state;
         return (
+          
             <div className={classes.root}>
                 
                 {(isLoading || isAdding || isUpdate) ? <LinearProgress color="secondary" style={{position:'fixed', top:'0',zIndex:'9999',width:'100%'}} /> : ''}
@@ -352,6 +359,7 @@ class AdminPageContainer extends Component {
                                         root: classes.inputRoot,
                                         input: classes.inputInput,
                                     }}
+                                    onBlur={this.handleBlur}
                                 />
                             </div>
                         </Typography>
@@ -389,10 +397,10 @@ class AdminPageContainer extends Component {
                     <div className={classes.toolbar} />
                     {/* Content */}
                     {displayingTab === Constant.SERVICE_HOME && <HomePageService />}
-                    {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService onChangeTab={this.onChangeTab} />}
-                    {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService onChangeTab={this.onChangeTab} />}
-                    {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService onChangeTab={this.onChangeTab} />}
-                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService onChangeTab={this.onChangeTab} />}
+                    {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService onChangeTab={this.onChangeTab} searchValue ={searchValue} />}
+                    {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService onChangeTab={this.onChangeTab} searchValue ={searchValue} />}
+                    {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService onChangeTab={this.onChangeTab} searchValue ={searchValue} />}
+                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService onChangeTab={this.onChangeTab} searchValue ={searchValue} />}
 
                     {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm serviceType={Constant.SERVICE_ALBUM} onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm onChangeTab={this.onChangeTab} />}
@@ -401,11 +409,11 @@ class AdminPageContainer extends Component {
                     {(displayingTab === Constant.TAB_WEDDING_VIDEO_ADD) && <VideoForm onChangeTab={this.onChangeTab} />}
                     {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm onChangeTab={this.onChangeTab} />}
 
-                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
-                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <ServicesPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <ServicesPriceForm onChangeTab={this.onChangeTab} />}
 
-                    {(displayingTab === Constant.TAB_ALBUM_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
-                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <AlbumsPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.TAB_ALBUM_PRICE) && <ServicesPriceForm onChangeTab={this.onChangeTab} />}
+                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <ServicesPriceForm onChangeTab={this.onChangeTab} />}
 
                 </main>
                 <Snackbar
@@ -497,7 +505,7 @@ class AdminPageContainer extends Component {
             case Constant.TAB_WEDDING_VIDEO_ADD:
                 return 'Thêm mới video';
             case Constant.TAB_FULL_WEDDING_DAY_ADD:
-
+                return 'Thêm bảng giá trọn gói';
             case Constant.TAB_ALBUM_EDIT:
                 return 'Chỉnh sửa album';
             case Constant.TAB_WEDDING_DRESS_EDIT:
@@ -564,6 +572,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onUpdate: (isUpdate) => {
             dispatch(onUpdate(isUpdate));
+        },
+        onResetPage: () => {
+            dispatch(reset());
         },
 
     }
