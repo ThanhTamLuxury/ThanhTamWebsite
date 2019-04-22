@@ -23,7 +23,7 @@ public class ServiceItemApi {
 
 	@GetMapping("/top")
 	public List<ServiceItemSmallDto> getTopForMenu(@RequestParam String serviceType) {
-		return serviceItemService.getTop3(serviceType);
+		return serviceItemService.getTop4(serviceType);
 	}
 
 	@PostMapping("/{serviceType}")

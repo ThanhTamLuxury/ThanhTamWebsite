@@ -6,6 +6,7 @@ import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemService;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailRepository;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
@@ -30,9 +31,9 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	private ImageItemService imageItemService;
 
 	@Override
-	public List<ServiceItemSmallDto> getTop3(String serviceType) {
+	public List<ServiceItemSmallDto> getTop4(String serviceType) {
 		try {
-			return serviceItemRepo.getTop3(ServiceType.valueOf(serviceType).toString())
+			return serviceItemRepo.getTop4(ServiceType.valueOf(serviceType).toString())
 					.stream().map(serviceItem -> serviceItem.toMappedClass(ServiceItemSmallDto.class))
 					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
@@ -44,6 +45,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		try {
 			ServiceItem serviceItem = serviceItemDto.toMappedClass();
 			serviceItem.setServiceType(ServiceType.valueOf(serviceType).toString());
+			serviceItem.setActive(true);
 			serviceItem.getImageItems()
 					.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
 			serviceItem.getPriceDetails()
@@ -78,6 +80,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		ServiceItem serviceItem = serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
 		BeanUtils.copyProperties(dto, serviceItem);
+		serviceItem.setActive(true);
 		serviceItemRepo.save(serviceItem);
 		return dto;
 	}
@@ -128,6 +131,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 				.toMappedClass();
 	}
 
+	@ApiOperation("Delete service permanently in the database")
 	@Override
 	public void deleteService(Integer id) {
 		ServiceItem serviceItem = this.serviceItemRepo.findById(id)
@@ -141,6 +145,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		serviceItemRepo.delete(serviceItem);
 	}
 
+	@ApiOperation("Delete multiple service permanently in the database")
 	@Override
 	@Transactional
 	public void multipleDeleteService(List<Integer> ids) {
