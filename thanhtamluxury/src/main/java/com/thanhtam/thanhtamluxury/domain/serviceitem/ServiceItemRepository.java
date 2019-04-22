@@ -24,6 +24,6 @@ public interface ServiceItemRepository extends JpaRepository<ServiceItem, Intege
 
 	@Query(value = "Select * From ServiceItem si " +
 			"Where si.serviceType = ?1 AND si.isActive = 1 " +
-			"		OR si.name like ?2 ", nativeQuery = true)
+			"		AND si.name like ?2 ", nativeQuery = true)
 	List<ServiceItem> searchServiceByName(String serviceType, String searchValue, Pageable pageable);
 }
