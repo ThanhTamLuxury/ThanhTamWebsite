@@ -6,6 +6,7 @@ import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import Button from '@material-ui/core/Button';
 import { generate_slug } from '../../../methods/function_lib';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -158,7 +159,7 @@ class ServicesPriceForm extends Component {
 
         if (serviceItem != null) {
             if(serviceItem.priceDescription){
-                const contentBlock = convertFromHTML(serviceItem.priceDescription);
+                const contentBlock = htmlToDraft(serviceItem.priceDescription);
                 if (contentBlock) {
                     const contentState = ContentState.createFromBlockArray(contentBlock);
                     const editorState = EditorState.createWithContent(contentState);
