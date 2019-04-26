@@ -17,7 +17,7 @@ public class HttpServerConfiguration {
     @Value("${server.http.port}") //Defined in application.properties file
             int httpPort;
 
-    @Value("${server.port}") //Defined in application.properties file
+    @Value("${server.https.port}") //Defined in application.properties file
             int httpsPort;
 
     @Bean

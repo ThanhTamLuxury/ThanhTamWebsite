@@ -5,7 +5,9 @@ spring:
     username: thanhtam
     password: zaQ@1234
 server:
-  port: 8282
+  port: 8433
+  https:
+    port: 8433
   http:
     port: 8181
 
@@ -18,6 +20,8 @@ spring:
     username: root
     password: zaQ@1234
 server:
-  port: 12345
+  port: 433
+  https:
+    port: 433
   http:
     port: 80
