@@ -33,10 +33,9 @@ export const onEditItem = (id) => {
         serviceID:id
     }
 }
-export const onDelete = (response) => {
+export const onDelete = () => {
     return {
-        type : Types.DELETE_SERVICES,
-        response:response
+        type : Types.DELETE_SERVICES
     }
 }
 export const onCheckPriceDetail = (id) => {
@@ -48,12 +47,18 @@ export const onCheckPriceDetail = (id) => {
 
 export const actOnUpdateService = (response,filesStatus) => {
     return {
-        type : Types.ADD_SERVICE,
+        type : Types.UPDATE_SERVICE,
         response:response,
         filesStatus:filesStatus,
     }
 }
 
+export const actUploadSuccess = (response) => {
+    return {
+        type : Types.UPLOAD_SUCCESS,
+        response:response,
+    }
+}
 export const actOnAddService = (response,filesStatus) => {
     return {
         type : Types.ADD_SERVICE,
@@ -87,6 +92,7 @@ export const reset = () => {
         type : Types.PAGE_RESET
     }
 }
+
 export const onLoading = (isLoading) => {
     return {
         type : Types.PAGE_LOADING,
@@ -121,5 +127,23 @@ export const logIn = (user) => {
     return {
         type : Types.LOG_IN,
         user:user
+    }
+}
+
+// Response 
+export const is2xx = (action,resonse) => {
+    return {
+        response:resonse,
+        type : action,
+        statusCode:200
+    }
+}
+
+// Response 
+export const isNot2xx = (statusCode,msg) => {
+    return {
+        type : Types.RES_NOT_2xx,
+        statusCode:statusCode,
+        msg:msg
     }
 }

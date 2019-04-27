@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route, Router } from 'react-router-dom';
+import {createBrowserHistory} from 'history'
 import routes from './routes/routes';
-import Footer from './components/Footer/Footer';
-// export const history = createBrowserHistory()
+export const history = createBrowserHistory()
 
 class App extends Component {
     render() {
         return (
-            <Router >
+            <Router history={history}>
                 <div>
                     {this.showContentMenus(routes)}
                     {/* <Footer/> */}

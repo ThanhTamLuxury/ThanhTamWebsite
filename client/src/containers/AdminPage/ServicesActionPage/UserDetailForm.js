@@ -30,10 +30,12 @@ class HomePageService extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-       
+        let {txtAddress,txtPhoneNo,txtEmail,txtLocation} = this.state;
+        let aboutUsDetails = {};
+
     }
     render() {
-        var { txtAddress, txtPhoneNo,txtEmail,txtLocation, isEditing } = this.state;
+        var { txtAddress, txtPhoneNo,txtEmail,txtLocation } = this.state;
         return (
             <div style={{minWidth:'400px'}}>
                 <h2>Thông tin liên lạc</h2>

@@ -56,16 +56,15 @@ class AlbumForm extends Component {
         let fullImagesPath = [];
         // New Image
         let newImagesPath = files.map((file, index) => ({
-            id: index + 'N',
+            id: Date.now(),
             path: URL.createObjectURL(file)
         }));
         // DBI Images
-        let seriveImagesPath = [];
-        if (isEditing) {
-            seriveImagesPath = images
-        }
-        fullImagesPath = newImagesPath.concat(seriveImagesPath);
+        let seriveImagesPath = images;
+        
         // Concat
+        fullImagesPath = newImagesPath.concat(seriveImagesPath);
+
 
         // Update new file to state
         let uploadFiles = files.map((file, index) => ({
@@ -94,7 +93,7 @@ class AlbumForm extends Component {
     }
     componentDidMount() {
         let id = this.props.serviceID;
-        if (id !== '') {
+        if (id) {
             this.props.fetchServiceItem(id);
             this.props.onLoading(true);
         }
@@ -160,7 +159,7 @@ class AlbumForm extends Component {
                 shortDescription : txtShortDescription,
                 slug: txtSlug,
                 imageItems :imageItems,
-                serviceType: this.props.serviceType,
+                serviceType: Constant.SERVICE_WEDDING_DRESS,
                 type :Constant.SERVICE_WEDDING_DRESS,
             }
             this.props.onAdd(service, Constant.SERVICE_WEDDING_DRESS, multipleFilesData, mainImageData);
@@ -206,9 +205,20 @@ class AlbumForm extends Component {
                     <div className="form-group text-center">
                         <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="Dress main image" />
                         <br /><br />
-                        <Button type="submit" variant="outlined" color="primary" style={{ width: '20%', margin: 'auto' }}>
-                            {isEditing ? 'Đổi ảnh chính' : 'Thêm ảnh chính'}
-                        </Button>
+                        <input
+                                name="mainImage"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                id="contained-button-file"
+                                type="file"
+                                multiple={false}
+                                onChange={this.onUploadMainImage}
+                            />
+                            <label htmlFor="contained-button-file" style={{ margin: 'auto', fontSize: '1.1em!important' }}>
+                                <Button variant="outlined" color="primary" component="span">
+                                    {isEditing ? 'Sửa ảnh chính' : 'Thêm ảnh chính'}
+                                </Button>
+                            </label>
                     </div>
                     <div className="form-group">
                         <TextField
@@ -306,7 +316,6 @@ class AlbumForm extends Component {
 }
 const mapStateToProps = state => {
     return {
-        serviceID: state.adminPage.serviceID,
         serviceItem: state.adminPage.serviceItem,
         response: state.adminPage.response,
         isLoading: state.adminPage.isLoading,

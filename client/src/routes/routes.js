@@ -8,6 +8,16 @@ import ServiceListPricePage from '../pages/ServiceListPricePage';
 import LoginPage from '../pages/LoginPage';
 import AdminPage from '../pages/AdminPage';
 import LoginContainer from '../containers/AdminPage/LoginContainer';
+import ServiceAddPage from '../pages/ServiceAddPage';
+import ServiceEditPage from '../pages/ServiceEditPage';
+import AdminViewListPage from '../pages/AdminViewListPage';
+import ServiceEditPricePage from '../pages/ServiceEditPricePage';
+import AdminBannerPage from '../pages/AdminBannerPage';
+import AdminSearchPage from '../pages/AdminSearchPage';
+
+
+
+
 const routes = [
     {
         path: '/',
@@ -63,6 +73,36 @@ const routes = [
         path: '/admin',
         exact: true,
         main: AdminPage 
+    },
+    {
+        path: '/admin/views/:serviceType',
+        exact: false,
+        main: AdminViewListPage 
+    },
+    {
+        path: '/admin/search/:serviceType/search_query=:searchValue',
+        exact: false,
+        main: AdminSearchPage 
+    },
+    {
+        path: '/admin/edit/banner',
+        exact: false,
+        main: AdminBannerPage 
+    },
+    {
+        path: '/admin/add/:serviceType',
+        exact: false,
+        main: ServiceAddPage 
+    },
+    {
+        path: '/admin/edit/:serviceType/:id',
+        exact: false,
+        main: ServiceEditPage 
+    },
+    {
+        path: '/admin/price/:serviceType/:id',
+        exact: false,
+        main: ServiceEditPricePage 
     }
 ];
 

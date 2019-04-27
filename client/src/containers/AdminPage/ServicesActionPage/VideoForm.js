@@ -38,7 +38,7 @@ class VideoForm extends Component {
     }
     componentDidMount() {
         let id = this.props.serviceID;
-        if (id !== '') {
+        if (id) {
             this.props.fetchServiceItem(id);
             this.props.onLoading(true);
         }
@@ -161,7 +161,6 @@ class VideoForm extends Component {
 }
 const mapStateToProps = state => {
     return {
-        serviceID: state.adminPage.serviceID,
         serviceItem : state.adminPage.serviceItem
     }
 
