@@ -39,6 +39,10 @@ public class BannerServiceImp implements BannerService {
 	@Override
 	public List<BannerDto> createMany(List<BannerDto> dtos) {
 		List<Banner> banners = dtos.stream().map(BannerDto::toMappedClass).collect(Collectors.toList());
+
+		//remvove all banner
+		bannerRepo.deleteAll();
+
 		return bannerRepo.saveAll(banners).stream().map(Banner::toMappedClass).collect(Collectors.toList());
 	}
 

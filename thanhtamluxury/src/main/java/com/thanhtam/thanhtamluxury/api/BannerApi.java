@@ -18,24 +18,24 @@ public class BannerApi {
 	public List<BannerDto> getAll() {
 		return bannerService.getAll();
 	}
-
-	@PutMapping()
-	public BannerDto updateBanner(@RequestBody BannerDto dto) {
-		return bannerService.update(dto);
-	}
-
-	@PostMapping()
-	public BannerDto createBanner(@RequestBody BannerDto dto) {
-		return bannerService.create(dto);
-	}
+//
+//	@PutMapping()
+//	public BannerDto updateBanner(@RequestBody BannerDto dto) {
+//		return bannerService.update(dto);
+//	}
+//
+//	@PostMapping()
+//	public BannerDto createBanner(@RequestBody BannerDto dto) {
+//		return bannerService.create(dto);
+//	}
 
 	@PostMapping("/many")
 	public List<BannerDto> createBanners(@RequestBody List<BannerDto> dtos) {
 		return bannerService.createMany(dtos);
 	}
-
-	@DeleteMapping("{bannerId}")
-	public void deleteBanner(@PathVariable Integer bannerId){
-		bannerService.deleteBanner(bannerId);
-	}
+//
+//	@DeleteMapping("{bannerId}")
+//	public void deleteBanner(@PathVariable Integer bannerId){
+//		bannerService.deleteBanner(bannerId);
+//	}
 }
