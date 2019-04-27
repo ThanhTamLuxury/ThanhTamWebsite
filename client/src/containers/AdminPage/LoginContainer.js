@@ -26,10 +26,13 @@ class LoginContainer extends Component {
     }
 
 
+    redirect = () => {
+        window.location.replace("/admin");
+    }
     onLogin = (e) => {
         e.preventDefault();
         const { txtUsername, txtPassword } = this.state;
-        this.props.onLogin(txtUsername, txtPassword);
+        this.props.onLogin(txtUsername, txtPassword, this.redirect);
     }
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
@@ -77,14 +80,13 @@ class LoginContainer extends Component {
 }
 const mapStateToProps = state => {
     return {
-        user: state.adminPage.user,
     }
 
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onLogin: (txtUsername, txtPassword) => {
-            login(txtUsername, txtPassword, dispatch);
+        onLogin: (txtUsername, txtPassword, redirect) => {
+            login(txtUsername, txtPassword, redirect, dispatch);
         },
         onLogOut: () => {
             logOut();
