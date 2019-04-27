@@ -46,6 +46,7 @@ class AlbumForm extends Component {
             mainImage: URL.createObjectURL(files[0]),
         })
     }
+    
     onUploadMultipleImages = (e) => {
         var { isEditing,images } = this.state;
         var target = e.target;
@@ -54,15 +55,13 @@ class AlbumForm extends Component {
         // Combine DBI images of service with new upload images (FE only) 
         let fullImagesPath = [];
         // New Image
-        let newImagesPath = files.map((file, index) => ({
-            id: index + 'N',
+        let newImagesPath = files.map((file) => ({
+            id: Date.now(),
             path: URL.createObjectURL(file)
         }));
         // DBI Images
-        let seriveImagesPath = [];
-        if (isEditing) {
-            seriveImagesPath = images
-        }
+        let seriveImagesPath = images;
+
         fullImagesPath = newImagesPath.concat(seriveImagesPath);
         // Concat
 
@@ -93,7 +92,7 @@ class AlbumForm extends Component {
     }
     componentDidMount() {
         let id = this.props.serviceID;
-        if (id !== '') {
+        if (id) {
             this.props.fetchServiceItem(id);
             this.props.onLoading(true);
         }
@@ -175,7 +174,6 @@ class AlbumForm extends Component {
             mainImageFile: [],
             response: {}
         })
-        this.props.onAdding(true);
         this.props.onLoading(true);
     }
     onDeleteImage = (id) => {
@@ -300,7 +298,7 @@ class AlbumForm extends Component {
 }
 const mapStateToProps = state => {
     return {
-        serviceID: state.adminPage.serviceID,
+        // serviceID: state.adminPage.serviceID,
         serviceItem: state.adminPage.serviceItem,
         response: state.adminPage.response,
         isLoading: state.adminPage.isLoading,
@@ -311,9 +309,6 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         onLoading: (isLoading) => {
             dispatch(onLoading(isLoading));
-        },
-        onAdding: (isAdding) => {
-            dispatch(onLoading(isAdding));
         },
         fetchServiceItem: (id) => {
             dispatch(axios_fetch_serviceByID(id));

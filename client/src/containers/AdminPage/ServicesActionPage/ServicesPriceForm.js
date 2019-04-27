@@ -15,6 +15,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
+import { onLoading } from '../actions';
 class ServicesPriceForm extends Component {
 
     constructor(props) {
@@ -109,7 +110,6 @@ class ServicesPriceForm extends Component {
             if (idx !== sidx) return priceDetailItem;
             return { ...priceDetailItem, price: evt.target.value, applyDate: priceDetailItem.applyDate };
         });
-
         this.setState({ priceDetailItems: newPriceDetailItems });
     };
 
@@ -150,8 +150,9 @@ class ServicesPriceForm extends Component {
 
     componentDidMount() {
         let id = this.props.serviceID;
-        if (id !== '') {
+        if (id) {
             this.props.fetchServiceItem(id);
+            this.props.onLoading(true);
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -302,7 +303,6 @@ class ServicesPriceForm extends Component {
 }
 const mapStateToProps = state => {
     return {
-        serviceID: state.adminPage.serviceID,
         serviceItem: state.adminPage.serviceItem,
         serviceType: state.adminPage.serviceType
     }
@@ -310,6 +310,10 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        
+        onLoading: (isLoading) => {
+            dispatch(onLoading(isLoading));
+        },
         fetchServiceItem: (id) => {
             dispatch(axios_fetch_serviceByID(id));
         },

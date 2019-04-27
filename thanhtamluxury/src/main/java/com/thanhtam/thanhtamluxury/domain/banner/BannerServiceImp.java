@@ -5,6 +5,7 @@ import com.thanhtam.thanhtamluxury.common.ThanhTamException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,8 +38,13 @@ public class BannerServiceImp implements BannerService {
 	}
 
 	@Override
+	@Transactional
 	public List<BannerDto> createMany(List<BannerDto> dtos) {
 		List<Banner> banners = dtos.stream().map(BannerDto::toMappedClass).collect(Collectors.toList());
+
+		//remvove all banner
+		bannerRepo.deleteAll();
+
 		return bannerRepo.saveAll(banners).stream().map(Banner::toMappedClass).collect(Collectors.toList());
 	}
 

@@ -85,7 +85,7 @@ class ServiceContainer extends Component {
         );
 
     }
-    onChangePage = i => (curPage) => {
+    onChangePage = i => () => {
         this.setState({
             curPage: i
         })
@@ -95,7 +95,7 @@ class ServiceContainer extends Component {
         var result = [];
         //backend start from 0 but frontend start from 1
         for (var i = 1; i <= totalPage; i++) {
-            result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
+            result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} >{i}</a></li>);
         }
         return result;
     }

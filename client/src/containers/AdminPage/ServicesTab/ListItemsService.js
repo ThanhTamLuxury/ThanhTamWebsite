@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link } from 'react-router-dom';
 import * as Constant from '../../constants';
 import { connect } from 'react-redux';
 import { axios_fetch_services, axios_search_services, axios_delete_services } from './../axios_call';
@@ -11,15 +12,15 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Button } from '@material-ui/core';
-import { onOpenAddNewForm, onEditItem, onCheckPriceDetail, onLoading } from '../actions';
-
+import { onOpenAddNewForm, onEditItem, onCheckPriceDetail, onLoading, reset } from '../actions';
+import {history} from '../../../App';
 
 
 class ListItemsService extends Component {
 
 
     state = {
-        page: 1,
+        page: 0,
         data: [],
         rowsPerPage: 5,
         selected: [],
@@ -27,46 +28,68 @@ class ListItemsService extends Component {
         tabCode: '',
         isSearching: false,
         searchValue :'',
+        serviceType : '',
+        isDelete: false,
     };
 
-    componentDidMount() {
-        this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
-        this.setState({
-            isSearching: false
-        })
-        this.props.onLoading(true);
-        if (this.props.servicesResponse != null) {
+    componentWillMount() {
+        let{searchValue,serviceType}= this.props;
+        if(searchValue){
+            this.props.searchServices(searchValue,serviceType, this.state.page, this.state.rowsPerPage);
+        }else{
+            this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
             this.setState({
-                tabCode: this.props.serviceType,
-            });
+                isSearching: false,
+                serviceType :this.props.serviceType
+            })
+            this.props.onLoading(true);
+            if (this.props.servicesResponse != null) {
+                this.setState({
+                    tabCode: this.props.serviceType,
+                });
+            }
         }
+        
     }
-    onChangePage = (e, page) => {
-        this.setState({ page: page });
-        this.props.fetchServicesList(this.props.serviceType, page, this.state.rowsPerPage);
-        this.props.onLoading(true);
+    onChangePage = (e, newPage) => {
+        var {page} = this.state;
+        if(newPage !== page){
+            this.setState({ page: newPage });
+            this.props.fetchServicesList(this.props.serviceType, newPage, this.state.rowsPerPage);
+            this.props.onLoading(true);
+        }
+        
     };
 
     handleChangeRowsPerPage = (e) => {
+        var {rowsPerPage} = this.state;
         let newRowsCount = e.target.value;
-        this.setState({ rowsPerPage: newRowsCount });
-        this.props.fetchServicesList(this.props.serviceType, this.state.page, newRowsCount);
-        this.props.onLoading(true);
+        if(newRowsCount !== rowsPerPage){
+            this.setState({ rowsPerPage: newRowsCount });
+            this.props.fetchServicesList(this.props.serviceType, this.state.page, newRowsCount);
+            this.props.onLoading(true);
+        }
+        
 
     };
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+        let {searchValue, page,rowsPerPage,isDelete } = this.state;
         if (nextProps.servicesResponse != null) {
             this.setState({
                 data: nextProps.servicesResponse.content,
                 totalItems: nextProps.servicesResponse.totalItem
             });
         }
-        if (nextProps.searchValue !== this.state.searchValue) {
-            this.props.searchServices(nextProps.searchValue, this.props.serviceType, this.state.page, this.state.rowsPerPage);
+        if (nextProps.searchValue && (nextProps.searchValue !== searchValue)) {
             this.setState({
-                isSearching: true,
                 searchValue : nextProps.searchValue,
             })
+            this.props.onLoading(true);
+            this.props.searchServices(nextProps.searchValue, this.props.serviceType, page, rowsPerPage);
+        }
+        else if(nextProps.isDelete !== isDelete){
+            this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
         }
     }
     onSelectAllClick = event => {
@@ -98,33 +121,20 @@ class ListItemsService extends Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-
-    onEditItem = (id) => {
-        let tabCode = this.props.serviceType + '_EDIT';
-        this.props.onEditItem(id);
-        this.props.onChangeTab(this.props.serviceType, tabCode);
-    }
-    onOpenAddNewForm = () => {
-        let tabCode = this.props.serviceType + '_ADD';
-        this.props.onOpenAddNewForm();
-        this.props.onChangeTab(this.props.serviceType, tabCode);
-    }
-
-    onCheckPriceDetail = (id) => {
-        let tabCode = this.props.serviceType + '_PRICE';
-        this.props.onCheckPriceDetail(id);
-        this.props.onChangeTab(this.props.serviceType, tabCode);
-    }
     onDelete = () => {
         var {isSearching,selected, searchValue, page,rowsPerPage } = this.state;
         if (selected.length == 0) {
             alert(Constant.MSG_NO_SELECTED_DELETED);
         } else {
             this.props.onDelete(selected);
+            this.props.onResetProps();
+            this.setState({
+                selected:[]
+            })
             if(isSearching){
-                this.props.searchServices(searchValue, this.props.serviceType, page, rowsPerPage);
+                history.push(`/admin/search/${this.props.serviceType}/search_query=${searchValue}`);
             }else{
-                this.props.fetchServicesList(this.props.serviceType, page, rowsPerPage);
+                history.push(`/admin/views/${this.props.serviceType}`);
             }
         }
     }
@@ -178,11 +188,13 @@ class ListItemsService extends Component {
                     onClick={this.onDelete}>
                     Xóa
                 </Button>
+                <Link to={`/admin/add/${serviceType}`}>
                 <Button variant="contained" color="primary"
                     style={{ width: '10%', height: 'auto', marginLeft: '2em', marginTop: '2em' }}
-                    onClick={() => this.onOpenAddNewForm(null)}>
+                    >
                     Thêm
                 </Button>
+                </Link>
             </div>
         );
     }
@@ -208,9 +220,11 @@ class ListItemsService extends Component {
                         </TableCell>
                         <TableCell align="left">{formatter.format(item.price)}</TableCell>
                         <TableCell align="left">
-                            <Button variant="outlined" color="primary" onClick={() => this.onEditItem(item.id, Constant.SERVICE_EDIT_ALBUM)}>Chi tiết</Button>
+                        <Link to={`/admin/edit/${serviceType}/${item.id}`} >
+                            <Button variant="outlined" color="primary" >Chi tiết</Button>
+                        </Link>   
                         </TableCell>
-                        {((serviceType === Constant.SERVICE_WEDDING_DRESS) || (serviceType === Constant.SERVICE_FULL_WEDDING_DAY)) ? null : <TableCell align="left"><Button variant="outlined" color="primary" onClick={() => this.onCheckPriceDetail(item.id)}  >Thông tin</Button></TableCell>}
+                        {((serviceType === Constant.SERVICE_WEDDING_DRESS) || (serviceType === Constant.SERVICE_FULL_WEDDING_DAY)) ? null : <TableCell align="left"><Link to ={`/admin/price/${serviceType}/${item.id}`}><Button variant="outlined" color="primary"  >Thông tin</Button></Link></TableCell>}
                     </TableRow>
                 )
             })
@@ -222,7 +236,8 @@ class ListItemsService extends Component {
 const mapStateToProps = state => {
     return {
         servicesResponse: state.adminPage.servicesResponse,
-        serviceType: state.adminPage.serviceType
+        isDelete:state.adminPage.isDelete
+        // serviceType: state.adminPage.serviceType
     }
 }
 const mapDispatchToProps = (dispatch, props) => {
@@ -240,13 +255,16 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onEditItem(id))
         },
         onDelete: (idArr) => {
-            dispatch(axios_delete_services(idArr))
+            axios_delete_services(idArr,dispatch)
         },
         onCheckPriceDetail: (id) => {
             dispatch(onCheckPriceDetail(id))
         },
         searchServices: (searchValue, serviceType, page, size) => {
             dispatch(axios_search_services(searchValue,serviceType, page, size));
+        },
+        onResetProps: () => {
+            dispatch(reset());
         },
     }
 }

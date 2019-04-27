@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
-import { generate_slug } from './function_lib';
 
 // For menu items
 const MenuLink = ({ label, to, activeOnlyWhenExact, itemSliders }) => {
