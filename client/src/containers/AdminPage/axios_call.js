@@ -103,7 +103,7 @@ export const axios_add_update_service = async (service, serviceType,dispatch,isU
 }
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    localStorage.removeItem('USER');
 }
 
 
@@ -125,18 +125,17 @@ export const axios_delete_services = (idArr) => {
         });
     };
 }
-export const login = async (username, password, dispatch) => {
-   
+export const login = async (username, password, redirect, dispatch) => {
     const response = await callApi(`/login`, 'POST', JSON.stringify({ username, password }), 'LOGIN')
     if (response) {
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                localStorage.setItem('USER', JSON.stringify(response));
-            }
+        if (response.status === 401) {
+            // auto logout if 401 response returned from api
+            logout();
         }
-        dispatch(Actions.logIn(response));
+        else if (response.status === 200) {
+            localStorage.setItem('USER', response.headers.authorization);
+            redirect();
+        }
     }
 }
 

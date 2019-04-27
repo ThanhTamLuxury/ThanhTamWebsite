@@ -315,7 +315,10 @@ class AdminPageContainer extends Component {
         
     }
 
-
+    logout = () => {
+        localStorage.removeItem('USER');
+        window.location.replace("/login");
+    }
 
     render() {
        
@@ -363,6 +366,9 @@ class AdminPageContainer extends Component {
                                 />
                             </div>
                         </Typography>
+                        <Button  onClick={this.logout} variant="outlined" color="green" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
+                                Đăng xuất   
+                        </Button>
                          <div style={{marginRight: 20,position:'absolute',right:'0'}}>{isLoading ? 'Đang xử lý':''}</div>   
                     </Toolbar>
                 </AppBar>

@@ -62,7 +62,8 @@ const routes = [
     {
         path: '/admin',
         exact: true,
-        main: AdminPage 
+        main: AdminPage,
+        isPrivate: true,
     }
 ];
 
