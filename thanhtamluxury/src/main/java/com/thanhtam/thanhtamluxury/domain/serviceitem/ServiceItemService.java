@@ -5,7 +5,7 @@ import com.thanhtam.thanhtamluxury.common.PageDto;
 import java.util.List;
 
 public interface ServiceItemService {
-	List<ServiceItemSmallDto> getTop3(String serviceType);
+	List<ServiceItemSmallDto> getTop4(String serviceType);
 
     ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto);
 
