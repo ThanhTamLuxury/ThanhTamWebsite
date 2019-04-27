@@ -2,18 +2,25 @@ package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
 import com.thanhtam.thanhtamluxury.common.*;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
-import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItemService;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailRepository;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import java.beans.ConstructorProperties;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +28,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class ServiceItemServiceImp implements ServiceItemService {
 
 	private ServiceItemRepository serviceItemRepo;
 
 	private PriceDetailRepository priceDetailRepository;
 
-	private ImageItemService imageItemService;
+	@Value("${file.default-main-image}")
+	private String defaultMainImageUrl;
+
+	public ServiceItemServiceImp(ServiceItemRepository serviceItemRepo, PriceDetailRepository priceDetailRepository){
+		this.serviceItemRepo = serviceItemRepo;
+		this.priceDetailRepository = priceDetailRepository;
+	}
 
 	@Override
 	public List<ServiceItemSmallDto> getTop4(String serviceType) {
@@ -40,11 +52,16 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceType);
 		}
 	}
+
 	@Override
+	@Transactional
 	public ServiceItemDto create(String serviceType, ServiceItemDto serviceItemDto) {
 		try {
 			ServiceItem serviceItem = serviceItemDto.toMappedClass();
 			serviceItem.setServiceType(ServiceType.valueOf(serviceType).toString());
+
+			validateMainImageUrl(serviceItem);
+
 			serviceItem.setActive(true);
 			serviceItem.getImageItems()
 					.forEach(imageItem -> imageItem.setServiceItem(serviceItem));
@@ -81,6 +98,9 @@ public class ServiceItemServiceImp implements ServiceItemService {
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
 		BeanUtils.copyProperties(dto, serviceItem);
 		serviceItem.setActive(true);
+
+		validateMainImageUrl(serviceItem);
+
 		serviceItemRepo.save(serviceItem);
 		return dto;
 	}
@@ -133,6 +153,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 
 	@ApiOperation("Delete service permanently in the database")
 	@Override
+	@Transactional
 	public void deleteService(Integer id) {
 		ServiceItem serviceItem = this.serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
@@ -176,6 +197,8 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		ServiceItemInfoDto infoDto = new ServiceItemInfoDto();
 		BeanUtils.copyProperties(dto, infoDto);
 		BeanUtils.copyProperties(infoDto, serviceItem);
+
+		validateMainImageUrl(serviceItem);
 
 		updateImageItems(id, dto.getImageItems());
 		updatePriceDetail(id, dto.getPriceDetails());
@@ -237,6 +260,19 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		}
 		return response;
 	}
+
+
+	private void validateMainImageUrl(ServiceItem serviceItem){
+		String filename = serviceItem.getMainImage();
+		if(filename == null || filename.isEmpty()){
+			serviceItem.setMainImage(defaultMainImageUrl);
+		}
+	}
+
+
+//	public static void setDefaultMainImageUrl(String defaultMainImageUrl) {
+//		ServiceItemServiceImp.defaultMainImageUrl = defaultMainImageUrl;
+//	}
 }
 
 

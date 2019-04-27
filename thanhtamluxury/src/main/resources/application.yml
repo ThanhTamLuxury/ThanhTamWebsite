@@ -5,7 +5,7 @@ spring:
     username: thanhtam
     password: zaQ@1234
 server:
-  port: 8181
+    port: 8181
 
 ---
 
@@ -16,4 +16,4 @@ spring:
     username: root
     password: zaQ@1234
 server:
-  port: 80
+    port: 80
