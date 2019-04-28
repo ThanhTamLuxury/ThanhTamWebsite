@@ -146,7 +146,7 @@ export const axios_delete_services = async (idArr, dispatch) => {
     }
 }
 export const login = async (username, password, redirect, dispatch) => {
-    const response = await callApi(`/login`, 'POST', JSON.stringify({ username, password }), 'LOGIN')
+    const response = await callApi(`login`, 'POST', JSON.stringify({ username, password }), 'LOGIN')
     if (response) {
         if (response.status === 401) {
             // auto logout if 401 response returned from api
