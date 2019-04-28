@@ -198,6 +198,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		BeanUtils.copyProperties(dto, infoDto);
 		BeanUtils.copyProperties(infoDto, serviceItem);
 
+		serviceItem.setActive(true);
 		validateMainImageUrl(serviceItem);
 
 		updateImageItems(id, dto.getImageItems());

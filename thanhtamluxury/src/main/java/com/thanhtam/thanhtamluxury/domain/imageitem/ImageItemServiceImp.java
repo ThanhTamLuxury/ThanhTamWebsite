@@ -1,7 +1,6 @@
 package com.thanhtam.thanhtamluxury.domain.imageitem;
 
 import com.thanhtam.thanhtamluxury.common.Mapper;
-import com.thanhtam.thanhtamluxury.domain.banner.Banner;
 import com.thanhtam.thanhtamluxury.domain.banner.BannerRepository;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItem;
 import com.thanhtam.thanhtamluxury.domain.serviceitem.ServiceItemRepository;
@@ -11,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,45 +30,30 @@ public class ImageItemServiceImp implements ImageItemService {
                 .collect(Collectors.toList());
     }
 
-    //check mainImage, banner, image item
     @Override
-    public Map<String, Object> cleanImage() {
+    public Map<String, Object> cleanImageFileInServer() {
         Map<String, Object> response = new HashMap<>();
         List<String> totalImageUrls = new ArrayList<>();
 
-//check mainImage record not in server
-        List<ServiceItem> serviceItems = serviceItemRepository.findAllByServiceType(ServiceType.ALBUM.toString());
-        serviceItems.addAll( serviceItemRepository.findAllByServiceType(ServiceType.WEDDING_DRESS.toString()) );
-        List<String> mainImageUrls = serviceItems.stream().filter(serviceItem -> serviceItem.getMainImage() != null
-                                                                                && !serviceItem.getMainImage().isEmpty())
-                .map(service -> service.getMainImage())
-                .collect(Collectors.toList());
-        List<String> invalidMainImageUrls = fileStorageService.getInvalidImage(mainImageUrls);
-        response.put("invalidMainImage", invalidMainImageUrls);
-        response.put("totalInvalidMainImage", invalidMainImageUrls.size());
+        totalImageUrls.addAll(getAllImageItemUrls());
+        totalImageUrls.addAll(getMainImageUrls());
 
+        File[] files = fileStorageService.getAllFileInUploadDirectory();
+        List<File> invalidFiles = fileStorageService.getInvalidFilesInServer(files, totalImageUrls);
 
+        invalidFiles.forEach(file -> file.delete());
 
-//check banner record not in server
-        List<Banner> banners = bannerRepository.findAll();
-        List<String> bannerUrls = banners.stream().map(bannerUrl -> bannerUrl.getPath()).collect(Collectors.toList());
-        List<String> invalidBannerUrls = fileStorageService.getInvalidImage(bannerUrls);
+        response.put("removeFile", invalidFiles.stream().map(f -> f.getAbsolutePath()));
+        response.put("total", invalidFiles.size());
+        return response;
+    }
 
-        List<Banner> invalidBanners = banners.stream().filter(banner -> {
-            boolean exist =  invalidBannerUrls.stream().anyMatch(bannerUrl -> bannerUrl.equalsIgnoreCase(banner.getPath()));
-            if(exist){
-                return  true;
-            }
-            return false;
-        }).collect(Collectors.toList());
+    private Map<String, Object> cleanImageItemInDatabase(){
+        Map<String, Object> response = new HashMap<>();
 
-        response.put("removeBanner", invalidBanners);
-        response.put("totalBanner", invalidBanners.size());
-
-//check image item record not in server
+        //check image item record not in server
         List<ImageItem> images = imageItemRepo.findAll();
-        List<String> imageUrls = images.stream().map(image -> image.getPath()).collect(Collectors.toList());
-        List<String> invalidImageUrls = fileStorageService.getInvalidImage(imageUrls);
+        List<String> invalidImageUrls = getInvalidImageUrls(images);
 
         List<ImageItem> invalidImages = images.stream().filter(image -> {
             boolean exist =  invalidImageUrls.stream().anyMatch(imageUrl -> imageUrl.equalsIgnoreCase(image.getPath()));
@@ -80,30 +63,32 @@ public class ImageItemServiceImp implements ImageItemService {
             return false;
         }).collect(Collectors.toList());
 
-        response.put("removeImageItem", invalidImages);
-        response.put("totalImageItem", invalidImages.size());
-
-
-//check image in server not in database
-        totalImageUrls.addAll(imageUrls);
-        totalImageUrls.addAll(bannerUrls);
-        totalImageUrls.addAll(mainImageUrls);
-
-        File[] files = fileStorageService.getAllFileInUploadDirectory();
-        List<File> invalidFiles = fileStorageService.getInvalidFilesInServer(files, totalImageUrls);
-
-        List<String> fileNames = invalidFiles.stream().map(file -> file.getName())
-                                                .collect(Collectors.toList());
-//remove
         imageItemRepo.deleteInBatch(invalidImages);
-        bannerRepository.deleteInBatch(invalidBanners);
-        invalidFiles.forEach(file -> file.delete());
 
-        response.put("removeFiles", fileNames);
-        response.put("totalFiles", fileNames.size());
-
-        response.put("totalRemove", invalidFiles.size() + invalidImages.size() + invalidBanners.size());
+        response.put("image item in database", invalidImages);
+        response.put("total", invalidImages.size());
 
         return response;
     }
+
+    //--private method--//
+    private List<String> getInvalidImageUrls(List<ImageItem> images){
+        List<String> imageUrls = images.stream().map(image -> image.getPath()).collect(Collectors.toList());
+        List<String> invalidImageUrls = fileStorageService.getInvalidImage(imageUrls);
+        return invalidImageUrls;
+    }
+
+    private List<String> getAllImageItemUrls(){
+        List<ImageItem> images = this.imageItemRepo.findAll();
+        return images.stream().map(i -> i.getPath()).collect(Collectors.toList());
+    }
+
+    private List<String> getMainImageUrls(){
+        List<ServiceItem> serviceItems = serviceItemRepository.findAllByServiceType(ServiceType.ALBUM.toString());
+        serviceItems.addAll( serviceItemRepository.findAllByServiceType(ServiceType.WEDDING_DRESS.toString()) );
+        List<String> mainImageUrls = serviceItems.stream().map(s -> s.getMainImage()).collect(Collectors.toList());
+        return mainImageUrls;
+    }
+
+
 }

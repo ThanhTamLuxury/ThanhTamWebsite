@@ -8,5 +8,5 @@ public class SecurityConstant {
 	
 	public static final String HEADER_STRING = "Authorization";
 	
-	public static final long EXPIRATION_TIME = 30*24*60*60*1000L; // 1 month
+	public static final long EXPIRATION_TIME = 2*60*60*1000L; // 2 hours
 }

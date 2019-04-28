@@ -6,5 +6,5 @@ import java.util.Map;
 public interface ImageItemService {
     List<ImageItemDto> getAll();
 
-    Map<String, Object> cleanImage();
+    Map<String, Object> cleanImageFileInServer();
 }
