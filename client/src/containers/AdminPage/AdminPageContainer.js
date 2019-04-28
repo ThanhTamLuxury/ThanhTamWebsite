@@ -378,7 +378,7 @@ class AdminPageContainer extends Component {
 
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
-
+                
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {

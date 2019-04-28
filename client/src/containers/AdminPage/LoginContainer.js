@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { logOut } from './actions';
 import { login } from './axios_call';
+import queryString from 'query-string';
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -27,7 +28,9 @@ class LoginContainer extends Component {
 
 
     redirect = () => {
-        window.location.replace("/admin");
+        const parseQueryString = queryString.parse(this.props.location.search);
+        const { url } = parseQueryString;
+        url ? window.location.replace(`${url}`) : window.location.replace(`admin`)
     }
     onLogin = (e) => {
         e.preventDefault();
