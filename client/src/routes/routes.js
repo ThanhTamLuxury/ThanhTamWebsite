@@ -78,32 +78,38 @@ const routes = [
     {
         path: '/admin/views/:serviceType',
         exact: false,
-        main: AdminViewListPage 
+        main: AdminViewListPage,
+        isPrivate: true,
     },
     {
         path: '/admin/search/:serviceType/search_query=:searchValue',
         exact: false,
-        main: AdminSearchPage 
+        main: AdminSearchPage,
+        isPrivate: true,
     },
     {
         path: '/admin/edit/banner',
         exact: false,
-        main: AdminBannerPage 
+        main: AdminBannerPage,
+        isPrivate: true, 
     },
     {
         path: '/admin/add/:serviceType',
         exact: false,
-        main: ServiceAddPage 
+        main: ServiceAddPage,
+        isPrivate: true, 
     },
     {
         path: '/admin/edit/:serviceType/:id',
         exact: false,
-        main: ServiceEditPage 
+        main: ServiceEditPage,
+        isPrivate: true, 
     },
     {
         path: '/admin/price/:serviceType/:id',
         exact: false,
-        main: ServiceEditPricePage 
+        main: ServiceEditPricePage,
+        isPrivate: true, 
     }
 ];
 
