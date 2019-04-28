@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { logOut } from './actions';
 import { login } from './axios_call';
+import queryString from 'query-string';
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -26,10 +27,15 @@ class LoginContainer extends Component {
     }
 
 
+    redirect = () => {
+        const parseQueryString = queryString.parse(this.props.location.search);
+        const { url } = parseQueryString;
+        url ? window.location.replace(`${url}`) : window.location.replace(`admin`)
+    }
     onLogin = (e) => {
         e.preventDefault();
         const { txtUsername, txtPassword } = this.state;
-        this.props.onLogin(txtUsername, txtPassword);
+        this.props.onLogin(txtUsername, txtPassword, this.redirect);
     }
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
@@ -77,14 +83,13 @@ class LoginContainer extends Component {
 }
 const mapStateToProps = state => {
     return {
-        user: state.adminPage.user,
     }
 
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onLogin: (txtUsername, txtPassword) => {
-            login(txtUsername, txtPassword, dispatch);
+        onLogin: (txtUsername, txtPassword, redirect) => {
+            login(txtUsername, txtPassword, redirect, dispatch);
         },
         onLogOut: () => {
             logOut();
