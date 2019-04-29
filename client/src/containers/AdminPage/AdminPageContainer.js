@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link } from 'react-router-dom';
 import * as Constant from './../constants';
+import * as Label from './../../constants/Constant';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -22,14 +23,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import StarBorder from '@material-ui/icons/StarBorder';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import HomePageService from './ServicesTab/HomePageService';
 import ListItemsService from './ServicesTab/ListItemsService';
-
 import SvgIcon from '@material-ui/core/SvgIcon';
 import AlbumForm from './ServicesActionPage/AlbumForm';
 import DressForm from './ServicesActionPage/DressForm';
@@ -82,7 +81,7 @@ function VideoIcon(props) {
 
 const menus = [
     {
-        id: Constant.SERVICE_HOME,
+        id: Constant.SERVICE_ADMIN,
         to:'/admin',
         name: 'Trang chủ'
     },
@@ -230,7 +229,7 @@ class AdminPageContainer extends Component {
         open: true,
         toggleOpen: false,
         tabLabel: 'Trang chủ',
-        displayingTab: Constant.SERVICE_HOME,
+        displayingTab: Constant.SERVICE_ADMIN,
         isUploadFinished: false,
         uploadMessages: [],
         msgAction: '',
@@ -448,7 +447,7 @@ class AdminPageContainer extends Component {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     {/* Content */}
-                    {displayingTab === Constant.SERVICE_HOME && <HomePageService />}
+                    {displayingTab === Constant.SERVICE_ADMIN && <HomePageService />}
                     {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService serviceType={serviceType} searchValue={searchValue} />}
                     {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService serviceType={serviceType}  searchValue={searchValue} />}
                     {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService serviceType={serviceType}  searchValue={ searchValue} />}
@@ -525,7 +524,7 @@ class AdminPageContainer extends Component {
 
     selectIcon(text) {
         switch (text) {
-            case Constant.SERVICE_HOME:
+            case Constant.SERVICE_ADMIN:
                 return <HomeIcon />;
             case Constant.SERVICE_ALBUM:
                 return <AlbumIcon />;
@@ -542,40 +541,39 @@ class AdminPageContainer extends Component {
 
     getLabelName(key) {
         switch (key) {
-            case Constant.SERVICE_HOME:
-                return 'Trang chủ';
+            case Constant.SERVICE_ADMIN:
+                return Label.LABEL_ADMIN;
             case Constant.SERVICE_ALBUM:
-                return 'Danh sách albums';
+                return Label.LABEL_ALBUMS;
             case Constant.SERVICE_WEDDING_DRESS:
-                return 'Danh sách áo cưới';
+                return Label.LABEL_WEDDING_DRESSES;
             case Constant.SERVICE_WEDDING_VIDEO:
-                return 'Danh sách videos';
+                return Label.LABEL_WEDDING_VIDEOS;
             case Constant.SERVICE_FULL_WEDDING_DAY:
-                return 'Danh sách bảng giá trọn gói';
-
+                return Label.LABEL_FULL_WEDDING_DAY;
 
             case Constant.TAB_ALBUM_ADD:
-                return 'Thêm mới album';
+                return Label.LABEL_ALBUM_ADD;
             case Constant.TAB_WEDDING_DRESS_ADD:
-                return 'Thêm mới áo cưới';
+                return Label.LABEL_WEDDING_DRESS_ADD;
             case Constant.TAB_WEDDING_VIDEO_ADD:
-                return 'Thêm mới video';
+                return Label.LABEL_WEDDING_VIDEO_ADD;
             case Constant.TAB_FULL_WEDDING_DAY_ADD:
-                return 'Thêm bảng giá trọn gói';
+                return Label.LABEL_FULL_WEDDING_DAY_ADD;
             case Constant.TAB_ALBUM_EDIT:
-                return 'Chỉnh sửa album';
+                return Label.LABEL_ALBUM_EDIT;
             case Constant.TAB_WEDDING_DRESS_EDIT:
-                return 'Chỉnh sửa áo cưới';
+                return Label.LABEL_WEDDING_DRESS_EDIT;
             case Constant.TAB_WEDDING_VIDEO_EDIT:
-                return 'Chỉnh sửa video';
+                return Constant.WEDDING_VIDEO_EDIT;
             case Constant.TAB_FULL_WEDDING_DAY_EDIT:
-                return 'Chỉnh sửa bảng giá trọn gói';
+                return Label.LABEL_FULL_WEDDING_DAY_EDIT;
             case Constant.ALBUM_PRICE:
-                return 'Chỉnh sửa bảng giá album';
+                return Label.LABEL_PRICE_ALBUM_EDIT;
             case Constant.WEDDING_VIDEO_PRICE:
-                return 'Chỉnh sửa bảng giá video';
+                return Label.LABEL_PRICE_VIDEO_EDIT;
             case Constant.TAB_BANNER_EDIT:
-                return 'Chỉnh sửa banner';
+                return Label.LABEL_BANNER_EDIT;
 
             default:
                 return <StarBorder />;

@@ -18,7 +18,7 @@ export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 
 
 //ServiceType
-export const SERVICE_HOME = 'SERVICE_HOME'
+export const SERVICE_ADMIN = 'SERVICE_ADMIN'
 export const SERVICE_ALBUM = 'ALBUM'
 export const SERVICE_WEDDING_DRESS = 'WEDDING_DRESS'
 export const SERVICE_WEDDING_VIDEO = 'WEDDING_VIDEO'
@@ -54,7 +54,7 @@ export const YOUTUBE_PREFIX = 'https://www.youtube.com/watch?v='
 // tabCode
 
 // Change to edit tab
-export const TAB_HOME = 'SERVICE_HOME'
+
 export const TAB_ALBUM_EDIT = 'ALBUM_EDIT'
 export const TAB_WEDDING_DRESS_EDIT = 'WEDDING_DRESS_EDIT'
 export const TAB_WEDDING_VIDEO_EDIT = 'WEDDING_VIDEO_EDIT'
@@ -105,6 +105,14 @@ export const SERVICE_EDIT_OTHERS = 'WEDDING_DRESS_EDIT'
 
 // Response
 export const RES_NOT_2xx = 'RES_NOT_2xx'
+
+
+
+
+
+
+
+
 
 
 

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from './../containers/index';
+import {LABEL_ADMIN} from './../constants/Constant';
 class AdminPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             serviceType: '',
-            tabCode: 'SERVICE_HOME'
+            tabCode: 'SERVICE_ADMIN'
         };
     }
     componentWillMount() {
+        document.title = LABEL_ADMIN
         if (this.props && this.props.match) {
             let params = this.props.match.params;
             if (params.length > 0) {

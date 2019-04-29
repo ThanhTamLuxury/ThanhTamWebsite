@@ -1512,9 +1512,7 @@ h6 .label {
 	.login-container {
 		width: 100%!important;
 	}
-	.services-table{
-		max-height: 80%!important;
-	}
+
 	.carousel.carousel-slider {
 		max-height: 600px;
 		border-radius: 10px;
@@ -7728,7 +7726,6 @@ img.avatar {
 	margin-left: 5px;
 }
 .services-table{
-	max-height: 400px;
 	overflow-y: scroll;
 }
 

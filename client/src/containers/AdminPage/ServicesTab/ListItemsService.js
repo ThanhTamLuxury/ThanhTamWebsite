@@ -73,7 +73,6 @@ class ListItemsService extends Component {
 
     };
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         let {searchValue, page,rowsPerPage,isDelete } = this.state;
         if (nextProps.servicesResponse != null) {
             this.setState({
@@ -142,8 +141,10 @@ class ListItemsService extends Component {
     render() {
         const { page, data, selected, rowsPerPage, totalItems } = this.state;
         const { serviceType } = this.props;
+        let isHasValue = (data && data.length>0);
+        console.log(data);
         return (
-            <div>
+            <div >
                 <div className="services-table">
                     <Table  >
                         <TableHead>
@@ -170,6 +171,7 @@ class ListItemsService extends Component {
                     className='table-paging'
                     style={{ fontSize: '1.1em' }}
                     rowsPerPageOptions={[5, 10, 25]}
+                    labelRowsPerPage='Số dòng thông tin'
                     component="div"
                     count={totalItems}     // số documents
                     rowsPerPage={rowsPerPage}  // default mỗi lần 5 records
@@ -209,7 +211,6 @@ class ListItemsService extends Component {
         if (data.length > 0) {
             result = data.map(item => {
                 const isSelected = this.isSelected(item.id);
-
                 return (
                     <TableRow key={item.id} onClick={event => this.onChangeSelected(event, item.id)} >
                         <TableCell align="left">
@@ -228,6 +229,8 @@ class ListItemsService extends Component {
                     </TableRow>
                 )
             })
+        }else{
+            result = <TableRow><TableCell align="center">Không có dữ liệu</TableCell></TableRow>
         }
         return result;
     }
@@ -237,7 +240,6 @@ const mapStateToProps = state => {
     return {
         servicesResponse: state.adminPage.servicesResponse,
         isDelete:state.adminPage.isDelete
-        // serviceType: state.adminPage.serviceType
     }
 }
 const mapDispatchToProps = (dispatch, props) => {

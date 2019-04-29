@@ -5,7 +5,7 @@ const initialState = {
     isLoading: false,
     isDelete: false,
     serviceType: '',
-    tabCode: Constants.SERVICE_HOME,
+    tabCode: Constants.SERVICE_ADMIN,
     servicesResponse: null,
     serviceItem: null,
     serviceID: '',

@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from '../containers/index';
+import {LABEL_SEARCH_LIST} from './../constants/Constant';
+
 class AdminSearchPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             serviceType: '',
-            tabCode: 'SERVICE_HOME',
+            tabCode: 'SERVICE_ADMIN',
             searchValue:'',
         };
     }
     componentWillMount(){
+        document.title = LABEL_SEARCH_LIST
         if (this.props && this.props.match) {
             let params = this.props.match.params;
-            console.log(params);
             if (params) {
                 this.setState({
                     serviceType: params.serviceType,
@@ -29,7 +31,6 @@ class AdminSearchPage extends Component {
         if(nextProps.match)
         if (nextProps && nextProps.match) {
             let params = nextProps.match.params;
-            console.log(params);
             if (params) {
                 this.setState({
                     serviceType: params.serviceType,

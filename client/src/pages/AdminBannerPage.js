@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from '../containers/index';
+import {LABEL_BANNER_EDIT} from './../constants/Constant';
 class AdminBannerPage extends Component {
 
     constructor(props) {
@@ -8,6 +9,9 @@ class AdminBannerPage extends Component {
             serviceType: '',
             tabCode: 'BANNER_EDIT'
         };
+    }
+    componentDidMount(){
+        document.title = LABEL_BANNER_EDIT
     }
     render() {
         var { serviceType,tabCode } = this.state;
