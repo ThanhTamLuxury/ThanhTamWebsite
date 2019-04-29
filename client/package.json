@@ -12,7 +12,7 @@
     "draftjs-to-html": "^0.8.4",
     "immutable": "^3.8.2",
     "isotope-layout": "^3.0.6",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "jquery-bridget": "^2.0.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",

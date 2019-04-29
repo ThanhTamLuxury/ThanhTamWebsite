@@ -1,26 +1,20 @@
 package com.thanhtam.thanhtamluxury.domain.serviceitem;
 
-import com.thanhtam.thanhtamluxury.common.*;
+import com.thanhtam.thanhtamluxury.common.Constant;
+import com.thanhtam.thanhtamluxury.common.PageDto;
+import com.thanhtam.thanhtamluxury.common.ThanhTamException;
 import com.thanhtam.thanhtamluxury.domain.imageitem.ImageItem;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetail;
 import com.thanhtam.thanhtamluxury.domain.pricedetail.PriceDetailRepository;
-
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import java.beans.ConstructorProperties;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +106,7 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			String strServiceType = ServiceType.valueOf(serviceType).toString();
 
 			//get services entity first
-			List<ServiceItem> serviceEntities = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size));
+			List<ServiceItem> serviceEntities = serviceItemRepo.findAllByServiceType(strServiceType, PageRequest.of(page, size, Sort.by("id").descending()));
 			LocalDate today = LocalDate.now();
 			serviceEntities.forEach(service ->{
 				Double currentPrice = priceDetailRepository.findCurrentPriceById(service.getId(), today);
@@ -197,7 +191,11 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		ServiceItemInfoDto infoDto = new ServiceItemInfoDto();
 		BeanUtils.copyProperties(dto, infoDto);
 		BeanUtils.copyProperties(infoDto, serviceItem);
-
+		try {
+			serviceItem.setServiceType(ServiceType.valueOf(serviceItem.getServiceType()).toString());
+		} catch (IllegalArgumentException e) {
+			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceItem.getServiceType());
+		}
 		serviceItem.setActive(true);
 		validateMainImageUrl(serviceItem);
 
