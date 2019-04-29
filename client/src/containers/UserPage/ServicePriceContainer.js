@@ -31,21 +31,30 @@ class ServicePriceContainer extends Component {
         selected: [],
         totalItems: 0,
         curPage: 1,
+        isLoading:false,
+        servicesResponse:{},
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.fetchPriceServices(this.props.serviceType, 1, 8);
         this.props.onLoading(true);
     }
     componentWillReceiveProps(nextProps){
-        if (nextProps.servicesResponse != null) {
+        var {isLoading,servicesResponse} = this.state;
+        if(nextProps.isLoading !== isLoading){
+            this.setState({
+                isLoading:nextProps.isLoading
+            })
+        }
+        if (nextProps.servicesResponse && nextProps.servicesResponse !== servicesResponse) {
             this.setState({
                 data: nextProps.servicesResponse.content,
-                totalItems: nextProps.servicesResponse.totalItem
+                totalItems: nextProps.servicesResponse.totalItem,
             });
         }
     }
     onChangePage =(newPage) => {
+        this.props.onLoading(true);
         this.props.fetchPriceServices(this.props.serviceType, newPage, 8);
         this.setState({
             curPage: newPage
@@ -60,16 +69,16 @@ class ServicePriceContainer extends Component {
     }
     render() {
         const { servicesResponse, serviceType } = this.props;
-        const { curPage,isLoading } = this.state;
+        const { curPage,isLoading,data } = this.state;
         
         // TODO : Xét trường hợp k có thông tin
-        if (servicesResponse != null) {
+        if (data) {
             return (
                 <div className="container">
                 <h1 className="text-center">Danh sách bảng giá</h1>
                 {isLoading ? <div className="loading"></div> : ''}
                     <div className="row">
-                        {servicesResponse.content.length > 0 ? renderService(servicesResponse.content, serviceType) : <h2>Không có thông tin</h2>}
+                        {data.length > 0 ? renderService(data, serviceType) : <h2>Không có thông tin</h2>}
                     </div>
                     <nav className="gla_blog_pag">
                         <ul className="pagination">

@@ -147,7 +147,23 @@ class ServicesPriceForm extends Component {
             priceDetailItems: this.state.priceDetailItems.filter((s, sidx) => idx !== sidx)
         });
     };
-
+    onResetState = ()=>{
+        this.setState({
+            isEditing: false,
+            txtID: '',
+            txtName: '',
+            txtDescription: '',
+            txtPriceDescription: '',
+            txtPrice: '',
+            editorState: EditorState.createEmpty(),
+            price: "",
+            applyDate: "",
+            priceDetailItems: [],
+        })
+    }
+    componentWillMount(){
+        this.onResetState();
+    }
     componentDidMount() {
         let id = this.props.serviceID;
         if (id) {

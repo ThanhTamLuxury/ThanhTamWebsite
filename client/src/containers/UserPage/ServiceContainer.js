@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AlbumItem, DressItem, VideoItem, PostItem, DetailedExpansionPanel } from '../../components/index';
 import { connect } from 'react-redux';
 import { axios_fetch_services } from './axios_call';
+import { onLoading } from './actions';
 import * as Constant from './constants';
 
 const renderService = (services, serviceType) => {
@@ -31,45 +32,58 @@ const renderService = (services, serviceType) => {
 
 class ServiceContainer extends Component {
     state = {
+        page: 1,
+        data: [],
+        rowsPerPage: 5,
+        selected: [],
+        totalItems: 0,
         curPage: 1,
-        pageArr: [],
+        isLoading:false,
+        totalPage:0,
+        servicesResponse:{},
     }
+    
 
     componentWillMount() {
-        // let type_Price = '';
-        // switch (this.props.serviceType) {
-        //     case Constant.PRICE_ALBUM:
-        //         type_Price = Constant.TYPE_ALBUM;
-        //         break;
-        //     case Constant.PRICE_VIDEO:
-        //         type_Price = Constant.TYPE_WEDDING_DRESS;
-        //         break;
-        //     case Constant.PRICE_INCLUSIVE:
-        //         type_Price = Constant.TYPE_VIDEO
-        //         break;
-        // }
         this.props.fetchServices(this.props.serviceType, 1, 8);
+        this.props.onLoading(true);
+    }
+    componentWillReceiveProps(nextProps){
+        var {isLoading,servicesResponse} = this.state;
+        if(nextProps.isLoading !== isLoading){
+            this.setState({
+                isLoading:nextProps.isLoading
+            })
+        }
+        if (nextProps.servicesResponse && nextProps.servicesResponse !== servicesResponse) {
+            this.setState({
+                data: nextProps.servicesResponse.content,
+                totalPage: nextProps.servicesResponse.totalPage
+            });
+            // this.props.onLoading(false);
+        }
     }
     render() {
-        const { servicesResponse, serviceType } = this.props;
-        const { curPage } = this.state;
+        const { serviceType } = this.props;
+        const { curPage,isLoading,totalPage,data } = this.state;
         // TODO : Xét trường hợp k có thông tin
-        if (servicesResponse != null) {
+        if (data) {
             return (
                 <div className="container">
                     <div align="center" className="row">
-                        {servicesResponse.content.length > 0 ? renderService(servicesResponse.content, serviceType) : <h2>Không có thông tin</h2>}
+                        {isLoading ? <div className="loading"></div> : ''}
+                        {data.length > 0 ? renderService(data, serviceType) : <h2>Không có thông tin</h2>}
                     </div>
                     <nav className="gla_blog_pag">
                         <ul className="pagination">
                             <li>
-                                <a onClick={curPage > 1 ? this.onChangePage(curPage - 1, servicesResponse.totalPage) : null}>
+                                <a onClick={curPage > 1 ? this.onChangePage(curPage - 1, totalPage) : null}>
                                     <i className="ti ti-angle-left" />
                                 </a>
                             </li>
-                            {this.renderPageList(servicesResponse.totalPage, curPage)}
+                            {this.renderPageList(totalPage, curPage)}
                             <li>
-                                <a onClick={curPage < servicesResponse.totalPage - 1 ? this.onChangePage(curPage + 1) : null}>
+                                <a onClick={curPage < totalPage - 1 ? this.onChangePage(curPage + 1) : null}>
                                     <i className="ti ti-angle-right" />
                                 </a>
                             </li>
@@ -89,6 +103,7 @@ class ServiceContainer extends Component {
         this.setState({
             curPage: i
         })
+        this.props.onLoading(true);
         this.props.fetchServices(this.props.serviceType, i, 8);
     }
     renderPageList = (totalPage, curPage) => {
@@ -102,7 +117,8 @@ class ServiceContainer extends Component {
 }
 const mapStateToProps = state => {
     return {
-        servicesResponse: state.userPage.servicesResponse
+        servicesResponse: state.userPage.servicesResponse,
+        isLoading: state.userPage.isLoading
     }
 
 }
@@ -110,6 +126,9 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         fetchServices: (serviceType, page, size) => {
             dispatch(axios_fetch_services(serviceType, page, size));
+        },
+        onLoading: (isLoading)=>{
+            dispatch(onLoading(isLoading));
         },
     }
 }

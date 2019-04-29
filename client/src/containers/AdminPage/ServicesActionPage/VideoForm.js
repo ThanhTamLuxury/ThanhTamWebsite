@@ -20,8 +20,19 @@ class VideoForm extends Component {
             txtDescription: '',
         };
     }
-
-
+    
+    onResetState = ()=>{
+        this.setState({
+            isEditing: false,
+            xtID:'',
+            txtName: '',
+            txtLink:'',
+            txtDescription: '',
+        })
+    }
+    componentWillMount(){
+        this.onResetState();
+    }
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
@@ -93,7 +104,6 @@ class VideoForm extends Component {
             txtLink:'',
             txtDescription: '',
         })
-
         this.props.onAdding(true);
         this.props.onLoading(true);
         

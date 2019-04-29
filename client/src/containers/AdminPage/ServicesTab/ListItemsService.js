@@ -121,21 +121,26 @@ class ListItemsService extends Component {
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     onDelete = () => {
-        var {isSearching,selected, searchValue, page,rowsPerPage } = this.state;
-        if (selected.length == 0) {
-            alert(Constant.MSG_NO_SELECTED_DELETED);
-        } else {
-            this.props.onDelete(selected);
-            this.props.onResetProps();
-            this.setState({
-                selected:[]
-            })
-            if(isSearching){
-                history.push(`/admin/search/${this.props.serviceType}/search_query=${searchValue}`);
-            }else{
-                history.push(`/admin/views/${this.props.serviceType}`);
+        let check = window.confirm(Constant.MSG_CONFIRM_DELETED);
+        if(check){
+            var {isSearching,selected, searchValue, page,rowsPerPage } = this.state;
+            if (selected.length == 0) {
+                alert(Constant.MSG_NO_SELECTED_DELETED);
+            } else {
+                this.props.onDelete(selected);
+                this.props.onResetProps();
+                this.props.onLoading(true);
+                this.setState({
+                    selected:[]
+                })
+                if(isSearching){
+                    history.push(`/admin/search/${this.props.serviceType}/search_query=${searchValue}`);
+                }else{
+                    history.push(`/admin/views/${this.props.serviceType}`);
+                }
             }
         }
+        
     }
 
     render() {

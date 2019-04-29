@@ -15,19 +15,17 @@ const userPage = (state = initialState, action) => {
             });
         case Types.FETCH_PRICE_SERVICES:
             return Object.assign({}, state, {
-                servicesResponse: action.servicesResponse
+                servicesResponse: action.servicesResponse,
+                isLoading:false,
             });
         case Types.FETCH_SERVICEBYID:
             return Object.assign({}, state, {
                 serviceItem: action.serviceItem
             });
-        case Types.FETCH_PRICE_SERVICES:
-            return Object.assign({}, state, {
-                servicesResponse: action.servicesResponse
-            });
         case Types.FETCH_SERVICES:
             return Object.assign({}, state, {
-                servicesResponse: action.servicesResponse
+                servicesResponse: action.servicesResponse,
+                isLoading:false,
             });
         default:
             return state;

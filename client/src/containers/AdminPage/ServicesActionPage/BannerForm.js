@@ -29,18 +29,19 @@ class BannerForm extends Component {
 
 
     onUploadMainImage = imageID => (e) => {
-        this.setState({
-            indexEdit: imageID
-        })
         var target = e.target;
         if (target) {
             const files = Array.from(target.files);
             let imageData = new FormData();
-            if (files.length > 0) {
+            if (files && files.length > 0) {
+                this.setState({
+                    indexEdit: imageID
+                })
                 imageData.append("file", files[0]);
+                this.props.onLoading(true);
+                this.props.onUploadFile(imageData);
             }
-            this.props.onLoading(true);
-            this.props.onUploadFile(imageData);
+            
         }
  
     }
@@ -66,11 +67,14 @@ class BannerForm extends Component {
     onSave = (e) => {
         e.preventDefault();
         let {images}= this.state;
+        let imagesArr = images.map((image,index)=>({
+            id:0,
+            path:image.path,
+        }))
         if(images){
-            this.props.onSaveBanners(images)
+            this.props.onSaveBanners(imagesArr)
         }
-        // this.props.onAdding(true);
-        // this.props.onLoading(true);
+        this.props.onLoading(true);
     }
     onDeleteImage = (id) => {
         // image display include blob
@@ -136,7 +140,7 @@ class BannerForm extends Component {
                         title='SKT'
                         actionIcon={
                             <IconButton onClick={(e) => this.onDeleteList(e,image.id)}  >
-                                <DeleteForeverOutlinedIcon color="primary" />
+                                <DeleteForeverOutlinedIcon style={{ color: 'rgba(255, 255, 255, 0.94)' }} />
                      </IconButton>
                         }
                     />

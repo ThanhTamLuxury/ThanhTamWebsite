@@ -24,7 +24,9 @@ class HomePageService extends Component {
             [name]: target.value
         });
     }
-
+    componentWillMount(){
+        this.onResetState();
+    }
     componentDidMount() {
         this.props.fetchAboutUsDetails();
     }

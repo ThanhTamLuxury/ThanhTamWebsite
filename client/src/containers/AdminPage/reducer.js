@@ -4,6 +4,7 @@ const initialState = {
     statusCode:200,
     isLoading: false,
     isDelete: false,
+    isUpdate:false,
     serviceType: '',
     tabCode: Constants.SERVICE_ADMIN,
     servicesResponse: null,
@@ -29,6 +30,7 @@ const adminPage = (state = initialState, action) => {
                 filesStatus :[],
                 response:{},
                 isDelete:false,
+                isUpdate:false,
             });
         case Constants.PAGE_LOADING:
             return Object.assign({}, state, {
@@ -75,6 +77,7 @@ const adminPage = (state = initialState, action) => {
                 messages:'Thay đổi đã được cập nhật',
                 isLoading: false,
                 isDelete:false,
+                isUpdate:true,
             });
         case Constants.DELETE_SERVICES:
             return Object.assign({}, state, {

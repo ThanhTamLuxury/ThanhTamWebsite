@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -34,7 +35,7 @@ import AlbumForm from './ServicesActionPage/AlbumForm';
 import DressForm from './ServicesActionPage/DressForm';
 import VideoForm from './ServicesActionPage/VideoForm';
 import ServicesPriceForm from './ServicesActionPage/ServicesPriceForm';
-import { actChangeMenu, onLoading, onAdding, onUpdate, reset } from './actions';
+import { actChangeMenu, onLoading, onAdding, reset } from './actions';
 import BannerForm from './ServicesActionPage/BannerForm';
 import {history} from '../../App';
 
@@ -335,7 +336,13 @@ class AdminPageContainer extends Component {
             });
         }
         if(nextProps.response && nextProps.response.data){
-            history.push(`/admin/search/${serviceType}/search_query=${nextProps.response.data.name}`)
+            if(nextProps.isUpdate){
+                history.push(`/admin/search/${serviceType}/search_query=${nextProps.response.data.name}`)
+                // history.push(`/admin/edit/${serviceType}/${nextProps.response.data.id}`)
+            }else{
+                history.push(`/admin/views/${serviceType}`)
+            }
+            
         }
         if(messages && messages !== this.state.messages){
             this.setState({
@@ -377,7 +384,6 @@ class AdminPageContainer extends Component {
 
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
-                
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {
@@ -416,7 +422,7 @@ class AdminPageContainer extends Component {
                                 />
                             </div>
                         </Typography>
-                        <Button  onClick={this.logout} variant="outlined" color="green" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
+                        <Button  onClick={this.logout} variant="outlined" color="primary" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
                                 Đăng xuất   
                         </Button>
                          <div style={{marginRight: 20,position:'absolute',right:'0'}}>{isLoading ? 'Đang xử lý':''}</div>   
@@ -450,6 +456,7 @@ class AdminPageContainer extends Component {
 
                 </Drawer>
                 <main className={classes.content}>
+                {isLoading ? <div className="loading" ></div>:''}
                     <div className={classes.toolbar} />
                     {/* Content */}
                     {displayingTab === Constant.SERVICE_ADMIN && <HomePageService />}
@@ -612,6 +619,7 @@ const mapStateToProps = state => {
     return {
         response: state.adminPage.response,
         isLoading: state.adminPage.isLoading,
+        isUpdate: state.adminPage.isUpdate,
         filesStatus: state.adminPage.filesStatus,
         messages: state.adminPage.messages,
 
@@ -625,9 +633,6 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onLoading: (isLoading) => {
             dispatch(onLoading(isLoading));
-        },
-        onUpdate: (isUpdate) => {
-            dispatch(onUpdate(isUpdate));
         },
         onResetProps: () => {
             dispatch(reset());
