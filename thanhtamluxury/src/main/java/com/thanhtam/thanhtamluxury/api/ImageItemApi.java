@@ -17,14 +17,13 @@ import java.util.Map;
 public class ImageItemApi {
     private ImageItemService imageItemService;
 
-    @GetMapping("/all")
-    public List<ImageItemDto> getAll(){
-        return imageItemService.getAll();
-    }
+//    @GetMapping("/all")
+//    public List<ImageItemDto> getAll(){
+//        return imageItemService.getAll();
+//    }
 
-
-    @DeleteMapping("clean")
+    @DeleteMapping("clean-in-server")
     public Map<String, Object> cleanImageInServer(){
-        return imageItemService.cleanImage();
+        return imageItemService.cleanImageFileInServer();
     }
 }

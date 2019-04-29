@@ -359,13 +359,15 @@ class AdminPageContainer extends Component {
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
-
         this.setState({
             [name]: target.value
         });
     }
 
-
+    logout = () => {
+        localStorage.removeItem('USER');
+        window.location.replace("/login");
+    }
     render() {
         const { classes, theme } = this.props;
         const { displayingTab,serviceType, isLoading, uploadMessages,  messages, txtSearch,searchValue, isSearch,serviceID } = this.state;
@@ -375,7 +377,7 @@ class AdminPageContainer extends Component {
 
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
-
+                
                 <AppBar
                     position="fixed"
                     className={classNames(classes.appBar, {
@@ -414,7 +416,10 @@ class AdminPageContainer extends Component {
                                 />
                             </div>
                         </Typography>
-                        <div style={{ marginRight: 20, position: 'absolute', right: '0' }}>{isLoading ? 'Đang xử lý' : ''}</div>
+                        <Button  onClick={this.logout} variant="outlined" color="green" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
+                                Đăng xuất   
+                        </Button>
+                         <div style={{marginRight: 20,position:'absolute',right:'0'}}>{isLoading ? 'Đang xử lý':''}</div>   
                     </Toolbar>
                 </AppBar>
                 <Drawer

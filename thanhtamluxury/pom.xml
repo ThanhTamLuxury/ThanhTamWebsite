@@ -75,11 +75,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>5.1.5.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>5.1.4.RELEASE</version>
-        </dependency>
     </dependencies>
 
     <build>
