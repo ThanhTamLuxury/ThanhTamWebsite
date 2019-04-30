@@ -14,6 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { Button } from '@material-ui/core';
 import { onOpenAddNewForm, onEditItem, onCheckPriceDetail, onLoading, reset } from '../actions';
 import {history} from '../../../App';
+import {confirmDelete} from '../Sweetalert';
 
 
 class ListItemsService extends Component {
@@ -120,27 +121,26 @@ class ListItemsService extends Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
-    onDelete = () => {
-        let check = window.confirm(Constant.MSG_CONFIRM_DELETED);
-        if(check){
+    onDelete = async () => {
             var {isSearching,selected, searchValue, page,rowsPerPage } = this.state;
             if (selected.length == 0) {
                 alert(Constant.MSG_NO_SELECTED_DELETED);
             } else {
-                this.props.onDelete(selected);
-                this.props.onResetProps();
-                this.props.onLoading(true);
-                this.setState({
-                    selected:[]
-                })
-                if(isSearching){
-                    history.push(`/admin/search/${this.props.serviceType}/search_query=${searchValue}`);
-                }else{
-                    history.push(`/admin/views/${this.props.serviceType}`);
+                let check = await confirmDelete();
+                if(check){
+                    this.props.onDelete(selected);
+                    this.props.onResetProps();
+                    this.props.onLoading(true);
+                    this.setState({
+                        selected:[]
+                    })
+                    if(isSearching){
+                        history.push(`/admin/search/${this.props.serviceType}/search_query=${searchValue}`);
+                    }else{
+                        history.push(`/admin/views/${this.props.serviceType}`);
+                    }
                 }
             }
-        }
-        
     }
 
     render() {
