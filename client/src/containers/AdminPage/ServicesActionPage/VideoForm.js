@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { generate_slug } from './../../../methods/function_lib'
 import Button from '@material-ui/core/Button';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
-import { onLoading, onAdding } from '../actions';
+import { onLoading, onAdding, reset } from '../actions';
 
 class VideoForm extends Component {
 
@@ -55,6 +55,15 @@ class VideoForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps){
+        if (nextProps.isUpdate == true) {
+            let id = this.props.serviceID;
+            if (id) {
+                this.props.fetchServiceItem(id);
+                this.props.onLoading(true);
+            }
+            this.props.onResetProps();
+        }
+
         let serviceItem = nextProps.serviceItem;
         if(serviceItem !=null){
             this.setState({
@@ -191,7 +200,10 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onAdd: (service, serviceType) => {
             axios_add_update_service(service, serviceType,dispatch, false);
-        }
+        },
+        onResetProps: () => {
+            dispatch(reset());
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(VideoForm);

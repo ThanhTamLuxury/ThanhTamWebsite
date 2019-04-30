@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { logOut } from './actions';
 import { login } from './axios_call';
 import queryString from 'query-string';
+import * as Constant from './../../constants/Constant';
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -26,6 +27,9 @@ class LoginContainer extends Component {
         });
     }
 
+    componentWillMount(){
+        document.title = Constant.LABEL_LOGIN;
+    }
 
     redirect = () => {
         const parseQueryString = queryString.parse(this.props.location.search);

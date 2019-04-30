@@ -16,7 +16,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import { onLoading, actOnAddService } from '../actions';
+import { onLoading, actOnAddService, reset } from '../actions';
 
 class AlbumForm extends Component {
 
@@ -120,6 +120,14 @@ class AlbumForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
+        if (nextProps.isUpdate == true) {
+            let id = this.props.serviceID;
+            if (id) {
+                this.props.fetchServiceItem(id);
+                this.props.onLoading(true);
+            }
+            this.props.onResetProps();
+        }
         let serviceItem = nextProps.serviceItem;
         if (serviceItem != null) {
             this.setState({
@@ -342,6 +350,7 @@ const mapStateToProps = state => {
         serviceItem: state.adminPage.serviceItem,
         response: state.adminPage.response,
         isLoading: state.adminPage.isLoading,
+        isUpdate: state.adminPage.isUpdate,
     }
 
 }
@@ -361,7 +370,10 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onAdd: (service, serviceType, files, file) => {
             axios_add_update_with_file_service(service, serviceType, files, file, dispatch, false);
-        }
+        },
+        onResetProps: () => {
+            dispatch(reset());
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumForm);

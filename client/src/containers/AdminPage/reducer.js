@@ -56,6 +56,7 @@ const adminPage = (state = initialState, action) => {
                 serviceItem: action.serviceItem,
                 isLoading: false,
                 isDelete:false,
+                isUpdate:false,
             });
         case Constants.ADD_SERVICE:
             return Object.assign({}, state, {
@@ -121,6 +122,7 @@ const adminPage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 bannerResponse:action.response,
                 statusCode:action.statusCode,
+                isUpdate:false,
             });
             case Constants.RES_NOT_2xx:
             return Object.assign({}, state, {

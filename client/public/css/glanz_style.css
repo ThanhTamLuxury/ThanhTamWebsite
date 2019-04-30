@@ -7701,7 +7701,7 @@ img.avatar {
 }
 .admin_content ul span {
 	font-family: inherit;
-	font-size: 0.9em!important;
+	font-size: 1.1em!important;
 }
 .admin_content {
 	font-size: 0.9em!important;
@@ -7943,7 +7943,9 @@ div.filepicker {
 .List{
 	margin:auto;
 }
-	
+.none-display{
+	display: none!important;
+}
 /* Maybe change font of table tr th */
 /* font-size: 0.9em!important;
 padding: 2px 10px 2px 1px; */

@@ -104,13 +104,13 @@ const menus = [
     {
         id: Constant.SERVICE_FULL_WEDDING_DAY,
         to:'/admin/views/FULL_WEDDING_DAY',
-        name: 'Danh sách bảng giá trọn gói'
+        name: 'Bảng giá trọn gói'
     },
     {
         id: Constant.TAB_BANNER_EDIT,
         to:'/admin/edit/banner',
         // tabCode: Constant.TAB_BANNER,
-        name: 'Chỉnh sửa banner trang chủ'
+        name: 'Banner trang chủ'
     },
 ]
 
@@ -337,8 +337,7 @@ class AdminPageContainer extends Component {
         }
         if(nextProps.response && nextProps.response.data){
             if(nextProps.isUpdate){
-                history.push(`/admin/search/${serviceType}/search_query=${nextProps.response.data.name}`)
-                // history.push(`/admin/edit/${serviceType}/${nextProps.response.data.id}`)
+                history.push(`/admin/edit/${serviceType}/${nextProps.response.data.id}`)
             }else{
                 history.push(`/admin/views/${serviceType}`)
             }
@@ -378,10 +377,10 @@ class AdminPageContainer extends Component {
     render() {
         const { classes, theme } = this.props;
         const { displayingTab,serviceType, isLoading, uploadMessages,  messages, txtSearch,searchValue, isSearch,serviceID } = this.state;
-        console.log(serviceType);
+        let isDisplayingSearch = (displayingTab === Constant.SERVICE_ALBUM || displayingTab === Constant.SERVICE_WEDDING_DRESS || displayingTab === Constant.SERVICE_WEDDING_VIDEO || displayingTab === Constant.SERVICE_FULL_WEDDING_DAY)
         return (
             <div className={classes.root}>
-                
+    
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
                 <AppBar
@@ -404,7 +403,7 @@ class AdminPageContainer extends Component {
                         <Typography variant="h4" color="inherit" noWrap>
                             {this.state.tabLabel}
                         </Typography>
-                        <Typography variant="h6" color="inherit" noWrap>
+                        <Typography variant="h6" color="inherit" noWrap className={isDisplayingSearch ? '':'none-display'}>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon />
@@ -572,6 +571,7 @@ class AdminPageContainer extends Component {
                 return Label.LABEL_WEDDING_VIDEO_ADD;
             case Constant.TAB_FULL_WEDDING_DAY_ADD:
                 return Label.LABEL_FULL_WEDDING_DAY_ADD;
+
             case Constant.TAB_ALBUM_EDIT:
                 return Label.LABEL_ALBUM_EDIT;
             case Constant.TAB_WEDDING_DRESS_EDIT:

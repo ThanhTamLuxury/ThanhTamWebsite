@@ -41,7 +41,6 @@ export const axios_get_banners = async (dispatch) => {
     if (res != null) {
         handleResponse(res, dispatch, Constants.FETCH_BANNERS, '');
     }
-
 }
 export const axios_add_update_with_file_service = async (service, serviceType, files, file, dispatch, isUpdate) => {
     let resImage = null;

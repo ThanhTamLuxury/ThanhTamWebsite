@@ -9,7 +9,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import DragSortableList from 'react-drag-sortable'
 import IconButton from '@material-ui/core/IconButton';
-import { onLoading, actOnAddService } from '../actions';
+import { onLoading, actOnAddService, reset } from '../actions';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 
@@ -50,6 +50,10 @@ class BannerForm extends Component {
             this.props.getBanners();
     }
     componentWillReceiveProps(nextProps) {
+        if (nextProps.isUpdate == true) {
+            this.props.getBanners();
+            this.props.onResetProps();
+        }
         var { images, indexEdit } = this.state;
         if (nextProps.response) {
             let item = images.find(image => image.id === indexEdit);
@@ -73,8 +77,9 @@ class BannerForm extends Component {
         }))
         if(images){
             this.props.onSaveBanners(imagesArr)
+            this.props.onLoading(true);
         }
-        this.props.onLoading(true);
+        
     }
     onDeleteImage = (id) => {
         // image display include blob
@@ -152,7 +157,7 @@ class BannerForm extends Component {
     render() {
         var { isEditing } = this.state;
         let listItems = this.onRenderList();
-
+        console.log('here');
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -187,6 +192,7 @@ const mapStateToProps = state => {
         response: state.adminPage.response,
         bannerResponse: state.adminPage.bannerResponse,
         isLoading: state.adminPage.isLoading,
+        isUpdate:state.adminPage.isUpdate,
     }
 
 }
@@ -203,6 +209,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onSaveBanners: (imagesArr) => {
             axios_updateBanners(imagesArr, dispatch);
+        },
+        onResetProps: () => {
+            dispatch(reset());
         },
     }
 }
