@@ -16,7 +16,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import { onLoading, actOnAddService } from '../actions';
+import { onLoading, actOnAddService, reset } from '../actions';
 
 class AlbumForm extends Component {
 
@@ -120,13 +120,23 @@ class AlbumForm extends Component {
     }
     componentDidMount() {
         let id = this.props.serviceID;
-        console.log(id);
         if (id) {
             this.props.fetchServiceItem(id);
             this.props.onLoading(true);
         }
     }
+    componentDidUpdate(prevprops) {
+        console.log(prevprops);
+    }
     componentWillReceiveProps(nextProps) {
+        if (nextProps.isUpdate == true) {
+            let id = this.props.serviceID;
+            if (id) {
+                this.props.fetchServiceItem(id);
+                this.props.onLoading(true);
+            }
+            this.props.onResetProps();
+        }
         let serviceItem = nextProps.serviceItem;
         if (serviceItem != null) {
             this.setState({
@@ -186,19 +196,19 @@ class AlbumForm extends Component {
                 type: Constant.SERVICE_ALBUM,
             }
             this.props.onAdd(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
+            this.setState({
+                isEditing: false,
+                isLoading: false,
+                txtID: '',
+                txtName: '',
+                txtDescription: '',
+                txtSlug: '',
+                images: [],
+                mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
+                mainImageFile: [],
+                response: {}
+            })
         }
-        this.setState({
-            isEditing: false,
-            isLoading: false,
-            txtID: '',
-            txtName: '',
-            txtDescription: '',
-            txtSlug: '',
-            images: [],
-            mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
-            mainImageFile: [],
-            response: {}
-        })
         this.props.onLoading(true);
     }
     onDeleteImage = (id) => {
@@ -327,6 +337,7 @@ const mapStateToProps = state => {
         serviceItem: state.adminPage.serviceItem,
         response: state.adminPage.response,
         isLoading: state.adminPage.isLoading,
+        isUpdate: state.adminPage.isUpdate,
     }
 
 }
@@ -343,7 +354,10 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onAdd: (service, serviceType, files, file) => {
             axios_add_update_with_file_service(service, serviceType, files, file, dispatch, false);
-        }
+        },
+        onResetProps: () => {
+            dispatch(reset());
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumForm);

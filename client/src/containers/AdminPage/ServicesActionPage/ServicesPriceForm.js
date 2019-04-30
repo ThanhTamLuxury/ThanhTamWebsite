@@ -15,7 +15,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
-import { onLoading } from '../actions';
+import { onLoading, reset } from '../actions';
 class ServicesPriceForm extends Component {
 
     constructor(props) {
@@ -172,6 +172,15 @@ class ServicesPriceForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
+        if (nextProps.isUpdate == true) {
+            let id = this.props.serviceID;
+            if (id) {
+                this.props.fetchServiceItem(id);
+                this.props.onLoading(true);
+            }
+            this.props.onResetProps();
+        }
+
         let serviceItem = nextProps.serviceItem;
 
         if (serviceItem != null) {
@@ -337,7 +346,10 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onAdd: (service, serviceType) => {
             axios_add_update_service(service, serviceType,dispatch,false);
-        }
+        },
+        onResetProps: () => {
+            dispatch(reset());
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ServicesPriceForm);

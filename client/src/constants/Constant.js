@@ -2,6 +2,8 @@ export const PAGE_TITLE = 'Thanh Tâm Luxury';
 
 
 export const LABEL_HOME = 'Trang chủ'
+export const LABEL_LOGIN = 'Trang đăng nhập'
+
 
 export const LABEL_ADMIN = 'Trang quản lý'
 export const LABEL_SEARCH_LIST = 'Trang danh sách tìm kiếm'
