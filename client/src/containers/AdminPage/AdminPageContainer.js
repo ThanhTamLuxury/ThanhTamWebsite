@@ -378,10 +378,10 @@ class AdminPageContainer extends Component {
     render() {
         const { classes, theme } = this.props;
         const { displayingTab,serviceType, isLoading, uploadMessages,  messages, txtSearch,searchValue, isSearch,serviceID } = this.state;
-
+        console.log(serviceType);
         return (
             <div className={classes.root}>
-
+                
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
                 <AppBar
@@ -466,17 +466,17 @@ class AdminPageContainer extends Component {
                     {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService serviceType={serviceType}  searchValue={searchValue} />}
 
                     {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm serviceID={serviceID} serviceType={Constant.SERVICE_ALBUM}  />}
-                    {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm serviceID={serviceID}  />}
-                    {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm serviceID={serviceID}   />}
-                    {(displayingTab === Constant.TAB_WEDDING_DRESS_EDIT) && <DressForm serviceID={serviceID}  />}
-                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_ADD) && <VideoForm serviceID={serviceID}  />}
-                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm serviceID={serviceID}  />}
+                    {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm serviceID={serviceID} serviceType={serviceType} />}
+                    {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm serviceID={serviceID} serviceType={serviceType}  />}
+                    {(displayingTab === Constant.TAB_WEDDING_DRESS_EDIT) && <DressForm serviceID={serviceID} serviceType={serviceType} />}
+                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_ADD) && <VideoForm serviceID={serviceID} serviceType={serviceType} />}
+                    {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm serviceID={serviceID} serviceType={serviceType} />}
 
-                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <ServicesPriceForm serviceID={serviceID}  />}
-                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <ServicesPriceForm serviceID={serviceID}  />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_ADD) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
+                    {(displayingTab === Constant.TAB_FULL_WEDDING_DAY_EDIT) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
 
-                    {(displayingTab === Constant.TAB_ALBUM_PRICE) && <ServicesPriceForm serviceID={serviceID}  />}
-                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <ServicesPriceForm serviceID={serviceID}  />}
+                    {(displayingTab === Constant.TAB_ALBUM_PRICE) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
+                    {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
                     
                     {(displayingTab === Constant.TAB_BANNER_EDIT) && <BannerForm/>}
 

@@ -320,7 +320,6 @@ class ServicesPriceForm extends Component {
 const mapStateToProps = state => {
     return {
         serviceItem: state.adminPage.serviceItem,
-        serviceType: state.adminPage.serviceType
     }
 
 }
