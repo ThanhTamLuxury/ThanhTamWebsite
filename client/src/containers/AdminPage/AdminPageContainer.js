@@ -315,7 +315,8 @@ class AdminPageContainer extends Component {
             displayingTab: tabCode,
             serviceID: id,
             serviceType: serviceType,
-            searchValue: (searchValue !== '')?searchValue:''
+            searchValue: (searchValue !== '')?searchValue:'',
+            txtSearch:(searchValue !== '')?searchValue:''
         });
     }
     componentWillReceiveProps(nextProps) {
@@ -358,7 +359,8 @@ class AdminPageContainer extends Component {
         }
         if(searchValue !== nextProps.searchValue){
             this.setState({
-                searchValue:nextProps.searchValue
+                searchValue:nextProps.searchValue,
+                txtSearch : nextProps.searchValue,
             })
         }
     }
@@ -455,7 +457,7 @@ class AdminPageContainer extends Component {
 
                 </Drawer>
                 <main className={classes.content}>
-                {isLoading ? <div className="loading" ></div>:''}
+                    {isLoading ? <div className="loading" ></div>:''}
                     <div className={classes.toolbar} />
                     {/* Content */}
                     {displayingTab === Constant.SERVICE_ADMIN && <HomePageService />}
