@@ -37,7 +37,7 @@ export const axios_fetch_serviceByID = (id) => {
     };
 }
 export const axios_get_banners = async (dispatch) => {
-    let res = await callApi(`/banner`, 'GET', null, 'ADMIN');
+    let res = await callApi(`banner`, 'GET', null, 'ADMIN');
     if (res != null) {
         handleResponse(res, dispatch, Constants.FETCH_BANNERS, '');
     }

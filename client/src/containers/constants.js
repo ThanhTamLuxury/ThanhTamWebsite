@@ -36,7 +36,8 @@ export const FETCH_BANNERS = 'FETCH_BANNERS';
 
 export const MSG_NO_SELECTED_DELETED = 'Vui lòng chọn mục muốn xóa !'
 export const MSG_CONFIRM_DELETED = 'Bạn có thật sự muốn xóa ?'
-
+export const MSG_CONFIRM_DELETED_TITLE = 'Bạn có thật sự muốn xóa ?'
+export const MSG_CONFIRM_DELETED_TEXT = 'Bạn sẽ không thể lấy lại được thông tin sau khi xóa'
 
 
 
