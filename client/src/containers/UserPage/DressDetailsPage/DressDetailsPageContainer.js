@@ -11,9 +11,9 @@ class DressDetailsPageContainer extends Component {
     render() {
         let { serviceItem } = this.props;
         if (serviceItem != null) {
-            let imageData =serviceItem.imageItems.map((item,index)=>{
+            let imageData =serviceItem.imageItems.map((item)=>{
                 return ({
-                    alt :index,
+                    alt :item.path,
                     src:item.path
                 })
             })

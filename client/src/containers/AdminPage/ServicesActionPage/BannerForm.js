@@ -24,6 +24,7 @@ class BannerForm extends Component {
             images: [],
             response: null,
             indexEdit: -1,
+            sortedList:[],
         };
     }
 
@@ -71,6 +72,8 @@ class BannerForm extends Component {
     onSave = (e) => {
         e.preventDefault();
         let {images}= this.state;
+        console.log("images- onSave", images);
+
         let imagesArr = images.map((image,index)=>({
             id:0,
             path:image.path,
@@ -103,6 +106,15 @@ class BannerForm extends Component {
     }
     onSort = (sortedList, dropEvent) => {
         // console.log("sortedList", sortedList, dropEvent);
+        let newImagesArr = sortedList.map((image)=>({
+            id:image.index,
+            path:image.path
+        }));
+        console.log("newImagesArr", newImagesArr);
+
+        this.setState({
+            images:newImagesArr
+        })
     }
 
     onAddImagesInput = () => {
@@ -121,6 +133,7 @@ class BannerForm extends Component {
     onRenderList = () => {
         let result = [];
         var { images } = this.state;
+        console.log(images);
         if (images.length < 1) {
             return [{
                 content: ''
@@ -128,6 +141,8 @@ class BannerForm extends Component {
         }
         result = images.map((image, index) => {
             return ({
+                index:image.id,
+                path:image.path,
                 content: (<GridListTile className="text-center" key={image.id} style={{ border: '1px solid black', minWidth: '300px' }} >
                     <input
                         name="images"
@@ -139,7 +154,7 @@ class BannerForm extends Component {
                         onChange={this.onUploadMainImage(image.id)}
                     />
                     <label htmlFor={image.id} style={{ width: '100%', height: '100%', margin: 'auto', fontSize: '1.1em!important' }}>
-                        <img style={{ height: '200px', minHeight: '200px' }} src={image.path} alt='SKT' />
+                        <img style={{ height: '200px', minHeight: '200px' }} src={image.path} alt={image.path} />
                     </label>
                     <GridListTileBar
                         title='SKT'
@@ -157,7 +172,6 @@ class BannerForm extends Component {
     render() {
         var { isEditing } = this.state;
         let listItems = this.onRenderList();
-        console.log('here');
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">

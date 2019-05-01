@@ -254,7 +254,7 @@ class ServicesPriceForm extends Component {
                             />
                         </div>
 
-                        <ExpansionPanel style={{ background: 'none' }}>
+                        <ExpansionPanel style={{ background: 'none', minWidth:"320px" }}>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                 <Typography>Danh sách giá theo ngày</Typography>
                             </ExpansionPanelSummary>
@@ -286,12 +286,11 @@ class ServicesPriceForm extends Component {
                                                         value={priceDetailItem.applyDate}
                                                         onChange={this.handlePriceDetailItemApplyDateChange(idx)}
                                                         type="date"
-                                                        style={{ width: '50%' }}
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
                                                     />
-                                                    <Button type="submit" variant="contained" color="primary" style={{ width: '30%', float: 'right' }}
+                                                    <Button  type="submit" variant="contained" color="primary" style={{ float:"right", marginLeft:"2em", marginTop:"2em" }}
                                                         onClick={this.handleRemovePriceDetailItem(idx)}>Xóa
                                                 </Button>
                                                 

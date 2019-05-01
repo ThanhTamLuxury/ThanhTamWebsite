@@ -1502,9 +1502,7 @@ h6 .label {
 	.admin_content form{
 		width: 100%!important;
 	}
-	.admin_content form button{
-		width: 80%!important;
-	}
+
 	.gla_slider img {
 		max-width: 100%;
 		height: auto;
@@ -1914,7 +1912,9 @@ nav .gla_default_menu.gla_wht_txt ul ul a {
 	right: 44px;
 	top: 33px;
 }
-
+.form-group{
+	min-width: 320px;
+}
 .gla_search_block_link .form-control {
 	padding-right: 40px;
 }
@@ -2115,6 +2115,7 @@ ul.mega-menu {
 
 .gla_main_menu_content.active {
 	opacity: 1;
+	background-color: rgba(0,0,0,0.9);
 }
 
 

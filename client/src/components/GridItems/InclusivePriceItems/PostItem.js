@@ -6,7 +6,6 @@ import CalendarToolbar from './Toolbar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import BigCalendar from 'react-big-calendar'
-import dates from './../../../utils/dates';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
 import moment from 'moment';
@@ -120,7 +119,6 @@ class PostItem extends Component {
                                 views={['month', 'week', 'day']}
                                 step={60}
                                 showMultiDayTimes
-                                max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
                                 defaultDate={new Date()}
                                 localizer={localizer}
                                 culture={"vi"}

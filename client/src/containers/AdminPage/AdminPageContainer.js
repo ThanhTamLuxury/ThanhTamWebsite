@@ -599,7 +599,7 @@ class AdminPageContainer extends Component {
             result = menus.map((menu, index) => {
                 return (
                     <Link to={menu.to}  key={index} >
-                    <ListItem className="text-center"  >
+                    <ListItem className="text-center" button >
                         <ListItemIcon >
                             {this.selectIcon(menu.id)}
                         </ListItemIcon>

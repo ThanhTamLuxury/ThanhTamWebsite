@@ -86,7 +86,7 @@ class CarouselItem extends Component {
         if (images.length > 0) {
             result = images.map((image, index) => {
                 return (
-                    <img src={image.src} alt={image.alt} onClick={(e) => this.openLightbox(index, e)} />
+                    <img src={image.src} alt='This is dressImage' onClick={(e) => this.openLightbox(index, e)} />
                 );
 
             });

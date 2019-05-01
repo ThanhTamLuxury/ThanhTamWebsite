@@ -39,9 +39,11 @@ const renderTopVideos = (videos) => {
     var result = null;
     if (videos.length > 0) {
         result = videos.map((video, index) => {
-            return (
-                <TopVideoItem key={index} video={video} index={index} />
-            );
+            if(index <2){
+                return (
+                    <TopVideoItem key={index} video={video} index={index} />
+                );
+            }
         });
     }
     return result;

@@ -8,7 +8,7 @@ class TopAlbumItem extends Component {
             <div className="col-md-4 col-sm-6 ">
                 <Link to={Constant.SLUG_ALBUM + album.id + "/" + album.slug} className="gla_news_block" >
                     <span className="gla_news_img " >
-                        <span className="gla_over" style={{ backgroundImage: "url(" + album.mainImage + ")" }} alt />
+                        <span className="gla_over" style={{ backgroundImage: "url(" + album.mainImage + ")" }} alt={album.slug} />
                     </span>
                     <span className="gla_news_title">{album.name}</span>
                     <p><strong>{album.location}</strong></p>

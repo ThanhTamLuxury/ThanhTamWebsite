@@ -70,7 +70,7 @@ class TopDressesContainer extends Component {
         return (
             <section className="gla_section">
                 <div className="container text-center">
-                    <p><img src={"images/animations/flower6.gif"} data-bottom-top="@src:images/animations/flower6.gif; opacity:1" className="gla_animated_flower skrollable skrollable-after" height={110} alt style={{ opacity: 1 }} /></p>
+                    <p><img src={"images/animations/flower6.gif"} data-bottom-top="@src:images/animations/flower6.gif; opacity:1" className="gla_animated_flower skrollable skrollable-after" height={110} alt="This is flower gif" style={{ opacity: 1 }} /></p>
                     <h2>Áo cưới</h2>
                     <h3 className="gla_subtitle">Áo cưới nổi bật</h3>
                     <p>{topDresses && topDresses.description}</p>

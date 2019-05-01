@@ -8,14 +8,14 @@ const quote = {
     image : 'images/wedding/andy_jeska/10094956883_a882196f8c_k.jpg'
 }
 
-class QuoteContainer extends Component {
+class  QuoteContainer extends Component {
 
     render() {
         return (
-            <section className="gla_section gla_image_bck gla_fixed gla_wht_txt" data-stellar-background-ratio="0.8" data-image={quote.image}>
-                <div className="gla_over" data-color="#282828" data-opacity="0.4" />
+            <section className="gla_section gla_image_bck gla_fixed gla_wht_txt" style={{ backgroundImage: "url(" + quote.image + ")" }}>
+                <div className="gla_over" style={{backgroundColor: 'rgb(40, 40, 40)', opacity : "0.4"}}  />
                 <div className="container text-center">
-                    <p><img src="images/animations/just_wh.gif" data-bottom-top="@src:images/animations/just_wh.gif" height={150} alt /></p>
+                    <p><img src="images/animations/just_wh.gif"  height={150} alt="This is quote image" /></p>
                     <h3 style={{ marginBottom: '-10px' }}>" {quote.quote_line_1} </h3>
                     <h3> {quote.quote_line_2} "</h3>
                     <p className="gla_subtitle">— {quote.quote_details}</p>
