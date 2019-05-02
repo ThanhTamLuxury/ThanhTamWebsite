@@ -13,4 +13,10 @@ public class LocationServiceImp implements LocationService {
 	public LocationDto getTop() {
 		return locationRepo.getTop().toMappedClass();
 	}
+
+	@Override
+	public LocationDto updateLocation(LocationDto locationDto) {
+		Location location = this.locationRepo.save(locationDto.toMappedClass());
+		return location.toMappedClass();
+	}
 }
