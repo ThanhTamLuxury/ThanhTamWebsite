@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { AlbumItem, DressItem, VideoItem, PostItem, DetailedExpansionPanel } from '../../components/index';
 import { connect } from 'react-redux';
 import { axios_fetch_services } from './axios_call';
-import { onLoading } from './actions';
+import { onLoading, reset } from './actions';
 import * as Constant from './constants';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 const renderService = (services, serviceType) => {
     var result = null;
@@ -41,19 +44,34 @@ class ServiceContainer extends Component {
         isLoading:false,
         totalPage:0,
         servicesResponse:{},
+        messages: '',
+
     }
     
-
+    handleActionSnackbarClose = (event, reason) => {
+        this.props.onResetProps();
+        this.setState({ messages: '' });
+        if (reason === 'clickaway') {
+            return;
+        }
+    };
     componentWillMount() {
         this.props.fetchServices(this.props.serviceType, 1, 8);
         this.props.onLoading(true);
     }
     componentWillReceiveProps(nextProps){
+        console.log(nextProps);
         var {isLoading,servicesResponse} = this.state;
+        var {messages} = nextProps;
         if(nextProps.isLoading !== isLoading){
             this.setState({
                 isLoading:nextProps.isLoading
             })
+        }
+        if (messages && messages !== this.state.messages) {
+            this.setState({
+                messages: messages,
+            });
         }
         if (nextProps.servicesResponse && nextProps.servicesResponse !== servicesResponse) {
             this.setState({
@@ -65,7 +83,7 @@ class ServiceContainer extends Component {
     }
     render() {
         const { serviceType } = this.props;
-        const { curPage,isLoading,totalPage,data } = this.state;
+        const { curPage,isLoading,totalPage,data,messages } = this.state;
         // TODO : Xét trường hợp k có thông tin
         if (data) {
             return (
@@ -89,6 +107,29 @@ class ServiceContainer extends Component {
                             </li>
                         </ul>
                     </nav>
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    open={(messages !== '')}
+                    onClose={this.handleActionSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<h5>{messages}</h5>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleActionSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
                 </div>
             );
         }
@@ -118,7 +159,8 @@ class ServiceContainer extends Component {
 const mapStateToProps = state => {
     return {
         servicesResponse: state.userPage.servicesResponse,
-        isLoading: state.userPage.isLoading
+        isLoading: state.userPage.isLoading,
+        messages:state.userPage.messages,
     }
 
 }
@@ -129,6 +171,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onLoading: (isLoading)=>{
             dispatch(onLoading(isLoading));
+        },
+        onResetProps: () => {
+            dispatch(reset());
         },
     }
 }

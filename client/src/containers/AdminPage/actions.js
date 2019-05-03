@@ -7,12 +7,6 @@ export const actFetchServies = (servicesResponse) => {
         servicesResponse
     }
 }
-export const actFetchServiceByID = (serviceItem) => {
-    return {
-        type : Types.FETCH_SERVICEBYID,
-        serviceItem
-    }
-}
 
 export const actChangeMenu = (serviceType,tabCode) => {
     return {

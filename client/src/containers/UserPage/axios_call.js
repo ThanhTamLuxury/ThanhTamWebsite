@@ -6,8 +6,8 @@ import callApi from '../../utils/apiCaller';
 export const axios_fetch_services = (serviceType, page, size) => {
     return dispatch => {
         //server start from 0 but client start from 1. Substract 1
-        if(page > 0){
-            page --;
+        if (page > 0) {
+            page--;
         }
         return callApi(`service/all/outside-page?serviceType=${serviceType}&page=${page}&size=${size}`, 'GET', null).then(res => {
             if (res != null) {
@@ -20,8 +20,8 @@ export const axios_fetch_services = (serviceType, page, size) => {
 export const axios_fetch_price_services = (serviceType, page, size) => {
     return dispatch => {
         //server start from 0 but client start from 1. Substract 1
-        if(page > 0){
-            page --;
+        if (page > 0) {
+            page--;
         }
         return callApi(`service/price-info?serviceType=${serviceType}&page=${page}&size=${size}`, 'GET', null).then(res => {
             if (res != null) {
@@ -31,11 +31,11 @@ export const axios_fetch_price_services = (serviceType, page, size) => {
     };
 }
 // Fetch
-export const axios_fetch_serviceByID = async (id,dispatch) => {
+export const axios_fetch_serviceByID = async (id, dispatch) => {
     let res = await callApi(`service/${id}`, 'GET', null, 'ADMIN')
-         if (res != null) {
-             handleResponse(res,dispatch,Constants.FETCH_SERVICEBYID);
-     }
+    if (res != null) {
+        handleResponse(res, dispatch, Constants.FETCH_SERVICEBYID);
+    }
 }
 const handleResponse = async (res, dispatch, action, msg) => {
     let status = res.status;

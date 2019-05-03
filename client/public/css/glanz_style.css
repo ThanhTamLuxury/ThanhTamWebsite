@@ -116,6 +116,7 @@ body {
 	margin-top: 0.5em;
 	width: 100%;
 	padding: 1em;
+
 }
 
 .z-index-slider {
@@ -312,6 +313,8 @@ h1.gla_h1_title {
 	text-transform: uppercase;
 	line-height: 1.125;
 	margin-top: 0;
+	color:white;
+	text-align: left;
 }
 
 h2 {
@@ -6010,7 +6013,8 @@ footer {
 	font-size: 22px;
 	cursor: pointer;
 	font-weight: bold;
-	margin: 1em;
+	margin: 5px 40px 0 0px;
+	float:left;
 }
 
 .price:hover {
@@ -6989,11 +6993,7 @@ footer {
 		text-align: center;
 	}
 
-	.pull-right {
-		margin-top: 20px;
-		float: none !important;
-		margin-left: 1.5em;
-	}
+
 
 	.mobile .gla_team_menu,
 	.mobile .gla_menu_item {
@@ -7511,6 +7511,13 @@ footer {
 	.albums_menu .page_title {
 		font: 900 40px/30px BickhamScriptPro !important;
 	}
+	.pull-right {
+		margin-top: 50px;
+		float: none !important;
+	}
+	.price-more{
+		float:right;
+	}
 }
 
 @media (max-width:480px) {
@@ -7652,7 +7659,11 @@ footer {
 
 
 
-
+.pull-right {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
 
 .imgcontainer {
 	text-align: center;

@@ -17,3 +17,4 @@ export const PRICE_VIDEO = 'PRICE_VIDEO';
 
 // Response
 export const RES_NOT_2xx = 'RES_NOT_2xx'
+export const PAGE_RESET = 'PAGE_RESET'

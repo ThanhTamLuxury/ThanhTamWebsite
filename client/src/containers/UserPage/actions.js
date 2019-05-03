@@ -19,27 +19,26 @@ export const onLoading = (isLoading) => {
         isLoading:isLoading
     }
 }
-export const actFetchServiceByID = (serviceItem) => {
-    return {
-        type : Types.FETCH_SERVICEBYID,
-        serviceItem
-    }
-}
 
 // Response 
-export const is2xx = (action,resonse) => {
+export const is2xx = (action,response) => {
     return {
-        response:resonse,
+        response:response,
         type : action,
         statusCode:200
     }
 }
 
 // Response 
-export const isNot2xx = (statusCode,msg) => {
+export const isNot2xx = (statusCode,messages) => {
     return {
         type : Types.RES_NOT_2xx,
         statusCode:statusCode,
-        msg:msg
+        messages:messages
+    }
+}
+export const reset = () => {
+    return {
+        type : Types.PAGE_RESET
     }
 }

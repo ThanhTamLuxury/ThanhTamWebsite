@@ -3,15 +3,18 @@ import Lightbox from 'react-images';
 import { connect } from 'react-redux';
 import { axios_fetch_serviceByID } from '../axios_call';
 import Masonry from 'react-masonry-component';
+import { onLoading } from '../actions';
+import { history } from '../../../App';
 
 class AlbumDetailsPageContainer extends Component {
 
     constructor() {
         super();
-
         this.state = {
             lightboxIsOpen: false,
             currentImage: 0,
+            serviceItem: null,
+            isLoading: false,
         };
 
         this.closeLightbox = this.closeLightbox.bind(this);
@@ -23,6 +26,38 @@ class AlbumDetailsPageContainer extends Component {
     }
     componentDidMount() {
         this.props.fetchServiceItem(this.props.albumID);
+        this.props.onLoading(true);
+    }
+    componentWillReceiveProps(nextProps) {
+        var { isLoading } = this.state;
+        let {statusCode} = nextProps;
+        if (nextProps.isLoading !== isLoading) {
+            this.setState({
+                isLoading: nextProps.isLoading
+            })
+        }
+        
+        if (statusCode) {
+            switch (statusCode) {
+                case 200:
+                    let serviceItem = nextProps.serviceItem;
+                    if (serviceItem !== this.state.serviceItem) {
+                        this.setState({
+                            serviceItem: serviceItem
+                        })
+                    }
+                    break;
+                case 404:
+                    history.push('/albums');
+                    break;
+                case 500:
+                default:
+                    history.push('/notfound');
+                    break;
+            }
+        }
+
+
     }
     openLightbox(index, event) {
         event.preventDefault();
@@ -58,10 +93,11 @@ class AlbumDetailsPageContainer extends Component {
     }
 
     render() {
-        let { serviceItem } = this.props;
+        let { serviceItem, isLoading } = this.state;
         if (serviceItem != null) {
             return (
                 <div className="container text-center">
+                    {isLoading ? <div className="loading"></div> : ''}
                     <p><img src="/images/animations/flowers3.gif" data-bottom-top="@src:/images/animations/flowers3.gif" height={130} alt="Animation flower" /></p>
                     <h2>{serviceItem.name}</h2>
                     <p>{serviceItem.description}</p>
@@ -75,8 +111,8 @@ class AlbumDetailsPageContainer extends Component {
                     </Masonry>
                     <Lightbox
                         currentImage={this.state.currentImage}
-                        images={serviceItem.imageItems.map(image =>{
-                            return {src:image.path};
+                        images={serviceItem.imageItems.map(image => {
+                            return { src: image.path };
                         })}
                         isOpen={this.state.lightboxIsOpen}
                         onClickImage={this.handleClickImage}
@@ -91,7 +127,11 @@ class AlbumDetailsPageContainer extends Component {
             );
         }
         return (
-            <h2>Không có dữ liệu</h2>
+            <div>
+                {isLoading ? <div className="loading"></div> : ''}
+                <h2>Không có dữ liệu</h2>
+
+            </div>
         );
 
     }
@@ -101,7 +141,7 @@ class AlbumDetailsPageContainer extends Component {
             result = images.map((image, index) => {
                 return (
                     <li key={index} className="image-element-class masonry-item">
-                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} alt ={image.path} />
+                        <img src={image.path} onClick={(e) => this.openLightbox(index, e)} alt={image.path} />
                     </li>
                 );
 
@@ -117,14 +157,19 @@ const masonryOptions = {
 };
 const mapStateToProps = state => {
     return {
-        serviceItem: state.userPage.serviceItem
+        serviceItem: state.userPage.serviceItem,
+        isLoading: state.userPage.isLoading,
+        statusCode:state.userPage.statusCode,
     }
 
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
         fetchServiceItem: (id) => {
-            axios_fetch_serviceByID(id,dispatch);
+            axios_fetch_serviceByID(id, dispatch);
+        },
+        onLoading: (isLoading) => {
+            dispatch(onLoading(isLoading));
         },
     }
 }

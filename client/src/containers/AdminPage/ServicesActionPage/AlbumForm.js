@@ -126,7 +126,6 @@ class AlbumForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.isUpdate == true) {
             let id = this.props.serviceID;
             if (id) {

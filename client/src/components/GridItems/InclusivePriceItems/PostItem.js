@@ -100,12 +100,13 @@ class PostItem extends Component {
                     <div className="price-details">
                         <a className="price"><span>{formatter.format(post.price)}</span>
                         </a>
-                        <Fab size="small" color="primary" aria-label="Xem thêm giá tham khảo" onClick={this.handleClickOpen} >
+                        <Fab size="small" className="price-more" color="primary" aria-label="Xem thêm giá tham khảo" onClick={this.handleClickOpen} >
                             <AddIcon />
                         </Fab>
                         <div className="pull-right">
                             <Link to={"/"+toRelatedPath + post.id + "/" + post.slug} className="btn">{serviceType? serviceType+' tham khảo' :''}</Link>
                         </div>
+                        
                     </div>
                     <Dialog
                         fullScreen
@@ -113,7 +114,7 @@ class PostItem extends Component {
                         onClose={this.handleClose}
                         TransitionComponent={Transition}
                     >
-                        <div style={{ overflow: "scroll", padding: '2em', margin: '1em' }}>
+                        <div style={{ overflow: "scroll", padding: '2em', margin: '1em',minWidth:'750px' }}>
                             <BigCalendar
                                 events={priceDetails}
                                 views={['month', 'week', 'day']}
@@ -130,7 +131,7 @@ class PostItem extends Component {
                         </div>
 
                         <DialogActions>
-                            <Button variant="contained" size="large" color="primary" onClick={this.handleClose}>Thoát</Button>
+                            <Button style={{float:"left"}} variant="contained" size="large" color="primary" onClick={this.handleClose}>Thoát</Button>
                         </DialogActions>
                     </Dialog>
 
