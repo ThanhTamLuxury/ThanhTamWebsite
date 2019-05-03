@@ -55,6 +55,7 @@ export const YOUTUBE_PREFIX = 'https://www.youtube.com/watch?v='
 
 
 // tabCode
+export const NOT_FOUND = 'NOT_FOUND'
 
 // Change to edit tab
 

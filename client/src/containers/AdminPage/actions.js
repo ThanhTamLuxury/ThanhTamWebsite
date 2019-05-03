@@ -140,10 +140,10 @@ export const is2xx = (action,resonse) => {
 }
 
 // Response 
-export const isNot2xx = (statusCode,msg) => {
+export const isNot2xx = (statusCode,messages) => {
     return {
         type : Types.RES_NOT_2xx,
         statusCode:statusCode,
-        msg:msg
+        messages:messages
     }
 }

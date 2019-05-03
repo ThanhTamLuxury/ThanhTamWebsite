@@ -3,8 +3,9 @@ import * as Constant from '../../constants';
 import TextField from '@material-ui/core/TextField';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Button from '@material-ui/core/Button';
-import { axios_fetch_AboutUsDetails } from '../axios_call';
+import { axios_fetch_AboutUsDetails, axios_update_AboutUsDetails } from '../axios_call';
 import { connect } from 'react-redux';
+import { onLoading, reset } from '../actions';
 class HomePageService extends Component {
 
     constructor(props) {
@@ -29,8 +30,13 @@ class HomePageService extends Component {
         this.props.fetchAboutUsDetails();
     }
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+        if (nextProps.isUpdate == true) {
+            this.props.fetchAboutUsDetails();
+            this.props.onLoading(true);
+            this.props.onResetProps();
+        }
         let aboutUsDetails = nextProps.aboutUsDetails;
-
         if (aboutUsDetails != null) {
             this.setState({
                 txtID: aboutUsDetails.id,
@@ -51,7 +57,7 @@ class HomePageService extends Component {
             email: txtEmail,
             googleLocation: txtLocation,
         }
-        this.props.onUpdateAboutUsDetails(info, Constant.SERVICE_WEDDING_VIDEO);
+        this.props.onUpdateAboutUsDetails(info);
 
         this.setState({
             txtAddress: '',
@@ -60,7 +66,6 @@ class HomePageService extends Component {
             txtLocation: '',
         })
 
-        this.props.onAdding(true);
         this.props.onLoading(true);
     }
     render() {
@@ -123,13 +128,23 @@ class HomePageService extends Component {
 }
 const mapStateToProps = state => {
     return {
-        aboutUsDetails: state.adminPage.aboutUsDetails
+        aboutUsDetails: state.adminPage.aboutUsDetails,
+        isUpdate: state.adminPage.isUpdate,
     }
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
+        onLoading: (isLoading) => {
+            dispatch(onLoading(isLoading));
+        },
         fetchAboutUsDetails: () => {
             dispatch(axios_fetch_AboutUsDetails());
+        },
+        onUpdateAboutUsDetails: (info)=>{
+            axios_update_AboutUsDetails(info, dispatch);
+        },
+        onResetProps: () => {
+            dispatch(reset());
         },
     }
 }

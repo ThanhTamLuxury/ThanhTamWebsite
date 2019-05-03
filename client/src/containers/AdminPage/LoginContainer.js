@@ -16,7 +16,8 @@ class LoginContainer extends Component {
         this.state = {
             txtUsername: '',
             txtPassword: '',
-            submitted: false
+            submitted: false,
+            messages:'',
         };
     }
     onChange = (e) => {
@@ -42,7 +43,12 @@ class LoginContainer extends Component {
         this.props.onLogin(txtUsername, txtPassword, this.redirect);
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
+        let {messages} = nextProps;
+        if (messages && messages !== this.state.messages) {
+            this.setState({
+                messages: messages,
+            });
+        }
     }
     render() {
         var { txtPassword, txtUsername } = this.state;
@@ -87,6 +93,7 @@ class LoginContainer extends Component {
 }
 const mapStateToProps = state => {
     return {
+        messages: state.adminPage.messages,
     }
 
 }

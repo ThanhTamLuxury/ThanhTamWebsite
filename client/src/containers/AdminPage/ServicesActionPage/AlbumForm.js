@@ -125,10 +125,8 @@ class AlbumForm extends Component {
             this.props.onLoading(true);
         }
     }
-    componentDidUpdate(prevprops) {
-        console.log(prevprops);
-    }
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (nextProps.isUpdate == true) {
             let id = this.props.serviceID;
             if (id) {
@@ -338,6 +336,7 @@ const mapStateToProps = state => {
         response: state.adminPage.response,
         isLoading: state.adminPage.isLoading,
         isUpdate: state.adminPage.isUpdate,
+        statusCode :state.adminPage.statusCode
     }
 
 }
@@ -347,7 +346,7 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onLoading(isLoading));
         },
         fetchServiceItem: (id) => {
-            dispatch(axios_fetch_serviceByID(id));
+            axios_fetch_serviceByID(id,dispatch);
         },
         onUpdate: (service, serviceType, files, file) => {
             axios_add_update_with_file_service(service, serviceType, files, file, dispatch, true);

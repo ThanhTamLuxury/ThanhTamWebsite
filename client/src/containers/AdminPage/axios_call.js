@@ -5,7 +5,6 @@ import callApi from '../../utils/apiCaller';
 // Fetch
 export const axios_fetch_services = (serviceType, page, size) => {
     return dispatch => {
-
         return callApi(`service/all/outside-page?serviceType=${serviceType}&page=${page}&size=${size}`, 'GET', null, 'ADMIN').then(res => {
             if (res != null) {
                 dispatch(Actions.actFetchServies(res.data));
@@ -27,14 +26,11 @@ export const axios_search_services = (searchValue, serviceType, page, size) => {
     };
 }
 // Fetch
-export const axios_fetch_serviceByID = (id) => {
-    return dispatch => {
-        return callApi(`service/${id}`, 'GET', null, 'ADMIN').then(res => {
-            if (res != null) {
-                dispatch(Actions.actFetchServiceByID(res.data));
-            }
-        });
-    };
+export const axios_fetch_serviceByID = async (id,dispatch) => {
+       let res = await callApi(`service/${id}`, 'GET', null, 'ADMIN');
+        if (res != null) {
+                handleResponse(res,dispatch,Constants.FETCH_SERVICEBYID);
+        }
 }
 export const axios_get_banners = async (dispatch) => {
     let res = await callApi(`banner`, 'GET', null, 'ADMIN');
@@ -148,7 +144,6 @@ export const login = async (username, password, redirect, dispatch) => {
     const response = await callApi(`login`, 'POST', JSON.stringify({ username, password }), 'LOGIN')
     if (response) {
         if (response.status === 401) {
-            // auto logout if 401 response returned from api
             logout();
         }
         else if (response.status === 200) {
@@ -165,16 +160,16 @@ const handleResponse = async (res, dispatch, action, msg) => {
             await dispatch(Actions.is2xx(action, res.data));
             break;
         case 401:
-            await dispatch(Actions.isNot2xx(401, "Unauthorized"));
+            await dispatch(Actions.isNot2xx(401, "Vui lòng đăng nhập lại !"));
             break;
         case 403:
-            await dispatch(Actions.isNot2xx(403, "Forbidden"));
+            await dispatch(Actions.isNot2xx(403, "Vui lòng đăng nhập lại !"));
             break;
         case 404:
-            await dispatch(Actions.isNot2xx(404, "Not found"));
+            await dispatch(Actions.isNot2xx(404, "Không tìm thấy !"));
             break;
         default:
-            await dispatch(Actions.isNot2xx(500, "Đã xảy ra lỗi"));
+            await dispatch(Actions.isNot2xx(500, "Đã xảy ra lỗi !"));
             break;
     }
 }
@@ -186,4 +181,11 @@ export const axios_fetch_AboutUsDetails = () => {
             }
         });
     };
+};
+
+export const axios_update_AboutUsDetails = async (info, dispatch) => {
+    let res = await callApi("location", "POST", info, "ADMIN")
+    if (res != null) {
+        handleResponse(res, dispatch, Constants.UPDATE_ABOUT_US);
+    }
 };

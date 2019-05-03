@@ -26,3 +26,20 @@ export const actFetchServiceByID = (serviceItem) => {
     }
 }
 
+// Response 
+export const is2xx = (action,resonse) => {
+    return {
+        response:resonse,
+        type : action,
+        statusCode:200
+    }
+}
+
+// Response 
+export const isNot2xx = (statusCode,msg) => {
+    return {
+        type : Types.RES_NOT_2xx,
+        statusCode:statusCode,
+        msg:msg
+    }
+}

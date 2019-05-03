@@ -25,6 +25,7 @@ export const LABEL_FULL_WEDDING_DAY_EDIT = 'Chỉnh sửa bảng giá trọn gó
 export const LABEL_PRICE_ALBUM_EDIT = 'Chỉnh sửa bảng giá album'
 export const LABEL_PRICE_VIDEO_EDIT = 'Chỉnh sửa bảng giá video'
 export const LABEL_BANNER_EDIT = 'Chỉnh sửa banners'
+export const LABEL_NOT_FOUND = 'Không tìm thấy'
 
 
 

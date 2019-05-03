@@ -1,24 +1,24 @@
 import * as Constants from './../constants';
 
 const initialState = {
-    statusCode:200,
+    statusCode: 200,
     isLoading: false,
     isDelete: false,
-    isUpdate:false,
+    isUpdate: false,
     serviceType: '',
     tabCode: Constants.SERVICE_ADMIN,
     servicesResponse: null,
     serviceItem: null,
     serviceID: '',
     response: null,
-    bannerResponse:null,
-    filesStatus:[],
+    bannerResponse: null,
+    filesStatus: [],
     isLogin: false,
-    user:{},
-    actionsPage:[],
-    idArr:[],
-    messages :'',
-    aboutUsDetails:null,
+    user: {},
+    actionsPage: [],
+    idArr: [],
+    messages: '',
+    aboutUsDetails: null,
 };
 
 const adminPage = (state = initialState, action) => {
@@ -26,11 +26,12 @@ const adminPage = (state = initialState, action) => {
         case Constants.PAGE_RESET:
             return Object.assign({}, state, {
                 isLoading: false,
-                messages :'',
-                filesStatus :[],
-                response:{},
-                isDelete:false,
-                isUpdate:false,
+                messages: '',
+                filesStatus: [],
+                response: {},
+                isDelete: false,
+                isUpdate: false,
+                statusCode:200,
             });
         case Constants.PAGE_LOADING:
             return Object.assign({}, state, {
@@ -49,48 +50,55 @@ const adminPage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 servicesResponse: action.servicesResponse,
                 isLoading: false,
-                isDelete:false,
+                isDelete: false,
+                statusCode:200,
             });
         case Constants.FETCH_SERVICEBYID:
             return Object.assign({}, state, {
                 serviceItem: action.serviceItem,
                 isLoading: false,
-                isDelete:false,
-                isUpdate:false,
+                isDelete: false,
+                isUpdate: false,
+                statusCode:200,
             });
         case Constants.ADD_SERVICE:
             return Object.assign({}, state, {
                 response: action.response,
-                filesStatus:action.filesStatus,
-                messages:'Thêm mới thành công',
-                isLoading:false,
-                isDelete:false,
+                filesStatus: action.filesStatus,
+                messages: 'Thêm mới thành công',
+                isLoading: false,
+                isDelete: false,
+                statusCode:200,
             });
         case Constants.UPLOAD_SUCCESS:
             return Object.assign({}, state, {
                 response: action.response,
-                isLoading:false,
-                isDelete:false,
+                isLoading: false,
+                isDelete: false,
+                statusCode:200,
             });
         case Constants.UPDATE_SERVICE:
             return Object.assign({}, state, {
                 response: action.response,
-                messages:'Thay đổi đã được cập nhật',
+                messages: 'Thay đổi đã được cập nhật',
                 isLoading: false,
-                isDelete:false,
-                isUpdate:true,
+                isDelete: false,
+                isUpdate: true,
+                statusCode:200,
             });
         case Constants.DELETE_SERVICES:
             return Object.assign({}, state, {
                 messages: 'Xóa thành công',
-                isDelete:true,
+                isDelete: true,
+                statusCode:200,
             });
         case Constants.ON_CHANGE_MENU:
             return Object.assign({}, state, {
                 tabCode: action.tabCode,
                 serviceType: action.serviceType,
                 isLoading: false,
-                isDelete:false,
+                isDelete: false,
+                statusCode:200,
             });
 
         case Constants.ON_EDIT:
@@ -98,46 +106,54 @@ const adminPage = (state = initialState, action) => {
                 tabCode: action.tabCode,
                 serviceID: action.serviceID,
                 isLoading: false,
-                isDelete:false,
+                isDelete: false,
+                statusCode:200,
             });
         case Constants.ON_ADDNEW:
             return Object.assign({}, state, {
                 tabCode: action.tabCode,
                 serviceID: '',
                 isLoading: false,
-                isDelete:false,
+                isDelete: false,
+                statusCode:200,
             });
         case Constants.ON_VIEW_PRICE:
             return Object.assign({}, state, {
                 tabCode: action.tabCode,
                 serviceID: action.serviceID,
                 isLoading: false,
-                isDelete:false,
+                isDelete: false,
+                statusCode:200,
             });
-            case Constants.FETCH_ABOUTUS:
+        case Constants.FETCH_ABOUTUS:
             return Object.assign({}, state, {
-                aboutUsDetails: action.aboutUsDetails
+                aboutUsDetails: action.aboutUsDetails,
+                statusCode:200,
             });
-            case Constants.FETCH_BANNERS:
+        case Constants.FETCH_BANNERS:
             return Object.assign({}, state, {
-                bannerResponse:action.response,
-                statusCode:action.statusCode,
-                isUpdate:false,
+                bannerResponse: action.response,
+                statusCode: action.statusCode,
+                isUpdate: false,
+                statusCode:200,
             });
-            case Constants.UPDATE_ABOUT_US:
+        case Constants.UPDATE_ABOUT_US:
             return Object.assign({}, state, {
                 response: action.response,
-                messages:'Thay đổi đã được cập nhật',
+                messages: 'Thay đổi đã được cập nhật',
                 isLoading: false,
-                isDelete:false,
-                isUpdate:true,
+                isDelete: false,
+                isUpdate: true,
+                statusCode:200,
             });
-            case Constants.RES_NOT_2xx:
+        case Constants.RES_NOT_2xx:
+            console.log(action);
             return Object.assign({}, state, {
                 statusCode: action.statusCode,
-                messages:action.messages
+                messages: action.messages,
+                isLoading:false,
             });
-            
+
         default:
             return state;
     }

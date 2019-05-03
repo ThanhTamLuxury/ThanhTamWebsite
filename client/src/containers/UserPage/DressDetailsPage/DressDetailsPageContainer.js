@@ -63,7 +63,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         fetchServiceItem: (id) => {
-            dispatch(axios_fetch_serviceByID(id));
+            axios_fetch_serviceByID(id,dispatch);
         },
     }
 }

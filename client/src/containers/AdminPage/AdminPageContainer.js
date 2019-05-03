@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as Constant from './../constants';
 import * as Label from './../../constants/Constant';
 import { connect } from 'react-redux';
@@ -37,7 +37,7 @@ import VideoForm from './ServicesActionPage/VideoForm';
 import ServicesPriceForm from './ServicesActionPage/ServicesPriceForm';
 import { actChangeMenu, onLoading, onAdding, reset } from './actions';
 import BannerForm from './ServicesActionPage/BannerForm';
-import {history} from '../../App';
+import { history } from '../../App';
 
 function HomeIcon(props) {
     return (
@@ -83,32 +83,32 @@ function VideoIcon(props) {
 const menus = [
     {
         id: Constant.SERVICE_ADMIN,
-        to:'/admin',
+        to: '/admin',
         name: 'Trang chủ'
     },
     {
         id: Constant.SERVICE_ALBUM,
-        to:'/admin/views/ALBUM',
+        to: '/admin/views/ALBUM',
         name: 'Danh sách albums'
     },
     {
         id: Constant.SERVICE_WEDDING_DRESS,
-        to:'/admin/views/WEDDING_DRESS',
+        to: '/admin/views/WEDDING_DRESS',
         name: 'Danh sách áo cưới'
     },
     {
         id: Constant.SERVICE_WEDDING_VIDEO,
-        to:'/admin/views/WEDDING_VIDEO',
+        to: '/admin/views/WEDDING_VIDEO',
         name: 'Danh sách videos'
     },
     {
         id: Constant.SERVICE_FULL_WEDDING_DAY,
-        to:'/admin/views/FULL_WEDDING_DAY',
+        to: '/admin/views/FULL_WEDDING_DAY',
         name: 'Bảng giá trọn gói'
     },
     {
         id: Constant.TAB_BANNER_EDIT,
-        to:'/admin/edit/banner',
+        to: '/admin/edit/banner',
         // tabCode: Constant.TAB_BANNER,
         name: 'Banner trang chủ'
     },
@@ -223,7 +223,7 @@ const styles = theme => ({
 
 class AdminPageContainer extends Component {
     state = {
-        serviceType:'',
+        serviceType: '',
         serviceID: 1,
         isLoading: false,
         isUpdate: false,
@@ -235,7 +235,7 @@ class AdminPageContainer extends Component {
         uploadMessages: [],
         msgAction: '',
         searchValue: '',
-        txtSearch:'',
+        txtSearch: '',
         isSearch: false,
         messages: '',
     };
@@ -271,22 +271,22 @@ class AdminPageContainer extends Component {
     };
 
     handleBlur = (e) => {
-        let {searchValue,serviceType} = this.state;
-        if(serviceType && serviceType !==''){
+        let { searchValue, serviceType } = this.state;
+        if (serviceType && serviceType !== '') {
             let newSearchValue = e.target.value;
-            if(newSearchValue === ''){
+            if (newSearchValue === '') {
                 history.push(`/admin/views/${this.props.serviceType}`);
                 this.setState({
-                    searchValue:''
+                    searchValue: ''
                 })
-            }else if(newSearchValue !== searchValue){
+            } else if (newSearchValue !== searchValue) {
                 history.push(`/admin/search/${this.props.serviceType}/search_query=${e.target.value}`);
                 this.setState({
-                    searchValue:newSearchValue
+                    searchValue: newSearchValue
                 })
             }
         }
-        
+
     }
     renderUploadMSG = (uploadMessages) => {
         let result = null;
@@ -307,65 +307,92 @@ class AdminPageContainer extends Component {
         }
         return result;
     }
-    componentWillMount(){
-        let { serviceType, id, tabCode,searchValue } = this.props;
+    componentWillMount() {
+        let { serviceType, id, tabCode, searchValue } = this.props;
         let label = this.getLabelName(tabCode);
-        this.setState({
-            tabLabel: label,
-            displayingTab: tabCode,
-            serviceID: id,
-            serviceType: serviceType,
-            searchValue: (searchValue !== '')?searchValue:'',
-            txtSearch:(searchValue !== '')?searchValue:''
-        });
-    }
-    componentWillReceiveProps(nextProps) {
-        var {isLoading,searchValue} = this.state;
-        if(nextProps.isLoading !== isLoading){
-            this.setState({
-                isLoading:nextProps.isLoading
-            })
-        }
-        let { serviceType, id, tabCode,messages } = nextProps;
-        if(serviceType !== this.state.serviceType){
-            let label = this.getLabelName(tabCode);
+        if (label === Constant.NOT_FOUND) {
+            history.push('/notfound')
+        } else {
             this.setState({
                 tabLabel: label,
                 displayingTab: tabCode,
                 serviceID: id,
                 serviceType: serviceType,
+                searchValue: (searchValue !== '') ? searchValue : '',
+                txtSearch: (searchValue !== '') ? searchValue : ''
             });
         }
-        if(nextProps.response && nextProps.response.data){
-            console.log(nextProps);
-            if(nextProps.isUpdate && nextProps.tabCode.includes("_PRICE")){
-                history.push(`/admin/price/${serviceType}/${nextProps.response.data.id}`)
-            }else if(nextProps.isUpdate && nextProps.tabCode.includes("EDIT")){
-                history.push(`/admin/edit/${serviceType}/${nextProps.response.data.id}`)
-            }else{
-                history.push(`/admin/views/${serviceType}`)
-            }
-            
-        }
-        if(messages && messages !== this.state.messages){
+
+    }
+    componentWillReceiveProps(nextProps) {
+        var { isLoading, searchValue } = this.state;
+        if (nextProps.isLoading !== isLoading) {
             this.setState({
-                messages: messages,         
-            });
-        }
-        
-        if (nextProps.filesStatus !== this.state.filesStatus) {
-            if (nextProps.filesStatus.length > 0 && !nextProps.isAdding) {
-                this.setState({
-                    uploadMessages: nextProps.filesStatus,
-                })
-            }
-        }
-        if(searchValue !== nextProps.searchValue){
-            this.setState({
-                searchValue:nextProps.searchValue,
-                txtSearch : nextProps.searchValue,
+                isLoading: nextProps.isLoading
             })
         }
+        let { serviceType, id, tabCode, messages, statusCode } = nextProps;
+        if (messages && messages !== this.state.messages) {
+            this.setState({
+                messages: messages,
+            });
+        }
+        if (statusCode) {
+            switch (statusCode) {
+                case 200:
+                    if (serviceType !== this.state.serviceType) {
+                        let label = this.getLabelName(tabCode);
+                        if (label === Constant.NOT_FOUND) {
+                            history.push('/notfound')
+                        } else {
+                            this.setState({
+                                tabLabel: label,
+                                displayingTab: tabCode,
+                                serviceID: id,
+                                serviceType: serviceType,
+                            });
+                        }
+                    }
+                    if (nextProps.response && nextProps.response.data) {
+                        if (nextProps.isUpdate && nextProps.tabCode.includes("_PRICE")) {
+                            history.push(`/admin/price/${serviceType}/${nextProps.response.data.id}`)
+                        } else if (nextProps.isUpdate && nextProps.tabCode.includes("EDIT")) {
+                            history.push(`/admin/edit/${serviceType}/${nextProps.response.data.id}`)
+                        } else if (nextProps.tabCode.includes("ADMIN")) {
+                            history.push(`/admin`)
+                        } else {
+                            history.push(`/admin/views/${serviceType}`)
+                        }
+                    }
+
+                    if (nextProps.filesStatus !== this.state.filesStatus) {
+                        if (nextProps.filesStatus.length > 0 && !nextProps.isAdding) {
+                            this.setState({
+                                uploadMessages: nextProps.filesStatus,
+                            })
+                        }
+                    }
+                    if (searchValue !== nextProps.searchValue) {
+                        this.setState({
+                            searchValue: nextProps.searchValue,
+                            txtSearch: nextProps.searchValue,
+                        })
+                    }
+                    break;
+                case 401:
+                case 403:
+                    history.push('/login');
+                    break;
+                case 404:
+                    history.push(`/admin`);
+                    break;
+                case 500:
+                    history.push('/notfound');
+                    break;
+            }
+        }
+
+
     }
     onChange = (e) => {
         var target = e.target;
@@ -381,11 +408,11 @@ class AdminPageContainer extends Component {
     }
     render() {
         const { classes, theme } = this.props;
-        const { displayingTab,serviceType, isLoading, uploadMessages,  messages, txtSearch,searchValue, isSearch,serviceID } = this.state;
+        const { displayingTab, serviceType, isLoading, uploadMessages, messages, txtSearch, searchValue, isSearch, serviceID } = this.state;
         let isDisplayingSearch = (displayingTab === Constant.SERVICE_ALBUM || displayingTab === Constant.SERVICE_WEDDING_DRESS || displayingTab === Constant.SERVICE_WEDDING_VIDEO || displayingTab === Constant.SERVICE_FULL_WEDDING_DAY)
         return (
             <div className={classes.root}>
-    
+
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
                 <AppBar
@@ -408,7 +435,7 @@ class AdminPageContainer extends Component {
                         <Typography variant="h4" color="inherit" noWrap>
                             {this.state.tabLabel}
                         </Typography>
-                        <Typography variant="h6" color="inherit" noWrap className={isDisplayingSearch ? '':'none-display'}>
+                        <Typography variant="h6" color="inherit" noWrap className={isDisplayingSearch ? '' : 'none-display'}>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon />
@@ -426,10 +453,10 @@ class AdminPageContainer extends Component {
                                 />
                             </div>
                         </Typography>
-                        <Button  onClick={this.logout} variant="outlined" color="primary" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
-                                Đăng xuất   
+                        <Button onClick={this.logout} variant="outlined" color="primary" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
+                            Đăng xuất
                         </Button>
-                         <div style={{marginRight: 20,position:'absolute',right:'0'}}>{isLoading ? 'Đang xử lý':''}</div>   
+                        <div style={{ marginRight: 20, position: 'absolute', right: '0' }}>{isLoading ? 'Đang xử lý' : ''}</div>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -460,18 +487,18 @@ class AdminPageContainer extends Component {
 
                 </Drawer>
                 <main className={classes.content}>
-                    {isLoading ? <div className="loading" ></div>:''}
+                    {isLoading ? <div className="loading" ></div> : ''}
                     <div className={classes.toolbar} />
                     {/* Content */}
                     {displayingTab === Constant.SERVICE_ADMIN && <HomePageService />}
                     {displayingTab === Constant.SERVICE_ALBUM && <ListItemsService serviceType={serviceType} searchValue={searchValue} />}
-                    {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService serviceType={serviceType}  searchValue={searchValue} />}
-                    {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService serviceType={serviceType}  searchValue={ searchValue} />}
-                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService serviceType={serviceType}  searchValue={searchValue} />}
+                    {displayingTab === Constant.SERVICE_WEDDING_DRESS && <ListItemsService serviceType={serviceType} searchValue={searchValue} />}
+                    {displayingTab === Constant.SERVICE_WEDDING_VIDEO && <ListItemsService serviceType={serviceType} searchValue={searchValue} />}
+                    {displayingTab === Constant.SERVICE_FULL_WEDDING_DAY && <ListItemsService serviceType={serviceType} searchValue={searchValue} />}
 
-                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm serviceID={serviceID} serviceType={Constant.SERVICE_ALBUM}  />}
+                    {(displayingTab === Constant.TAB_ALBUM_ADD) && <AlbumForm serviceID={serviceID} serviceType={Constant.SERVICE_ALBUM} />}
                     {(displayingTab === Constant.TAB_ALBUM_EDIT) && <AlbumForm serviceID={serviceID} serviceType={serviceType} />}
-                    {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm serviceID={serviceID} serviceType={serviceType}  />}
+                    {(displayingTab === Constant.TAB_WEDDING_DRESS_ADD) && <DressForm serviceID={serviceID} serviceType={serviceType} />}
                     {(displayingTab === Constant.TAB_WEDDING_DRESS_EDIT) && <DressForm serviceID={serviceID} serviceType={serviceType} />}
                     {(displayingTab === Constant.TAB_WEDDING_VIDEO_ADD) && <VideoForm serviceID={serviceID} serviceType={serviceType} />}
                     {(displayingTab === Constant.TAB_WEDDING_VIDEO_EDIT) && <VideoForm serviceID={serviceID} serviceType={serviceType} />}
@@ -481,8 +508,8 @@ class AdminPageContainer extends Component {
 
                     {(displayingTab === Constant.TAB_ALBUM_PRICE) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
                     {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
-                    
-                    {(displayingTab === Constant.TAB_BANNER_EDIT) && <BannerForm/>}
+
+                    {(displayingTab === Constant.TAB_BANNER_EDIT) && <BannerForm />}
 
                 </main>
                 <Snackbar
@@ -490,7 +517,7 @@ class AdminPageContainer extends Component {
                         vertical: 'bottom',
                         horizontal: 'right',
                     }}
-                    open={uploadMessages.length >0}
+                    open={uploadMessages.length > 0}
                     onClose={this.handleSnackbarClose}
                     ContentProps={{
                         'aria-describedby': 'message-id',
@@ -591,9 +618,8 @@ class AdminPageContainer extends Component {
                 return Label.LABEL_PRICE_VIDEO_EDIT;
             case Constant.TAB_BANNER_EDIT:
                 return Label.LABEL_BANNER_EDIT;
-
             default:
-                return <StarBorder />;
+                return Constant.NOT_FOUND
         }
     }
     renderServicesMenu = (menus) => {
@@ -601,13 +627,13 @@ class AdminPageContainer extends Component {
         if (menus.length > 0) {
             result = menus.map((menu, index) => {
                 return (
-                    <Link to={menu.to}  key={index} >
-                    <ListItem className="text-center" button >
-                        <ListItemIcon >
-                            {this.selectIcon(menu.id)}
-                        </ListItemIcon>
-                        <ListItemText primary={menu.name} />
-                    </ListItem>
+                    <Link to={menu.to} key={index} >
+                        <ListItem className="text-center" button >
+                            <ListItemIcon >
+                                {this.selectIcon(menu.id)}
+                            </ListItemIcon>
+                            <ListItemText primary={menu.name} />
+                        </ListItem>
                     </Link>
                 );
 
@@ -627,7 +653,7 @@ const mapStateToProps = state => {
         isUpdate: state.adminPage.isUpdate,
         filesStatus: state.adminPage.filesStatus,
         messages: state.adminPage.messages,
-
+        statusCode: state.adminPage.statusCode,
     }
 
 }

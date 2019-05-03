@@ -193,7 +193,7 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onLoading(isAdding));
         },
         fetchServiceItem: (id) => {
-            dispatch(axios_fetch_serviceByID(id));
+            axios_fetch_serviceByID(id,dispatch);
         },
         onUpdate: (service, serviceType) => { 
             axios_add_update_service(service, serviceType, dispatch, true);

@@ -15,3 +15,5 @@ export const PRICE_INCLUSIVE = 'FULL_WEDDING_DAY';
 export const PRICE_ALBUM = 'PRICE_ALBUM';
 export const PRICE_VIDEO = 'PRICE_VIDEO';
 
+// Response
+export const RES_NOT_2xx = 'RES_NOT_2xx'

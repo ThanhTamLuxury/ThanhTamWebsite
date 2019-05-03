@@ -363,7 +363,7 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onLoading(isAdding));
         },
         fetchServiceItem: (id) => {
-            dispatch(axios_fetch_serviceByID(id));
+            axios_fetch_serviceByID(id,dispatch);
         },
         onUpdate: (service, serviceType, files, file) => {
             axios_add_update_with_file_service(service, serviceType, files, file, dispatch, true);

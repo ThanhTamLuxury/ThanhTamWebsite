@@ -5,7 +5,6 @@ import AlbumDetailsPage from '../pages/AlbumDetailsPage';
 import DressDetailsPage from '../pages/DressDetailsPage';
 import ServicesPage from '../pages/ServicesPage';
 import ServiceListPricePage from '../pages/ServiceListPricePage';
-import LoginPage from '../pages/LoginPage';
 import AdminPage from '../pages/AdminPage';
 import LoginContainer from '../containers/AdminPage/LoginContainer';
 import ServiceAddPage from '../pages/ServiceAddPage';
@@ -14,6 +13,7 @@ import AdminViewListPage from '../pages/AdminViewListPage';
 import ServiceEditPricePage from '../pages/ServiceEditPricePage';
 import AdminBannerPage from '../pages/AdminBannerPage';
 import AdminSearchPage from '../pages/AdminSearchPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 
 
@@ -110,6 +110,12 @@ const routes = [
         exact: false,
         main: ServiceEditPricePage,
         isPrivate: true, 
+    },
+    {
+        path: '/notfound',
+        exact: false,
+        main: NotFoundPage,
+        isPrivate: false, 
     }
 ];
 
