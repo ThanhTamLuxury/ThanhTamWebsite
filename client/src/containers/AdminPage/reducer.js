@@ -124,6 +124,14 @@ const adminPage = (state = initialState, action) => {
                 statusCode:action.statusCode,
                 isUpdate:false,
             });
+            case Constants.UPDATE_ABOUT_US:
+            return Object.assign({}, state, {
+                response: action.response,
+                messages:'Thay đổi đã được cập nhật',
+                isLoading: false,
+                isDelete:false,
+                isUpdate:true,
+            });
             case Constants.RES_NOT_2xx:
             return Object.assign({}, state, {
                 statusCode: action.statusCode,

@@ -337,7 +337,10 @@ class AdminPageContainer extends Component {
             });
         }
         if(nextProps.response && nextProps.response.data){
-            if(nextProps.isUpdate){
+            console.log(nextProps);
+            if(nextProps.isUpdate && nextProps.tabCode.includes("_PRICE")){
+                history.push(`/admin/price/${serviceType}/${nextProps.response.data.id}`)
+            }else if(nextProps.isUpdate && nextProps.tabCode.includes("EDIT")){
                 history.push(`/admin/edit/${serviceType}/${nextProps.response.data.id}`)
             }else{
                 history.push(`/admin/views/${serviceType}`)

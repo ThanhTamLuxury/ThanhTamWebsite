@@ -1538,7 +1538,8 @@ h6 .label {
 }
 @media (max-width:325px) {
 	.gla_logo {
-    font: 900 14px/18px Roboto;
+		font: 900 15px/18px Roboto!important;
+		top : 15px!important;	
 }
 .masonry-item img{
 	width: 80%!important;
@@ -5596,11 +5597,13 @@ footer {
 	font-size: 30px;
 	transform: scale(0.8);
 }
-
+.ti-angle-up:before{
+	color: rgb(143, 141, 141);
+}
 .gla_top:after {
 	width: 2px;
 	height: 25px;
-	background: #eee;
+	background: rgb(143, 141, 141);
 	display: block;
 	position: absolute;
 	content: '';

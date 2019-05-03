@@ -103,6 +103,7 @@ class ServicesPriceForm extends Component {
             applyDate: "",
             priceDetailItems: []
         })
+        this.props.onLoading(true);
     }
 
     handlePriceDetailItemNameChange = idx => evt => {
@@ -328,12 +329,12 @@ class ServicesPriceForm extends Component {
 const mapStateToProps = state => {
     return {
         serviceItem: state.adminPage.serviceItem,
+        isUpdate:state.adminPage.isUpdate,
     }
 
 }
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        
         onLoading: (isLoading) => {
             dispatch(onLoading(isLoading));
         },
