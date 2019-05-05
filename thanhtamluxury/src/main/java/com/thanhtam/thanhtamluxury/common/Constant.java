@@ -19,11 +19,11 @@ public class Constant {
 
     public final String BANNER_ID_NOT_FOUND = "Cannot find banner with id: ";
 
-    public final String USERNAME_NOT_FOUND = "Cannot find account with username: ";
+    public final String USERNAME_NOT_FOUND = "UNF | Cannot find account with username: ";
 
-    public final String WRONG_OLD_PASSWORD = "Wrong old password";
+    public final String WRONG_OLD_PASSWORD = "WOP | Wrong old password";
 
-    public final String NEW_PASSWORD_MUST_BE_DIFFERENT = "New password must be different with old password";
+    public final String NEW_PASSWORD_MUST_BE_DIFFERENT = "NPMD | New password must be different with old password";
 
     public final String FILE_NAME_NOT_FOUND = "Cannot find file with name ";
 }
