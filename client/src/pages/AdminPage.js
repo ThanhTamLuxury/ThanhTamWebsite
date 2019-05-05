@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from './../containers/index';
 import {LABEL_ADMIN} from './../constants/Constant';
+import { history } from '../App';
+
 class AdminPage extends Component {
 
     constructor(props) {
@@ -21,7 +23,7 @@ class AdminPage extends Component {
                 })
             }
         } else {
-            console.log("Not found params");
+            history.push('/notfound');
         }
 
 

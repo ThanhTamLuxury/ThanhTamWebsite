@@ -125,9 +125,9 @@ export const logIn = (user) => {
 }
 
 // Response 
-export const is2xx = (action,resonse) => {
+export const is2xx = (action,response) => {
     return {
-        response:resonse,
+        response:response,
         type : action,
         statusCode:200
     }

@@ -93,7 +93,7 @@ class AlbumForm extends Component {
             });
         }
     }
-    onResetState = ()=>{
+    onResetState = () => {
         this.setState({
             isEditing: false,
             isLoading: false,
@@ -109,7 +109,7 @@ class AlbumForm extends Component {
             response: {}
         })
     }
-    componentWillMount(){
+    componentWillMount() {
         this.onResetState();
     }
     componentDidMount() {
@@ -170,11 +170,11 @@ class AlbumForm extends Component {
             }))
             service = {
                 id: txtID,
-                name: txtName,
-                description: txtDescription,
-                shortDescription: txtShortDescription,
-                slug: txtSlug,
-                mainImage: mainImage,
+                name: txtName ? txtName : '',
+                description: txtDescription ? txtDescription : '',
+                shortDescription: txtShortDescription ? txtShortDescription : '',
+                slug: txtSlug ? txtSlug : '',
+                mainImage: mainImage ? mainImage : '',
                 imageItems: imgArr,
                 serviceType: Constant.SERVICE_WEDDING_DRESS,
                 type: Constant.SERVICE_WEDDING_DRESS,
@@ -183,10 +183,10 @@ class AlbumForm extends Component {
             this.props.onUpdate(service, Constant.SERVICE_WEDDING_DRESS, multipleFilesData, mainImageData);
         } else {
             service = {
-                name: txtName,
-                description: txtDescription,
-                shortDescription: txtShortDescription,
-                slug: txtSlug,
+                name: txtName ? txtName : '',
+                description: txtDescription ? txtDescription : '',
+                shortDescription: txtShortDescription ? txtShortDescription : '',
+                slug: txtSlug ? txtSlug : '',
                 imageItems: imageItems,
                 serviceType: Constant.SERVICE_WEDDING_DRESS,
                 type: Constant.SERVICE_WEDDING_DRESS,
@@ -216,15 +216,12 @@ class AlbumForm extends Component {
             const images = prevState.images.filter(image => image.id !== id);
             return { images };
         });
-        console.log(id);
-        console.log(this.state.imageItems);
 
         // Not include blob
         this.setState(prevState => {
             const imageItems = prevState.imageItems.filter(image => image.id !== id);
             return { imageItems };
         });
-        console.log(this.state.imageItems);
     }
     render() {
         var { mainImage, txtName, txtSlug, txtDescription, txtShortDescription, isEditing, images } = this.state;
@@ -363,7 +360,7 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onLoading(isAdding));
         },
         fetchServiceItem: (id) => {
-            axios_fetch_serviceByID(id,dispatch);
+            axios_fetch_serviceByID(id, dispatch);
         },
         onUpdate: (service, serviceType, files, file) => {
             axios_add_update_with_file_service(service, serviceType, files, file, dispatch, true);

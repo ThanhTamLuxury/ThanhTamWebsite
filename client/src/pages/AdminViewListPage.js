@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { AdminPageContainer } from '../containers/index';
 import * as Constant from '../containers/constants';
 import * as Label from './../constants/Constant';
+import { history } from '../App';
+
 class AdminViewListPage extends Component {
 
     constructor(props) {
@@ -35,7 +37,7 @@ class AdminViewListPage extends Component {
                 }
             }
         } else {
-            console.log("Not found params");
+            history.push('/notfound');
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -63,7 +65,8 @@ class AdminViewListPage extends Component {
                 break;
             }
         } else {
-            console.log("Not found params");
+            history.push('/notfound');
+
         }
     }
     render() {

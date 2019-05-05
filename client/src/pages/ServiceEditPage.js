@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from '../containers/index';
 import * as Constant from './../constants/Constant';
+import { history } from '../App';
+
 class ServiceEditPage extends Component {
 
     constructor(props) {
@@ -34,7 +36,8 @@ class ServiceEditPage extends Component {
                     break;
             }
         } else {
-            console.log("Not found params");
+            history.push('/notfound');
+
         }
 
     }

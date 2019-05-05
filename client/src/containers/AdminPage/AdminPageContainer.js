@@ -38,6 +38,7 @@ import ServicesPriceForm from './ServicesActionPage/ServicesPriceForm';
 import { actChangeMenu, onLoading, onAdding, reset } from './actions';
 import BannerForm from './ServicesActionPage/BannerForm';
 import { history } from '../../App';
+import InfoForm from './ServicesActionPage/InfoForm';
 
 function HomeIcon(props) {
     return (
@@ -50,6 +51,14 @@ function AlbumIcon(props) {
     return (
         <SvgIcon {...props}>
             <path xmlns="http://www.w3.org/2000/svg" d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z" />
+            <path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0z" fill="none" />
+        </SvgIcon>
+    );
+}
+function LockIcon(props) {
+    return (
+        <SvgIcon {...props}>
+            <path xmlns="http://www.w3.org/2000/svg" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
             <path xmlns="http://www.w3.org/2000/svg" d="M0 0h24v24H0z" fill="none" />
         </SvgIcon>
     );
@@ -84,7 +93,7 @@ const menus = [
     {
         id: Constant.SERVICE_ADMIN,
         to: '/admin',
-        name: 'Trang chủ'
+        name: 'Trang quản lý'
     },
     {
         id: Constant.SERVICE_ALBUM,
@@ -111,6 +120,12 @@ const menus = [
         to: '/admin/edit/banner',
         // tabCode: Constant.TAB_BANNER,
         name: 'Banner trang chủ'
+    },
+    {
+        id: Constant.TAB_PASSWORD_EDIT,
+        to: '/admin/change-password',
+        // tabCode: Constant.TAB_BANNER,
+        name: 'Thay đổi mật khẩu'
     },
 ]
 
@@ -229,7 +244,7 @@ class AdminPageContainer extends Component {
         isUpdate: false,
         open: true,
         toggleOpen: false,
-        tabLabel: 'Trang chủ',
+        tabLabel: 'Trang quản lý',
         displayingTab: Constant.SERVICE_ADMIN,
         isUploadFinished: false,
         uploadMessages: [],
@@ -325,6 +340,7 @@ class AdminPageContainer extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         var { isLoading, searchValue } = this.state;
         if (nextProps.isLoading !== isLoading) {
             this.setState({
@@ -384,7 +400,11 @@ class AdminPageContainer extends Component {
                     history.push('/login');
                     break;
                 case 404:
-                    history.push(`/admin`);
+                    if(nextProps.tabCode === Constant.TAB_PASSWORD_EDIT){
+                        history.push('/admin/change-password')
+                    }else{
+                        history.push(`/admin`);
+                    }
                     break;
                 case 500:
                     history.push('/notfound');
@@ -412,7 +432,7 @@ class AdminPageContainer extends Component {
         let isDisplayingSearch = (displayingTab === Constant.SERVICE_ALBUM || displayingTab === Constant.SERVICE_WEDDING_DRESS || displayingTab === Constant.SERVICE_WEDDING_VIDEO || displayingTab === Constant.SERVICE_FULL_WEDDING_DAY)
         return (
             <div className={classes.root}>
-
+            
                 {(isLoading) ? <LinearProgress color="secondary" style={{ position: 'fixed', top: '0', zIndex: '9999', width: '100%' }} /> : ''}
                 <CssBaseline />
                 <AppBar
@@ -510,6 +530,8 @@ class AdminPageContainer extends Component {
                     {(displayingTab === Constant.WEDDING_VIDEO_PRICE) && <ServicesPriceForm serviceID={serviceID} serviceType={serviceType} />}
 
                     {(displayingTab === Constant.TAB_BANNER_EDIT) && <BannerForm />}
+                    {(displayingTab === Constant.TAB_PASSWORD_EDIT) && <InfoForm />}
+
 
                 </main>
                 <Snackbar
@@ -579,6 +601,9 @@ class AdminPageContainer extends Component {
                 return <PriceIcon />;
             case Constant.TAB_BANNER_EDIT:
                 return <StarBorder />;
+            case Constant.TAB_PASSWORD_EDIT:
+                return <LockIcon />;
+
         }
     }
 
@@ -618,6 +643,8 @@ class AdminPageContainer extends Component {
                 return Label.LABEL_PRICE_VIDEO_EDIT;
             case Constant.TAB_BANNER_EDIT:
                 return Label.LABEL_BANNER_EDIT;
+            case Constant.TAB_PASSWORD_EDIT:
+                return Label.LABEL_PASSWORD_EDIT;
             default:
                 return Constant.NOT_FOUND
         }

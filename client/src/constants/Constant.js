@@ -25,6 +25,8 @@ export const LABEL_FULL_WEDDING_DAY_EDIT = 'Chỉnh sửa bảng giá trọn gó
 export const LABEL_PRICE_ALBUM_EDIT = 'Chỉnh sửa bảng giá album'
 export const LABEL_PRICE_VIDEO_EDIT = 'Chỉnh sửa bảng giá video'
 export const LABEL_BANNER_EDIT = 'Chỉnh sửa banners'
+export const LABEL_PASSWORD_EDIT = 'Thay đổi mật khẩu'
+
 export const LABEL_NOT_FOUND = 'Không tìm thấy'
 
 
@@ -53,4 +55,5 @@ export const PRICE_INCLUSIVE = 'PRICE_FULL_WEDDING_DAY';
 export const PRICE_ALBUM = 'PRICE_ALBUM';
 export const PRICE_VIDEO = 'PRICE_WEDDING_VIDEO';
 
+export const TAB_PASSWORD_EDIT = 'TAB_PASSWORD_EDIT';
 

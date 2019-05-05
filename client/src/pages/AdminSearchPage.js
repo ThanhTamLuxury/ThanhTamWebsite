@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from '../containers/index';
 import {LABEL_SEARCH_LIST} from './../constants/Constant';
+import { history } from '../App';
 
 class AdminSearchPage extends Component {
 
@@ -24,7 +25,7 @@ class AdminSearchPage extends Component {
                 })
             }
         } else {
-            console.log("Not found params");
+            history.push('/notfound');
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -39,7 +40,7 @@ class AdminSearchPage extends Component {
                 })
             }
         } else {
-            console.log("Not found params");
+            history.push('/notfound');
         }
     }
     render() {

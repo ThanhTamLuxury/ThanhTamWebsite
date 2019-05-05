@@ -16,8 +16,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import { onLoading, actOnAddService, reset } from '../actions';
-
+import { onLoading, reset } from '../actions';
 class AlbumForm extends Component {
 
     constructor(props) {
@@ -53,7 +52,6 @@ class AlbumForm extends Component {
         var { images, imagesFiles } = this.state;
         var target = e.target;
         const files = Array.from(target.files);
-        console.log(files);
         if (files && files.length > 0) {
             //- Update string Path
             // Combine DBI images of service with new upload images (FE only) 
@@ -66,24 +64,14 @@ class AlbumForm extends Component {
             }));
             // DBI Images
             let seriveImagesPath = images;
-            console.log()
             fullImagesPath = newImagesPath.concat(seriveImagesPath);
             let newFullImagesFiles = [];
             newFullImagesFiles = imagesFiles.concat(newImagesPath);
-
-            // Concat
-            // console.log(fullImagesPath);
-            // // Update new file to state
-            // let uploadFiles = files.map((file, index) => ({
-            //     id: index,
-            //     file: file
-            // }));
             this.setState({
                 imagesFiles: newFullImagesFiles,
                 images: fullImagesPath // image display
             })
         }
-        console.log(this.state.imagesFiles);
     }
     onChange = (e) => {
         var target = e.target;
@@ -174,10 +162,10 @@ class AlbumForm extends Component {
             let imagesService = imgArr.filter(image => (image.path.indexOf('blob:') < 0));
             service = {
                 id: txtID,
-                name: txtName,
-                description: txtDescription,
-                slug: txtSlug,
-                mainImage: mainImage,
+                name: txtName ? txtName :'',
+                description: txtDescription? txtDescription :'',
+                slug: txtSlug ? txtSlug:'',
+                mainImage: mainImage ? mainImage :'',
                 imageItems: imagesService,
                 serviceType: Constant.SERVICE_ALBUM,
                 type: Constant.SERVICE_ALBUM,
@@ -185,9 +173,9 @@ class AlbumForm extends Component {
             this.props.onUpdate(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
         } else {
             service = {
-                name: txtName,
-                description: txtDescription,
-                slug: txtSlug,
+                name: txtName ? txtName :'',
+                description: txtDescription? txtDescription :'',
+                slug: txtSlug ? txtSlug:'',
                 imageItems: [],
                 serviceType: Constant.SERVICE_ALBUM,
                 type: Constant.SERVICE_ALBUM,
@@ -240,6 +228,7 @@ class AlbumForm extends Component {
                                 multiple={false}
                                 onChange={this.onUploadMainImage}
                             />
+                             
                             <label htmlFor="contained-button-file" style={{ margin: 'auto', fontSize: '1.1em!important' }}>
                                 <Button variant="outlined" color="primary" component="span">
                                     {isEditing ? 'Sửa ảnh chính' : 'Thêm ảnh chính'}

@@ -147,7 +147,6 @@ class ListItemsService extends Component {
         const { page, data, selected, rowsPerPage, totalItems } = this.state;
         const { serviceType } = this.props;
         let isHasValue = (data && data.length>0);
-        console.log(data);
         return (
             <div >
                 <div className="services-table">

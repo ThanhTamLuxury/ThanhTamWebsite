@@ -18,3 +18,5 @@ export const PRICE_VIDEO = 'PRICE_VIDEO';
 // Response
 export const RES_NOT_2xx = 'RES_NOT_2xx'
 export const PAGE_RESET = 'PAGE_RESET'
+export const MSG_NOT_FOUND_SERVICEITEM = 'Không có thông tin !'
+export const MSG_REQUEST_LOGIN = 'Vui lòng đăng nhập lại !'

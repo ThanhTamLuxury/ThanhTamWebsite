@@ -44,13 +44,13 @@ const handleResponse = async (res, dispatch, action, msg) => {
             await dispatch(Actions.is2xx(action, res.data));
             break;
         case 401:
-            await dispatch(Actions.isNot2xx(401, "Vui lòng đăng nhập lại !"));
+            await dispatch(Actions.isNot2xx(401, Constants.MSG_REQUEST_LOGIN));
             break;
         case 403:
-            await dispatch(Actions.isNot2xx(403, "Vui lòng đăng nhập lại !"));
+            await dispatch(Actions.isNot2xx(403, Constants.MSG_REQUEST_LOGIN));
             break;
         case 404:
-            await dispatch(Actions.isNot2xx(404, "Không tìm thấy !"));
+            await dispatch(Actions.isNot2xx(404, Constants.MSG_NOT_FOUND_SERVICEITEM));
             break;
         default:
             await dispatch(Actions.isNot2xx(500, "Đã xảy ra lỗi !"));

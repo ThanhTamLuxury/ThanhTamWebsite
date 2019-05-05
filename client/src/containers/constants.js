@@ -15,6 +15,7 @@ export const PAGE_LOADING = 'PAGE_LOADING';
 export const DELETE_SERVICES = 'DELETE_SERVICES';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPDATE_ABOUT_US = 'UPDATE_ABOUT_US';
+export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 
 
 
@@ -38,7 +39,15 @@ export const FETCH_BANNERS = 'FETCH_BANNERS';
 export const MSG_NO_SELECTED_DELETED = 'Vui lòng chọn mục muốn xóa !'
 export const MSG_CONFIRM_DELETED = 'Bạn có thật sự muốn xóa ?'
 export const MSG_CONFIRM_DELETED_TITLE = 'Bạn có thật sự muốn xóa ?'
-export const MSG_CONFIRM_DELETED_TEXT = 'Bạn sẽ không thể lấy lại được thông tin sau khi xóa'
+export const MSG_CONFIRM_DELETED_TEXT = 'Bạn sẽ không thể lấy lại được thông tin sau khi xóa !'
+export const MSG_NOT_FOUND_SERVICEITEM = 'Không có thông tin !'
+export const MSG_WRONG_USERNAME = 'Tên tài khoản không tồn tại !'
+export const MSG_WRONG_OLD_PASSWORD = 'Mật khẩu cũ không chính xác !'
+export const MSG_SIMILAR_OLD_PASSOWRD = 'Mật khẩu mới trùng với mật khẩu cũ !'
+export const MSG_REQUEST_LOGIN = 'Vui lòng đăng nhập lại !'
+export const MSG_PASSWORD_LENGTH = 'Mật khẩu mới phải từ 5 ký tự trở lên'
+
+
 
 
 
@@ -64,6 +73,8 @@ export const TAB_WEDDING_DRESS_EDIT = 'WEDDING_DRESS_EDIT'
 export const TAB_WEDDING_VIDEO_EDIT = 'WEDDING_VIDEO_EDIT'
 export const TAB_FULL_WEDDING_DAY_EDIT = 'FULL_WEDDING_DAY_EDIT'
 export const TAB_BANNER_EDIT = 'BANNER_EDIT'
+export const TAB_PASSWORD_EDIT = 'TAB_PASSWORD_EDIT'
+
 
 
 // Change to add new tab

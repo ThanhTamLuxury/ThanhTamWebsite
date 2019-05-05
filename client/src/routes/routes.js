@@ -14,6 +14,7 @@ import ServiceEditPricePage from '../pages/ServiceEditPricePage';
 import AdminBannerPage from '../pages/AdminBannerPage';
 import AdminSearchPage from '../pages/AdminSearchPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import AdminChangePasswordPage from '../pages/AdminChangePasswordPage';
 
 
 
@@ -115,6 +116,12 @@ const routes = [
         path: '/notfound',
         exact: false,
         main: NotFoundPage,
+        isPrivate: false, 
+    },
+    {
+        path: '/admin/change-password',
+        exact: false,
+        main: AdminChangePasswordPage,
         isPrivate: false, 
     }
 ];

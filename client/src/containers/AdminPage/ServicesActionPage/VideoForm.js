@@ -14,23 +14,23 @@ class VideoForm extends Component {
         super(props);
         this.state = {
             isEditing: false,
-            txtID:'',
+            txtID: '',
             txtName: '',
-            txtLink:'',
+            txtLink: '',
             txtDescription: '',
         };
     }
-    
-    onResetState = ()=>{
+
+    onResetState = () => {
         this.setState({
             isEditing: false,
-            xtID:'',
+            xtID: '',
             txtName: '',
-            txtLink:'',
+            txtLink: '',
             txtDescription: '',
         })
     }
-    componentWillMount(){
+    componentWillMount() {
         this.onResetState();
     }
     onChange = (e) => {
@@ -54,7 +54,7 @@ class VideoForm extends Component {
             this.props.onLoading(true);
         }
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         if (nextProps.isUpdate == true) {
             let id = this.props.serviceID;
             if (id) {
@@ -65,15 +65,15 @@ class VideoForm extends Component {
         }
 
         let serviceItem = nextProps.serviceItem;
-        if(serviceItem !=null){
+        if (serviceItem != null) {
             this.setState({
                 isEditing: true,
-                txtID: serviceItem.id ,
+                txtID: serviceItem.id,
                 txtName: serviceItem.name,
-                txtLink: Constant.YOUTUBE_PREFIX+serviceItem.mainImage,
+                txtLink: Constant.YOUTUBE_PREFIX + serviceItem.mainImage,
                 txtDescription: serviceItem.description,
             })
-        }else {
+        } else {
             this.setState({
                 isEditing: false,
             });
@@ -81,43 +81,43 @@ class VideoForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID, txtName,txtDescription, txtLink, isEditing } = this.state;
+        var { txtID, txtName, txtDescription, txtLink, isEditing } = this.state;
         let linkArr = txtLink.split('=');
         let service = null;
         if (isEditing) {
             service = {
                 id: txtID,
-                name: txtName,
-                description: txtDescription,
-                mainImage:linkArr[1],
+                name: txtName ? txtName : '',
+                description: txtDescription ? txtDescription : '',
+                mainImage: linkArr[1],
                 serviceType: Constant.SERVICE_WEDDING_VIDEO,
-                type :Constant.SERVICE_WEDDING_VIDEO,
+                type: Constant.SERVICE_WEDDING_VIDEO,
             }
 
             this.props.onUpdate(service, Constant.SERVICE_WEDDING_VIDEO);
         } else {
             service = {
-                name: txtName,
-                description: txtDescription,
-                mainImage:linkArr[1],
+                name: txtName ? txtName : '',
+                description: txtDescription ? txtDescription : '',
+                mainImage: linkArr[1],
                 serviceType: Constant.SERVICE_WEDDING_VIDEO,
-                type :Constant.SERVICE_WEDDING_VIDEO,
+                type: Constant.SERVICE_WEDDING_VIDEO,
             }
             this.props.onAdd(service, Constant.SERVICE_WEDDING_VIDEO);
         }
 
         this.setState({
             isEditing: false,
-            txtID:'',
+            txtID: '',
             txtName: '',
-            txtLink:'',
+            txtLink: '',
             txtDescription: '',
         })
         this.props.onAdding(true);
         this.props.onLoading(true);
-        
 
-        
+
+
     }
     onDeleteImage = (id) => {
         this.setState(prevState => {
@@ -127,52 +127,52 @@ class VideoForm extends Component {
 
     }
     render() {
-        var { txtName, txtLink,txtDescription, isEditing } = this.state;
+        var { txtName, txtLink, txtDescription, isEditing } = this.state;
         return (
             <div>
-            <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h2></h2>
-                <form onSubmit={this.onSave} >
-                    <div className="form-group">
-                        <TextField
-                            label="Tên video"
-                            name="txtName"
-                            className="form-input"
-                            value={txtName}
-                            onChange={this.onChange}
-                            variant="outlined"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <TextField
-                            label="Đường dẫn"
-                            name="txtLink"
-                            value={txtLink}
-                            className="form-input"
-                            onChange={this.onChange}
-                            variant="outlined"
-                        />
-                    </div>
-                   
-                    <div className="form-group">
-                        <TextField
-                            id="standard-textarea"
-                            multiline
-                            label="Đặc điểm nổi bật"
-                            name="txtDescription"
-                            value={txtDescription}
-                            className="form-input"
-                            onChange={this.onChange}
-                            variant="outlined"
-                        />
-                    </div>
-                    
-                    
-                    <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
-                        {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
-                </form>
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h2></h2>
+                    <form onSubmit={this.onSave} >
+                        <div className="form-group">
+                            <TextField
+                                label="Tên video"
+                                name="txtName"
+                                className="form-input"
+                                value={txtName}
+                                onChange={this.onChange}
+                                variant="outlined"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <TextField
+                                label="Đường dẫn"
+                                name="txtLink"
+                                value={txtLink}
+                                className="form-input"
+                                onChange={this.onChange}
+                                variant="outlined"
+                            />
+                        </div>
 
-            </div>
+                        <div className="form-group">
+                            <TextField
+                                id="standard-textarea"
+                                multiline
+                                label="Đặc điểm nổi bật"
+                                name="txtDescription"
+                                value={txtDescription}
+                                className="form-input"
+                                onChange={this.onChange}
+                                variant="outlined"
+                            />
+                        </div>
+
+
+                        <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
+                            {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
+                    </form>
+
+                </div>
             </div >
 
         );
@@ -180,7 +180,7 @@ class VideoForm extends Component {
 }
 const mapStateToProps = state => {
     return {
-        serviceItem : state.adminPage.serviceItem
+        serviceItem: state.adminPage.serviceItem
     }
 
 }
@@ -193,13 +193,13 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onLoading(isAdding));
         },
         fetchServiceItem: (id) => {
-            axios_fetch_serviceByID(id,dispatch);
+            axios_fetch_serviceByID(id, dispatch);
         },
-        onUpdate: (service, serviceType) => { 
+        onUpdate: (service, serviceType) => {
             axios_add_update_service(service, serviceType, dispatch, true);
         },
         onAdd: (service, serviceType) => {
-            axios_add_update_service(service, serviceType,dispatch, false);
+            axios_add_update_service(service, serviceType, dispatch, false);
         },
         onResetProps: () => {
             dispatch(reset());

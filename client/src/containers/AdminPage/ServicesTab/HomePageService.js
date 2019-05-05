@@ -19,18 +19,29 @@ class HomePageService extends Component {
         };
     }
     onChange = (e) => {
+        const re = /^[0-9\b]+$/;
+      
         var target = e.target;
         var name = target.name;
-        this.setState({
-            [name]: target.value
-        });
+        if(name === 'txtPhoneNo'){
+            if (target.value === '' || re.test(target.value)) {
+                this.setState({
+                    [name]: target.value
+                });
+             }
+        }else{
+            this.setState({
+                [name]: target.value
+            });
+        }
+        
     }
 
     componentDidMount() {
+        this.props.onLoading(true);
         this.props.fetchAboutUsDetails();
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         if (nextProps.isUpdate == true) {
             this.props.fetchAboutUsDetails();
             this.props.onLoading(true);

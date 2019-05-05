@@ -38,6 +38,12 @@ export const axios_get_banners = async (dispatch) => {
         handleResponse(res, dispatch, Constants.FETCH_BANNERS, '');
     }
 }
+export const axios_update_password = async (info,dispatch) => {
+    let res = await callApi(`account/change-password`, 'PUT', info, 'ADMIN');
+    if (res != null) {
+        handleResponse(res, dispatch, Constants.UPDATE_PASSWORD, '');
+    }
+}
 export const axios_add_update_with_file_service = async (service, serviceType, files, file, dispatch, isUpdate) => {
     let resImage = null;
     let mainImage = null;
@@ -155,23 +161,40 @@ export const login = async (username, password, redirect, dispatch) => {
 
 const handleResponse = async (res, dispatch, action, msg) => {
     let status = res.status;
+    let messages = '';
     switch (status) {
         case 200:
             await dispatch(Actions.is2xx(action, res.data));
             break;
+        case 400:
+            messages= await getMessages(res.data.message);            
+            await dispatch(Actions.isNot2xx(400, messages));
+            break;
         case 401:
-            await dispatch(Actions.isNot2xx(401, "Vui lòng đăng nhập lại !"));
+            await dispatch(Actions.isNot2xx(401, Constants.MSG_REQUEST_LOGIN));
             break;
         case 403:
-            await dispatch(Actions.isNot2xx(403, "Vui lòng đăng nhập lại !"));
+            await dispatch(Actions.isNot2xx(403, Constants.MSG_REQUEST_LOGIN));
             break;
         case 404:
-            await dispatch(Actions.isNot2xx(404, "Không tìm thấy !"));
+            messages = await getMessages(res.data.message);
+            await dispatch(Actions.isNot2xx(404, messages));
             break;
         default:
             await dispatch(Actions.isNot2xx(500, "Đã xảy ra lỗi !"));
             break;
     }
+}
+const getMessages = async (msgCode)=>{
+    let result = Constants.MSG_NOT_FOUND_SERVICEITEM;
+    if(msgCode.includes("UNF")){
+        result= Constants.MSG_WRONG_USERNAME
+    }else if(msgCode.includes("WOP")){
+        result= Constants.MSG_WRONG_OLD_PASSWORD
+    }else if(msgCode.includes("NPMD")){
+        result= Constants.MSG_SIMILAR_OLD_PASSOWRD
+    }
+    return result;
 }
 export const axios_fetch_AboutUsDetails = () => {
     return dispatch => {

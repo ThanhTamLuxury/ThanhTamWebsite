@@ -49,6 +49,7 @@ class BannerForm extends Component {
 
     componentWillMount() {
             this.props.getBanners();
+            this.props.onLoading(true);
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.isUpdate == true) {
@@ -72,7 +73,6 @@ class BannerForm extends Component {
     onSave = (e) => {
         e.preventDefault();
         let {images}= this.state;
-        console.log("images- onSave", images);
 
         let imagesArr = images.map((image,index)=>({
             id:0,
@@ -105,12 +105,10 @@ class BannerForm extends Component {
         });
     }
     onSort = (sortedList, dropEvent) => {
-        // console.log("sortedList", sortedList, dropEvent);
         let newImagesArr = sortedList.map((image)=>({
             id:image.index,
             path:image.path
         }));
-        console.log("newImagesArr", newImagesArr);
 
         this.setState({
             images:newImagesArr
@@ -133,7 +131,6 @@ class BannerForm extends Component {
     onRenderList = () => {
         let result = [];
         var { images } = this.state;
-        console.log(images);
         if (images.length < 1) {
             return [{
                 content: ''

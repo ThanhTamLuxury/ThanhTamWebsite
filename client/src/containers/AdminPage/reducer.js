@@ -55,7 +55,7 @@ const adminPage = (state = initialState, action) => {
             });
         case Constants.FETCH_SERVICEBYID:
             return Object.assign({}, state, {
-                serviceItem: action.serviceItem,
+                serviceItem: action.response,
                 isLoading: false,
                 isDelete: false,
                 isUpdate: false,
@@ -128,6 +128,7 @@ const adminPage = (state = initialState, action) => {
         case Constants.FETCH_ABOUTUS:
             return Object.assign({}, state, {
                 aboutUsDetails: action.aboutUsDetails,
+                isLoading:false,
                 statusCode:200,
             });
         case Constants.FETCH_BANNERS:
@@ -135,6 +136,7 @@ const adminPage = (state = initialState, action) => {
                 bannerResponse: action.response,
                 statusCode: action.statusCode,
                 isUpdate: false,
+                isLoading:false,
                 statusCode:200,
             });
         case Constants.UPDATE_ABOUT_US:
@@ -146,8 +148,16 @@ const adminPage = (state = initialState, action) => {
                 isUpdate: true,
                 statusCode:200,
             });
+        case Constants.UPDATE_PASSWORD:
+            return Object.assign({}, state, {
+                response: action.response,
+                messages: 'Thay đổi đã được cập nhật',
+                isLoading: false,
+                isDelete: false,
+                isUpdate: true,
+                statusCode:200,
+            });
         case Constants.RES_NOT_2xx:
-            console.log(action);
             return Object.assign({}, state, {
                 statusCode: action.statusCode,
                 messages: action.messages,

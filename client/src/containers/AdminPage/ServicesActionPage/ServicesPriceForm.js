@@ -45,14 +45,23 @@ class ServicesPriceForm extends Component {
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
-        this.setState({
-            [name]: target.value
-        });
+        const re = /^[0-9\b]+$/;
+
         if (name === 'txtName') {
             let slug = generate_slug(target.value);
             this.setState({
                 txtSlug: slug
             })
+        } else if (name === 'txtPrice') {
+            if (target.value === '' || re.test(target.value)) {
+                this.setState({
+                    [name]: target.value
+                });
+            }
+        } else {
+            this.setState({
+                [name]: target.value
+            });
         }
     }
     handleEditorChange = (e) => {
@@ -68,28 +77,28 @@ class ServicesPriceForm extends Component {
         if (isEditing) {
             service = {
                 id: txtID,
-                name: txtName,
-                description: txtDescription,
-                priceDescription: htmlRaw,
-                price: txtPrice,
-                priceDetails: priceDetailItems,
+                name: txtName ? txtName : '',
+                description: txtDescription ? txtDescription : '',
+                priceDescription: htmlRaw ? htmlRaw : '',
+                price: txtPrice ? txtPrice : 0,
+                priceDetails: priceDetailItems ? priceDetailItems : '',
                 serviceType: this.props.serviceType,
-                type :this.props.serviceType,
+                type: this.props.serviceType,
             }
-                this.props.onUpdate(service, this.props.serviceType);
-            
+            this.props.onUpdate(service, this.props.serviceType);
+
         } else {
             service = {
                 id: txtID,
-                name: txtName,
-                description: txtDescription,
-                priceDescription: htmlRaw,
-                price: txtPrice,
-                priceDetails: priceDetailItems,
+                name: txtName ? txtName : '',
+                description: txtDescription ? txtDescription : '',
+                priceDescription: htmlRaw ? htmlRaw : '',
+                price: txtPrice ? txtPrice : 0,
+                priceDetails: priceDetailItems ? priceDetailItems : '',
                 serviceType: this.props.serviceType,
-                type :this.props.serviceType,
+                type: this.props.serviceType,
             }
-                this.props.onAdd(service, this.props.serviceType);
+            this.props.onAdd(service, this.props.serviceType);
         }
         this.setState({
             isEditing: false,
@@ -107,11 +116,14 @@ class ServicesPriceForm extends Component {
     }
 
     handlePriceDetailItemNameChange = idx => evt => {
-        const newPriceDetailItems = this.state.priceDetailItems.map((priceDetailItem, sidx) => {
-            if (idx !== sidx) return priceDetailItem;
-            return { ...priceDetailItem, price: evt.target.value, applyDate: priceDetailItem.applyDate };
-        });
-        this.setState({ priceDetailItems: newPriceDetailItems });
+        const re = /^[0-9\b]+$/;
+        if (evt.target.value === '' || re.test(evt.target.value)) {
+            const newPriceDetailItems = this.state.priceDetailItems.map((priceDetailItem, sidx) => {
+                if (idx !== sidx) return priceDetailItem;
+                return { ...priceDetailItem, price: evt.target.value, applyDate: priceDetailItem.applyDate };
+            });
+            this.setState({ priceDetailItems: newPriceDetailItems });
+        }
     };
 
     handlePriceDetailItemApplyDateChange = idx => evt => {
@@ -148,7 +160,7 @@ class ServicesPriceForm extends Component {
             priceDetailItems: this.state.priceDetailItems.filter((s, sidx) => idx !== sidx)
         });
     };
-    onResetState = ()=>{
+    onResetState = () => {
         this.setState({
             isEditing: false,
             txtID: '',
@@ -162,7 +174,7 @@ class ServicesPriceForm extends Component {
             priceDetailItems: [],
         })
     }
-    componentWillMount(){
+    componentWillMount() {
         this.onResetState();
     }
     componentDidMount() {
@@ -185,12 +197,12 @@ class ServicesPriceForm extends Component {
         let serviceItem = nextProps.serviceItem;
 
         if (serviceItem != null) {
-            if(serviceItem.priceDescription){
+            if (serviceItem.priceDescription) {
                 const contentBlock = htmlToDraft(serviceItem.priceDescription);
                 if (contentBlock) {
                     const contentState = ContentState.createFromBlockArray(contentBlock);
                     const editorState = EditorState.createWithContent(contentState);
-                    this.setState( {
+                    this.setState({
                         editorState,
                     });
                 }
@@ -216,8 +228,8 @@ class ServicesPriceForm extends Component {
         var formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
             currency: 'VND',
-          });
-        var { txtName, txtDescription, txtPrice, isEditing, editorState,priceDetailItems } = this.state;
+        });
+        var { txtName, txtDescription, txtPrice, isEditing, editorState, priceDetailItems } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -255,7 +267,7 @@ class ServicesPriceForm extends Component {
                             />
                         </div>
 
-                        <ExpansionPanel style={{ background: 'none', minWidth:"320px" }}>
+                        <ExpansionPanel style={{ background: 'none', minWidth: "320px" }}>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                 <Typography>Danh sách giá theo ngày</Typography>
                             </ExpansionPanelSummary>
@@ -291,16 +303,16 @@ class ServicesPriceForm extends Component {
                                                             shrink: true,
                                                         }}
                                                     />
-                                                    <Button  type="submit" variant="contained" color="primary" style={{ float:"right", marginLeft:"2em", marginTop:"2em" }}
+                                                    <Button type="submit" variant="contained" color="primary" style={{ float: "right", marginLeft: "2em", marginTop: "2em" }}
                                                         onClick={this.handleRemovePriceDetailItem(idx)}>Xóa
                                                 </Button>
-                                                
+
                                                 </div>
 
                                             </div>
-                                            <br/>
+                                            <br />
                                         </li>
-                                        
+
                                     ))}
                                 </ul>
 
@@ -329,7 +341,7 @@ class ServicesPriceForm extends Component {
 const mapStateToProps = state => {
     return {
         serviceItem: state.adminPage.serviceItem,
-        isUpdate:state.adminPage.isUpdate,
+        isUpdate: state.adminPage.isUpdate,
     }
 
 }
@@ -339,13 +351,13 @@ const mapDispatchToProps = (dispatch, props) => {
             dispatch(onLoading(isLoading));
         },
         fetchServiceItem: (id) => {
-            axios_fetch_serviceByID(id,dispatch);
+            axios_fetch_serviceByID(id, dispatch);
         },
         onUpdate: (service, serviceType) => {
-            axios_add_update_service(service, serviceType,dispatch,true);
+            axios_add_update_service(service, serviceType, dispatch, true);
         },
         onAdd: (service, serviceType) => {
-            axios_add_update_service(service, serviceType,dispatch,false);
+            axios_add_update_service(service, serviceType, dispatch, false);
         },
         onResetProps: () => {
             dispatch(reset());

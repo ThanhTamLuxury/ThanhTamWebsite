@@ -60,7 +60,6 @@ class ServiceContainer extends Component {
         this.props.onLoading(true);
     }
     componentWillReceiveProps(nextProps){
-        console.log(nextProps);
         var {isLoading,servicesResponse} = this.state;
         var {messages} = nextProps;
         if(nextProps.isLoading !== isLoading){

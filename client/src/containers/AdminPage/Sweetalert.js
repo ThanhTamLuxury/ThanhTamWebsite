@@ -22,18 +22,3 @@ export const confirmDelete = async () => {
     return isConfirm;
 };
 
-// export const notify = async (message) => {
-    
-//     let promise = await Swal.fire({
-//         position: 'top-end',
-//         type: 'success',
-//         title: message,
-//         showConfirmButton: false,
-//         timer: 1500
-//       });
-
-//       console.log("timer released: " + promise.value);
-
-//     return false;
-      
-// };
