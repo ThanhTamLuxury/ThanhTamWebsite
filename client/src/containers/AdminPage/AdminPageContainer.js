@@ -635,7 +635,7 @@ class AdminPageContainer extends Component {
             case Constant.TAB_WEDDING_DRESS_EDIT:
                 return Label.LABEL_WEDDING_DRESS_EDIT;
             case Constant.TAB_WEDDING_VIDEO_EDIT:
-                return Constant.WEDDING_VIDEO_EDIT;
+                return Label.LABEL_WEDDING_VIDEO_EDIT;
             case Constant.TAB_FULL_WEDDING_DAY_EDIT:
                 return Label.LABEL_FULL_WEDDING_DAY_EDIT;
             case Constant.ALBUM_PRICE:
