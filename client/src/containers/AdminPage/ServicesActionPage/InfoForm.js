@@ -21,8 +21,9 @@ class InfoForm extends Component {
         };
     }
     componentWillMount(){
+        const USERNAME = localStorage.getItem('USERNAME');
         this.setState({
-            txtUsername: '',
+            txtUsername: USERNAME ? USERNAME:'',
             txtOldPassword: '',
             txtNewPassword: '',
             messages:'',

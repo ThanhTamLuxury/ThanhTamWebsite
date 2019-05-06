@@ -12,7 +12,6 @@ class LoginContainer extends Component {
         super(props);
         // reset login status
         this.props.onLogOut();
-
         this.state = {
             txtUsername: '',
             txtPassword: '',

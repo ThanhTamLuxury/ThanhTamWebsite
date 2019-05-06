@@ -111,6 +111,8 @@ export const axios_add_update_service = async (service, serviceType, dispatch, i
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('USER');
+    localStorage.removeItem('USERNAME');
+
 }
 
 export const axios_uploadBanner = async (file, dispatch) => {
@@ -148,12 +150,14 @@ export const axios_delete_services = async (idArr, dispatch) => {
 }
 export const login = async (username, password, redirect, dispatch) => {
     const response = await callApi(`login`, 'POST', JSON.stringify({ username, password }), 'LOGIN')
+    
     if (response) {
         if (response.status === 401) {
             logout();
         }
         else if (response.status === 200) {
             localStorage.setItem('USER', response.headers.authorization);
+            localStorage.setItem('USERNAME', username);
             redirect();
         }
     }

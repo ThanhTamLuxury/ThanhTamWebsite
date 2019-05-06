@@ -47,12 +47,7 @@ class ServicesPriceForm extends Component {
         var name = target.name;
         const re = /^[0-9\b]+$/;
 
-        if (name === 'txtName') {
-            let slug = generate_slug(target.value);
-            this.setState({
-                txtSlug: slug
-            })
-        } else if (name === 'txtPrice') {
+        if (name === 'txtPrice') {
             if (target.value === '' || re.test(target.value)) {
                 this.setState({
                     [name]: target.value

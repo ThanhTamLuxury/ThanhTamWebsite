@@ -424,6 +424,7 @@ class AdminPageContainer extends Component {
 
     logout = () => {
         localStorage.removeItem('USER');
+        localStorage.removeItem('USERNAME');
         window.location.replace("/login");
     }
     render() {
