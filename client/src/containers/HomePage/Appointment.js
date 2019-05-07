@@ -15,27 +15,27 @@ class Appointment extends Component {
           <h3 className="gla_subtitle">Đặt lịch hẹn</h3>
           <div className="row">
             <div className="col-md-8 col-md-push-2">
-              <form action={"https://formspree.io/"+ email} method="POST">
+              <form action={"https://formspree.io/"+email} method="POST">
                 <div className="row">
                   <div className="col-md-6">
                     <label>Họ và tên*</label>
-                    <input type="text" name="name" className="form-control form-opacity" />
+                    <input type="text" name="Ho_Va_Ten" className="form-control form-opacity" />
                   </div>
                   <div className="col-md-6">
                     <label>Địa chỉ*</label>
-                    <input type="text" name="email" className="form-control form-opacity" />
+                    <input type="text" name="Dia_Chi" className="form-control form-opacity" />
                   </div>
                   <div className="col-md-6">
                     <label>Email*</label>
-                    <input type="text" name="email" className="form-control form-opacity" />
+                    <input type="text" name="Email" className="form-control form-opacity" />
                   </div>
                   <div className="col-md-6">
                     <label>Số điện thoại*</label>
-                    <input type="text" name="email" className="form-control form-opacity" />
+                    <input type="text" name="So_Dien_Thoai" className="form-control form-opacity" />
                   </div>
                   <div className="col-md-12">
                     <label>Notes</label>
-                    <textarea name="message" className="form-control form-opacity" defaultValue={""} />
+                    <textarea name="Ghi_Chu" className="form-control form-opacity" defaultValue={""} />
                   </div>
                   <div className="col-md-12">
                     <input type="submit" className="btn submit" defaultValue="Send" />
