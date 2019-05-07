@@ -67,38 +67,6 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		}
 	}
 
-	private ServiceItemDto updateImageItems(Integer id, List<ImageItem> imageItemDtos) {
-		ServiceItem serviceItem = serviceItemRepo.findById(id)
-				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
-
-		serviceItem.getImageItems().clear();
-		imageItemDtos.forEach(priceDetail -> priceDetail.setServiceItem(serviceItem));
-		serviceItem.getImageItems().addAll(imageItemDtos);
-		return serviceItemRepo.save(serviceItem).toMappedClass();
-	}
-
-	private ServiceItemDto updatePriceDetail(Integer id, List<PriceDetail> priceDetailDtos) {
-		ServiceItem serviceItem = serviceItemRepo.findById(id)
-				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
-
-		serviceItem.removeAllPriceDetail();
-		serviceItem.addAllPriceDetail(priceDetailDtos);
-		return serviceItemRepo.save(serviceItem).toMappedClass();
-	}
-
-	@Override
-	public ServiceItemInfoDto updateOnlyInfo(Integer id, ServiceItemInfoDto dto){
-		ServiceItem serviceItem = serviceItemRepo.findById(id)
-				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
-		BeanUtils.copyProperties(dto, serviceItem);
-		serviceItem.setActive(true);
-
-		validateMainImageUrl(serviceItem);
-
-		serviceItemRepo.save(serviceItem);
-		return dto;
-	}
-
 	@Override
 	public PageDto<ServiceItemSmallDto> getAllSmall(String serviceType, int size, int page) {
 		PageDto<ServiceItemSmallDto> response = new PageDto<>();
@@ -135,13 +103,6 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	public ServiceItemDto findById(Integer id) {
 		return serviceItemRepo.findById(id)
 				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id))
-				.toMappedClass();
-	}
-
-	@Override
-	public ServiceItemDto findByIdAndSlug(Integer id, String slug) {
-		return serviceItemRepo.findByIdAndSlug(id, slug)
-				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_NOT_FOUND + id + ", "+ slug))
 				.toMappedClass();
 	}
 
@@ -182,31 +143,8 @@ public class ServiceItemServiceImp implements ServiceItemService {
 	}
 
 	@Override
-	@Transactional
-	public ServiceItemDto updateService(Integer id, ServiceItemDto dto) {
-		ServiceItem serviceItem = this.serviceItemRepo.findById(id)
-				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + id));
-
-		//copy properties
-		ServiceItemInfoDto infoDto = new ServiceItemInfoDto();
-		BeanUtils.copyProperties(dto, infoDto);
-		BeanUtils.copyProperties(infoDto, serviceItem);
-		try {
-			serviceItem.setServiceType(ServiceType.valueOf(serviceItem.getServiceType()).toString());
-		} catch (IllegalArgumentException e) {
-			throw new ThanhTamException(HttpStatus.BAD_REQUEST, Constant.INVALID_SERVICE_ITEM_TYPE + serviceItem.getServiceType());
-		}
-		serviceItem.setActive(true);
-		validateMainImageUrl(serviceItem);
-
-		updateImageItems(id, dto.getImageItems());
-		updatePriceDetail(id, dto.getPriceDetails());
-		return serviceItemRepo.save(serviceItem).toMappedClass();
-	}
-
-	@Override
-	public PageDto<ServicePriceInfo> getPriceInfoInPricePage(String serviceType, int size, int page) {
-		PageDto<ServicePriceInfo> response = new PageDto<>();
+	public PageDto<ServicePriceDto> getPriceInfoInPricePage(String serviceType, int size, int page) {
+		PageDto<ServicePriceDto> response = new PageDto<>();
 		try {
 			String strServiceType = ServiceType.valueOf(serviceType).toString();
 
@@ -220,8 +158,8 @@ public class ServiceItemServiceImp implements ServiceItemService {
 				}
 			});
 
-			List<ServicePriceInfo> services = serviceEntities.stream()
-					.map(item -> item.toMappedClass(ServicePriceInfo.class))
+			List<ServicePriceDto> services = serviceEntities.stream()
+					.map(item -> item.toMappedClass(ServicePriceDto.class))
 					.collect(Collectors.toList());
 
 			Long totalItem = serviceItemRepo.countAllByServiceType(strServiceType);
@@ -260,6 +198,29 @@ public class ServiceItemServiceImp implements ServiceItemService {
 		return response;
 	}
 
+	@Override
+	public ServiceInfoDto updateOnlyInfo(ServiceInfoDto dto){
+		ServiceItem serviceItem = serviceItemRepo.findById(dto.getId())
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + dto.getId()));
+		serviceItem.removeAllImages();
+		serviceItem.addAllImages(dto.getImageItems());
+		BeanUtils.copyProperties(dto, serviceItem, "imageItems");
+		validateMainImageUrl(serviceItem);
+		serviceItemRepo.save(serviceItem);
+		return dto;
+	}
+
+	@Override
+	public ServicePriceDto updateOnlyPrice(ServicePriceDto priceDto) {
+		ServiceItem serviceItem = serviceItemRepo.findById(priceDto.getId())
+				.orElseThrow(() -> new ThanhTamException(HttpStatus.NOT_FOUND, Constant.SERVICE_ITEM_ID_NOT_FOUND + priceDto.getId()));
+		serviceItem.removeAllPriceDetail();
+		serviceItem.addAllPriceDetail(priceDto.getPriceDetails());
+		BeanUtils.copyProperties(priceDto, serviceItem, "priceDetails");
+		validateMainImageUrl(serviceItem);
+		serviceItemRepo.save(serviceItem);
+		return priceDto;
+	}
 
 	private void validateMainImageUrl(ServiceItem serviceItem){
 		String filename = serviceItem.getMainImage();
@@ -267,11 +228,6 @@ public class ServiceItemServiceImp implements ServiceItemService {
 			serviceItem.setMainImage(defaultMainImageUrl);
 		}
 	}
-
-
-//	public static void setDefaultMainImageUrl(String defaultMainImageUrl) {
-//		ServiceItemServiceImp.defaultMainImageUrl = defaultMainImageUrl;
-//	}
 }
 
 

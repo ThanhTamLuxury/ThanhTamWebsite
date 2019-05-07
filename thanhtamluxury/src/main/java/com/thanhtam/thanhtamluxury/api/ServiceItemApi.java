@@ -31,9 +31,14 @@ public class ServiceItemApi {
 		return serviceItemService.create(serviceType, dto);
 	}
 
-	@PutMapping("/update-info/{id}")
-	public ServiceItemInfoDto updateOnlyInfo(@PathVariable Integer id, @RequestBody ServiceItemInfoDto infoDto){
-		return serviceItemService.updateOnlyInfo(id, infoDto);
+	@PutMapping("/update-info")
+	public ServiceInfoDto updateOnlyInfo(@RequestBody ServiceInfoDto infoDto){
+		return serviceItemService.updateOnlyInfo(infoDto);
+	}
+
+	@PutMapping("/update-price")
+	public ServicePriceDto updateOnlyPrice(@RequestBody ServicePriceDto priceDto){
+		return serviceItemService.updateOnlyPrice(priceDto);
 	}
 
 	@GetMapping("/all/outside-page")
@@ -50,13 +55,8 @@ public class ServiceItemApi {
 	@DeleteMapping
 	public void multipleDeleteService(@RequestBody List<Integer> ids) {serviceItemService.multipleDeleteService(ids);}
 
-	@PutMapping("{id}")
-	public ServiceItemDto updateService(@PathVariable("id") Integer id, @RequestBody ServiceItemDto serviceItemDto){
-		return serviceItemService.updateService(id, serviceItemDto);
-	}
-
 	@GetMapping("/price-info")
-	public PageDto<ServicePriceInfo> getPriceInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page) {
+	public PageDto<ServicePriceDto> getPriceInfo(@RequestParam String serviceType, @RequestParam int size, @RequestParam int page) {
 		return serviceItemService.getPriceInfoInPricePage(serviceType, size, page);
 	}
 

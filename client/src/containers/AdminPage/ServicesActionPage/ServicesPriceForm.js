@@ -13,7 +13,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
+import { axios_fetch_serviceByID, axios_add_update_service, axios_update_service_price } from '../axios_call';
 import { onLoading, reset } from '../actions';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -73,8 +73,6 @@ class ServicesPriceForm extends Component {
         var {txtName, txtSlug, txtPrice} = this.state;   
         if((txtName == null) || (txtName === '')){
             return Constant.getCheckValidateMessage('Tên albums','REQUIRED');
-        }else if((txtSlug == null) ||(txtSlug === '')){
-            return Constant.getCheckValidateMessage('Đường dẫn','REQUIRED');
         }else if((txtPrice == null) ||(txtPrice === '')){
             return Constant.getCheckValidateMessage('Giá khởi điểm','REQUIRED');
         }else{
@@ -103,10 +101,8 @@ class ServicesPriceForm extends Component {
                     priceDescription: htmlRaw ? htmlRaw : '',
                     price: txtPrice ? txtPrice : 0,
                     priceDetails: priceDetailItems ? priceDetailItems : '',
-                    serviceType: this.props.serviceType,
-                    type: this.props.serviceType,
                 }
-                this.props.onUpdate(service, this.props.serviceType);
+                this.props.onUpdate(service);
 
             } else {
                 service = {
@@ -397,8 +393,8 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchServiceItem: (id) => {
             axios_fetch_serviceByID(id, dispatch);
         },
-        onUpdate: (service, serviceType) => {
-            axios_add_update_service(service, serviceType, dispatch, true);
+        onUpdate: (service) => {
+            axios_update_service_price(service, dispatch);
         },
         onAdd: (service, serviceType) => {
             axios_add_update_service(service, serviceType, dispatch, false);

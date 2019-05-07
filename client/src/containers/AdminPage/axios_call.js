@@ -84,7 +84,7 @@ export const axios_add_update_with_file_service = async (service, serviceType, f
             dispatch(Actions.actOnAddService(finalResult, filesStatus));
         }
     } else {
-        const finalResult = await callApi(`service/${service.id}`, 'PUT', service, 'ADMIN')
+        const finalResult = await callApi(`service/update-info`, 'PUT', service, 'ADMIN')
         if (finalResult) {
             dispatch(Actions.actOnUpdateService(finalResult, filesStatus));
         }
@@ -102,10 +102,17 @@ export const axios_add_update_service = async (service, serviceType, dispatch, i
             }
         }
     } else {
-        const response = await callApi(`service/${service.id}`, 'PUT', service, 'ADMIN')
+        const response = await callApi(`service/update-info`, 'PUT', service, 'ADMIN')
         if (response) {
             dispatch(Actions.actOnUpdateService(response, []));
         }
+    }
+}
+
+export const axios_update_service_price = async (service, dispatch) => {
+    const response = await callApi(`service/update-price`, 'PUT', service, 'ADMIN')
+    if (response) {
+        dispatch(Actions.actOnUpdateService(response, []));
     }
 }
 function logout() {
@@ -133,15 +140,6 @@ export const axios_updateBanners = async (imgArr, dispatch) => {
     }
 }
 
-export const axios_update_service = (service, serviceType) => {
-    return dispatch => {
-        return callApi(`service/update-info/${service.id}`, 'PUT', service, 'ADMIN').then(res => {
-            if (res != null) {
-                dispatch(Actions.actOnUpdateService(res.data));
-            }
-        });
-    };
-}
 export const axios_delete_services = async (idArr, dispatch) => {
     let res = await callApi(`service`, 'DELETE', idArr, 'ADMIN');
     if (res != null) {
