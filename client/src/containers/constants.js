@@ -46,6 +46,8 @@ export const MSG_WRONG_OLD_PASSWORD = 'Mật khẩu cũ không chính xác !'
 export const MSG_SIMILAR_OLD_PASSOWRD = 'Mật khẩu mới trùng với mật khẩu cũ !'
 export const MSG_REQUEST_LOGIN = 'Vui lòng đăng nhập lại !'
 export const MSG_PASSWORD_LENGTH = 'Mật khẩu mới phải từ 5 ký tự trở lên'
+export const MSG_ERROR_LOGIN = 'Sai tên đăng nhập hoặc mật khẩu'
+
 
 export const getCheckValidateMessage = (serviceName , msgCode)=>{
     switch(msgCode){

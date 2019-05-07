@@ -6,7 +6,17 @@ import { logOut } from './actions';
 import { login } from './axios_call';
 import queryString from 'query-string';
 import * as Constant from './../../constants/Constant';
+import { withStyles } from "@material-ui/core/styles";
 
+const styles = theme => ({
+    loginFailedMsg : {
+        color: 'red',
+        textAlign: 'center',
+        fontWeight: '550',
+        marginTop: '5px'
+    },
+
+  });
 class LoginContainer extends Component {
     constructor(props) {
         super(props);
@@ -51,6 +61,7 @@ class LoginContainer extends Component {
     }
     render() {
         var { txtPassword, txtUsername } = this.state;
+        const { failedLogin, failedLoginMsg, classes } = this.props;
         return (
             <div className="gla_slider gla_image_bck  gla_wht_txt gla_fixed" data-stellar-background-ratio="0.8" style={{ backgroundImage: 'url("/images/wedding/andy_jeska/10099882125_4afe7c6786_k_mb.jpg")', backgroundAttachment: 'fixed', backgroundPosition: '50% 50%' }}>
                 <form onSubmit={this.onLogin}  >
@@ -80,6 +91,12 @@ class LoginContainer extends Component {
                             <Button type="submit" variant="outlined" color="secondary" style={{ width: '70%', margin: 'auto' }}>
                                 Đăng nhập</Button>
                         </div>
+                        { failedLogin &&
+                        (<div className={classes.loginFailedMsg}>
+                            {failedLoginMsg}
+                        </div>
+                        )
+                        }
 
                     </div>
                 </form>
@@ -93,6 +110,8 @@ class LoginContainer extends Component {
 const mapStateToProps = state => {
     return {
         messages: state.adminPage.messages,
+        failedLogin: state.adminPage.failedLogin,
+        failedLoginMsg: state.adminPage.failedLoginMsg,
     }
 
 }
@@ -106,4 +125,4 @@ const mapDispatchToProps = (dispatch, props) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginContainer));

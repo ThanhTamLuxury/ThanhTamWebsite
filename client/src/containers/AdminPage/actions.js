@@ -117,10 +117,16 @@ export const logOut = () => {
         type : Types.LOG_OUT
     }
 }
-export const logIn = (user) => {
+export const logIn = (username) => {
     return {
+        username: username,
         type : Types.LOG_IN,
-        user:user
+    }
+}
+
+export const loginError = () => {
+    return {
+        type: Types.FAILED_LOGIN,
     }
 }
 
