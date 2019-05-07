@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import $ from 'jquery';
 import { connect } from 'react-redux';
@@ -74,7 +74,7 @@ class SliderContainer extends React.PureComponent {
                                 </p>
                             </div>
                         </div>
-                        <a className="gla_scroll_down gla_go" onClick={() => this.onSlide()} style={{ cursor: 'pointer' }}>
+                        <a href='#' className="gla_scroll_down gla_go" onClick={() => this.onSlide()} style={{ cursor: 'pointer' }}>
                             <b />
                             Scroll
             </a>

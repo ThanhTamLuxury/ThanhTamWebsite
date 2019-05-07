@@ -122,8 +122,8 @@ class ListItemsService extends Component {
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     onDelete = async () => {
-            var {isSearching,selected, searchValue, page,rowsPerPage } = this.state;
-            if (selected.length == 0) {
+            var {isSearching,selected, searchValue } = this.state;
+            if (selected.length === 0) {
                 alert(Constant.MSG_NO_SELECTED_DELETED);
             } else {
                 let check = await confirmDelete();
@@ -146,7 +146,6 @@ class ListItemsService extends Component {
     render() {
         const { page, data, selected, rowsPerPage, totalItems } = this.state;
         const { serviceType } = this.props;
-        let isHasValue = (data && data.length>0);
         return (
             <div >
                 <div className="services-table">
@@ -155,7 +154,7 @@ class ListItemsService extends Component {
                             <TableRow>
                                 <TableCell align="left"><Checkbox checked={selected.length === data.length} onClick={this.onSelectAllClick} /></TableCell>
                                 <TableCell align="left" >Tên</TableCell>
-                                <TableCell align="left">Giá hôm nay (VNĐ)</TableCell>
+                                {serviceType === Constant.SERVICE_WEDDING_DRESS ? null : <TableCell align="left">Giá hôm nay (VNĐ)</TableCell>}
                                 <TableCell align="left">Chi tiết</TableCell>
                                 {((serviceType === Constant.SERVICE_WEDDING_DRESS) || (serviceType === Constant.SERVICE_FULL_WEDDING_DAY)) ? null : <TableCell align="left">Bảng giá</TableCell>}
                             </TableRow>
@@ -223,7 +222,8 @@ class ListItemsService extends Component {
                         <TableCell align="left" component="th" scope="row">
                             {item.name}
                         </TableCell>
-                        <TableCell align="left">{formatter.format(item.price)}</TableCell>
+                        {serviceType === Constant.SERVICE_WEDDING_DRESS ? null : <TableCell align="left">{formatter.format(item.price)}</TableCell>}
+                        
                         <TableCell align="left">
                         <Link to={`/admin/edit/${serviceType}/${item.id}`} >
                             <Button variant="outlined" color="primary" >Chi tiết</Button>

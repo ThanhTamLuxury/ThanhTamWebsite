@@ -7,7 +7,9 @@ import { generate_slug } from './../../../methods/function_lib'
 import Button from '@material-ui/core/Button';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
 import { onLoading, onAdding, reset } from '../actions';
-
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 class VideoForm extends Component {
 
     constructor(props) {
@@ -18,6 +20,7 @@ class VideoForm extends Component {
             txtName: '',
             txtLink: '',
             txtDescription: '',
+            validateMsg:'',
         };
     }
 
@@ -79,45 +82,67 @@ class VideoForm extends Component {
             });
         }
     }
+    handleActionSnackbarClose = (event, reason) => {
+        this.setState({ validateMsg: '' });
+        if (reason === 'clickaway') {
+            return;
+        }
+    };
+
+    checkValidation = () => {
+        var { txtName, txtSlug } = this.state;
+        if ((txtName == null) || (txtName === '')) {
+            return Constant.getCheckValidateMessage('Tên albums', 'REQUIRED');
+        } else if ((txtSlug == null) || (txtSlug === '')) {
+            return Constant.getCheckValidateMessage('Đường dẫn', 'REQUIRED');
+        } else {
+            return '';
+        }
+    }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID, txtName, txtDescription, txtLink, isEditing } = this.state;
-        let linkArr = txtLink.split('=');
-        let service = null;
-        if (isEditing) {
-            service = {
-                id: txtID,
-                name: txtName ? txtName : '',
-                description: txtDescription ? txtDescription : '',
-                mainImage: linkArr[1],
-                serviceType: Constant.SERVICE_WEDDING_VIDEO,
-                type: Constant.SERVICE_WEDDING_VIDEO,
-            }
-
-            this.props.onUpdate(service, Constant.SERVICE_WEDDING_VIDEO);
+        let check = this.checkValidation();
+        if (check !== '') {
+            this.setState({
+                validateMsg: check
+            })
         } else {
-            service = {
-                name: txtName ? txtName : '',
-                description: txtDescription ? txtDescription : '',
-                mainImage: linkArr[1],
-                serviceType: Constant.SERVICE_WEDDING_VIDEO,
-                type: Constant.SERVICE_WEDDING_VIDEO,
+            var { txtID, txtName, txtDescription, txtLink, isEditing } = this.state;
+            let linkArr = txtLink.split('=');
+            let service = null;
+            if (isEditing) {
+                service = {
+                    id: txtID,
+                    name: txtName ? txtName : '',
+                    description: txtDescription ? txtDescription : '',
+                    mainImage: linkArr[1],
+                    serviceType: Constant.SERVICE_WEDDING_VIDEO,
+                    type: Constant.SERVICE_WEDDING_VIDEO,
+                }
+
+                this.props.onUpdate(service, Constant.SERVICE_WEDDING_VIDEO);
+            } else {
+                service = {
+                    name: txtName ? txtName : '',
+                    description: txtDescription ? txtDescription : '',
+                    mainImage: linkArr[1],
+                    serviceType: Constant.SERVICE_WEDDING_VIDEO,
+                    type: Constant.SERVICE_WEDDING_VIDEO,
+                }
+                this.props.onAdd(service, Constant.SERVICE_WEDDING_VIDEO);
             }
-            this.props.onAdd(service, Constant.SERVICE_WEDDING_VIDEO);
+
+            this.setState({
+                isEditing: false,
+                txtID: '',
+                txtName: '',
+                txtLink: '',
+                txtDescription: '',
+            })
+            this.props.onAdding(true);
+            this.props.onLoading(true);
+
         }
-
-        this.setState({
-            isEditing: false,
-            txtID: '',
-            txtName: '',
-            txtLink: '',
-            txtDescription: '',
-        })
-        this.props.onAdding(true);
-        this.props.onLoading(true);
-
-
-
     }
     onDeleteImage = (id) => {
         this.setState(prevState => {
@@ -127,7 +152,7 @@ class VideoForm extends Component {
 
     }
     render() {
-        var { txtName, txtLink, txtDescription, isEditing } = this.state;
+        var { txtName, txtLink, txtDescription, isEditing,validateMsg } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -171,7 +196,29 @@ class VideoForm extends Component {
                         <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>
-
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={(validateMsg !== '')}
+                    onClose={this.handleActionSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<h5>{validateMsg}</h5>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleActionSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
                 </div>
             </div >
 

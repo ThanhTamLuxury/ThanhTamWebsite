@@ -4,10 +4,11 @@ import {
     TopAlbumsContainer,
     TopDressesContainer,
     TopVideosContainer,
-    QuoteContainer
+    QuoteContainer,
+    Appointment
 } from './../containers/index';
 
-import { Header, Appointment, Footer } from './../components/index';
+import { Header, Footer } from './../components/index';
 
 
 class HomePage extends Component {

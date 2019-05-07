@@ -1,4 +1,4 @@
-import Appointment from './Appointment/Appointment';
+
 import DetailSlider from './DetailSlider/DetailSlider';
 import Footer from './Footer/Footer';
 import {
@@ -16,7 +16,6 @@ import DetailedExpansionPanel from './Common/DetailedExpansionPanel';
 export {
     Header,
     Menu,
-    Appointment,
     DetailSlider,
     TopAlbumItem,
     AlbumItem,

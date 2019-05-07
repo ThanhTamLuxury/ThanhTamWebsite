@@ -3,6 +3,7 @@ class TopAlbumItem extends Component {
 
   render() {
     var { video, index } = this.props;
+    
     return (
       <div>
         <div className={(index % 2 == 0) ? "col-md-6 gla_image_bck" : "col-md-6 col-md-push-6 gla_image_bck"} data-color="#eee" style={{ backgroundColor: 'rgb(238, 238, 238)', height: '520px' }}>

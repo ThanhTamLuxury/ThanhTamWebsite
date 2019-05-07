@@ -59,7 +59,7 @@ class ServiceContainer extends Component {
         this.props.fetchServices(this.props.serviceType, 1, 8);
         this.props.onLoading(true);
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps){ 
         var {isLoading,servicesResponse} = this.state;
         var {messages} = nextProps;
         if(nextProps.isLoading !== isLoading){
@@ -160,6 +160,7 @@ const mapStateToProps = state => {
         servicesResponse: state.userPage.servicesResponse,
         isLoading: state.userPage.isLoading,
         messages:state.userPage.messages,
+        aboutUsDetails:state.userPage.aboutUsDetails,
     }
 
 }

@@ -15,6 +15,8 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import { onLoading, reset } from '../actions';
 class AlbumForm extends Component {
@@ -32,7 +34,8 @@ class AlbumForm extends Component {
             imagesFiles: [],
             mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
             mainImageFile: [],
-            response: {}
+            response: {},
+            validateMsg:'',
         };
     }
 
@@ -114,7 +117,7 @@ class AlbumForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isUpdate == true) {
+        if (nextProps.isUpdate === true) {
             let id = this.props.serviceID;
             if (id) {
                 this.props.fetchServiceItem(id);
@@ -140,61 +143,88 @@ class AlbumForm extends Component {
         }
 
     }
+    handleActionSnackbarClose = (event, reason) => {
+        this.setState({ validateMsg: '' });
+        if (reason === 'clickaway') {
+            return;
+        }
+    };
+    
+    checkValidation = ()=>{
+        var {txtName, txtSlug} = this.state;   
+        if((txtName === null) || (txtName === '')){
+            return Constant.getCheckValidateMessage('Tên albums','REQUIRED');
+        }else if((txtSlug === null) || (txtSlug === '')){
+            return Constant.getCheckValidateMessage('Đường dẫn','REQUIRED');
+        }else{
+            return '';
+        }
+    }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID, txtName, txtDescription, txtSlug, images, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
-        let mainImageData = new FormData();
-        if (mainImageFile.length > 0) {
-            mainImageData.append("file", mainImageFile[0]);
-        }
-        let multipleFilesData = new FormData();
-        if (imagesFiles && imagesFiles.length > 0) {
-            imagesFiles.forEach(function (item) {
-                multipleFilesData.append("files", item.file);
-            });
-        }
-        let service = null;
-        if (isEditing) {
-            let imgArr = images.map(image => ({
-                id: null,
-                path: image.path
-            }))
-            let imagesService = imgArr.filter(image => (image.path.indexOf('blob:') < 0));
-            service = {
-                id: txtID,
-                name: txtName ? txtName :'',
-                description: txtDescription? txtDescription :'',
-                slug: txtSlug ? txtSlug:'',
-                mainImage: mainImage ? mainImage :'',
-                imageItems: imagesService,
-                serviceType: Constant.SERVICE_ALBUM,
-                type: Constant.SERVICE_ALBUM,
-            }
-            this.props.onUpdate(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
-        } else {
-            service = {
-                name: txtName ? txtName :'',
-                description: txtDescription? txtDescription :'',
-                slug: txtSlug ? txtSlug:'',
-                imageItems: [],
-                serviceType: Constant.SERVICE_ALBUM,
-                type: Constant.SERVICE_ALBUM,
-            }
-            this.props.onAdd(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
+        var { txtID, txtName, txtDescription, txtSlug, images, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;       
+        let check = this.checkValidation();
+        if(check !== ''){
             this.setState({
-                isEditing: false,
-                isLoading: false,
-                txtID: '',
-                txtName: '',
-                txtDescription: '',
-                txtSlug: '',
-                images: [],
-                mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
-                mainImageFile: [],
-                response: {}
+                validateMsg :check
             })
+        }else{
+            let mainImageData = new FormData();
+            if (mainImageFile.length > 0) {
+                mainImageData.append("file", mainImageFile[0]);
+            }
+            let multipleFilesData = new FormData();
+            if (imagesFiles && imagesFiles.length > 0) {
+                imagesFiles.forEach(function (item) {
+                    multipleFilesData.append("files", item.file);
+                });
+            }
+            let service = null;
+            if (isEditing) {
+                let imgArr = images.map(image => ({
+                    id: null,
+                    path: image.path
+                }))
+                let imagesService = imgArr.filter(image => (image.path.indexOf('blob:') < 0));
+                service = {
+                    id: txtID,
+                    name: txtName ? txtName :'',
+                    description: txtDescription? txtDescription :'',
+                    slug: txtSlug ? txtSlug:'',
+                    mainImage: mainImage ? mainImage :'',
+                    imageItems: imagesService,
+                    serviceType: Constant.SERVICE_ALBUM,
+                    type: Constant.SERVICE_ALBUM,
+                }
+                this.props.onUpdate(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
+            } else {
+                service = {
+                    name: txtName ? txtName :'',
+                    description: txtDescription? txtDescription :'',
+                    slug: txtSlug ? txtSlug:'',
+                    imageItems: [],
+                    serviceType: Constant.SERVICE_ALBUM,
+                    type: Constant.SERVICE_ALBUM,
+                }
+                this.props.onAdd(service, Constant.SERVICE_ALBUM, multipleFilesData, mainImageData);
+                this.setState({
+                    isEditing: false,
+                    isLoading: false,
+                    txtID: '',
+                    txtName: '',
+                    txtDescription: '',
+                    txtSlug: '',
+                    images: [],
+                    mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
+                    mainImageFile: [],
+                    response: {},
+                    validateMsg:'',
+                })
+            }
+            this.props.onLoading(true);
         }
-        this.props.onLoading(true);
+       
+        
     }
     onDeleteImage = (id) => {
         // image display include blob
@@ -210,7 +240,7 @@ class AlbumForm extends Component {
 
     }
     render() {
-        var { txtName, txtDescription, txtSlug, isEditing, images, mainImage, isLoading } = this.state;
+        var { txtName, txtDescription, txtSlug, isEditing, images, mainImage, validateMsg } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -310,7 +340,29 @@ class AlbumForm extends Component {
                         <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>
-
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={(validateMsg !== '')}
+                    onClose={this.handleActionSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<h5>{validateMsg}</h5>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleActionSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
                 </div>
             </div >
 

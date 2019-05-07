@@ -16,6 +16,8 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 import { onLoading, actOnAddService, reset } from '../actions';
 
 class AlbumForm extends Component {
@@ -34,7 +36,8 @@ class AlbumForm extends Component {
             imageItems: [],
             mainImage: 'https://www.ijustloveit.co.uk/images/products/personalised-white-leather-photo-album-1_2.jpg',
             mainImageFile: [],
-            response: {}
+            response: {},
+            validateMsg:'',
         };
     }
 
@@ -109,6 +112,23 @@ class AlbumForm extends Component {
             response: {}
         })
     }
+    handleActionSnackbarClose = (event, reason) => {
+        this.setState({ validateMsg: '' });
+        if (reason === 'clickaway') {
+            return;
+        }
+    };
+    
+    checkValidation = ()=>{
+        var {txtName, txtSlug} = this.state;   
+        if((txtName == null) || (txtName === '')){
+            return Constant.getCheckValidateMessage('Tên áo cưới','REQUIRED');
+        }else if((txtSlug == null) || (txtSlug === '')){
+            return Constant.getCheckValidateMessage('Đường dẫn','REQUIRED');
+        }else{
+            return '';
+        }
+    }
     componentWillMount() {
         this.onResetState();
     }
@@ -151,6 +171,12 @@ class AlbumForm extends Component {
     onSave = (e) => {
         e.preventDefault();
         var { txtID, txtName, imageItems, txtDescription, txtShortDescription, txtSlug, images, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
+        let check = this.checkValidation();
+        if(check !== ''){
+            this.setState({
+                validateMsg :check
+            })
+        }else{
         let mainImageData = new FormData();
         if (mainImageFile.length > 0) {
             mainImageData.append("file", mainImageFile[0]);
@@ -210,6 +236,7 @@ class AlbumForm extends Component {
             response: {}
         })
     }
+}
     onDeleteImage = (id) => {
         // image display include blob
         this.setState(prevState => {
@@ -224,7 +251,7 @@ class AlbumForm extends Component {
         });
     }
     render() {
-        var { mainImage, txtName, txtSlug, txtDescription, txtShortDescription, isEditing, images } = this.state;
+        var { mainImage, txtName, txtSlug, txtDescription, txtShortDescription, isEditing, images,validateMsg } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -335,7 +362,29 @@ class AlbumForm extends Component {
                         <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>
-
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={(validateMsg !== '')}
+                    onClose={this.handleActionSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<h5>{validateMsg}</h5>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleActionSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
                 </div>
             </div >
 

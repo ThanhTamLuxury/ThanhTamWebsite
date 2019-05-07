@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-class Footer extends Component {
+import { axios_fetch_AboutUsDetails } from './axios_call';
+import { connect } from 'react-redux';
 
+class Appointment extends Component {
+  componentDidMount() {
+    this.props.fetchAboutUsDetails();
+}
   render() {
-    
+    var { aboutUsDetails } = this.props;
+    let email =  (aboutUsDetails && aboutUsDetails.email) ? aboutUsDetails.email:'';
     return (
       <section className="gla_section">
         <div className="container text-center">
           <h3 className="gla_subtitle">Đặt lịch hẹn</h3>
           <div className="row">
             <div className="col-md-8 col-md-push-2">
-              <form action="https://formspree.io/dongphan24@gmail.com" method="POST">
+              <form action={"https://formspree.io/"+ email} method="POST">
                 <div className="row">
                   <div className="col-md-6">
                     <label>Họ và tên*</label>
@@ -44,6 +50,17 @@ class Footer extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+      aboutUsDetails: state.homePage.aboutUsDetails
+  }
+}
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+      fetchAboutUsDetails: () => {
+          dispatch(axios_fetch_AboutUsDetails());
+      },
+  }
+}
 
-
-export default Footer;
+export default connect(mapStateToProps, mapDispatchToProps)(Appointment);

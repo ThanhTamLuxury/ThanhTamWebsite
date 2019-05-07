@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import * as Constant from '../../constants';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js';
@@ -8,7 +8,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import Button from '@material-ui/core/Button';
-import { generate_slug } from '../../../methods/function_lib';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -16,6 +15,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
 import { onLoading, reset } from '../actions';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 class ServicesPriceForm extends Component {
 
     constructor(props) {
@@ -31,7 +33,8 @@ class ServicesPriceForm extends Component {
             editorState: EditorState.createEmpty(),
             price: "",
             applyDate: "",
-            priceDetailItems: []
+            priceDetailItems: [],
+            validateMsg:'',
         };
 
     }
@@ -59,55 +62,79 @@ class ServicesPriceForm extends Component {
             });
         }
     }
+    handleActionSnackbarClose = (event, reason) => {
+        this.setState({ validateMsg: '' });
+        if (reason === 'clickaway') {
+            return;
+        }
+    };
+    
+    checkValidation = ()=>{
+        var {txtName, txtSlug, txtPrice} = this.state;   
+        if((txtName == null) || (txtName === '')){
+            return Constant.getCheckValidateMessage('Tên albums','REQUIRED');
+        }else if((txtSlug == null) ||(txtSlug === '')){
+            return Constant.getCheckValidateMessage('Đường dẫn','REQUIRED');
+        }else if((txtPrice == null) ||(txtPrice === '')){
+            return Constant.getCheckValidateMessage('Giá khởi điểm','REQUIRED');
+        }else{
+            return '';
+        }
+    }
     handleEditorChange = (e) => {
-
-
     }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID, txtName, txtDescription, txtPrice, isEditing, priceDetailItems } = this.state;
-        let htmlRaw = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-
-        let service = null;
-        if (isEditing) {
-            service = {
-                id: txtID,
-                name: txtName ? txtName : '',
-                description: txtDescription ? txtDescription : '',
-                priceDescription: htmlRaw ? htmlRaw : '',
-                price: txtPrice ? txtPrice : 0,
-                priceDetails: priceDetailItems ? priceDetailItems : '',
-                serviceType: this.props.serviceType,
-                type: this.props.serviceType,
-            }
-            this.props.onUpdate(service, this.props.serviceType);
-
+        let check = this.checkValidation();
+        if (check !== '') {
+            this.setState({
+                validateMsg: check
+            })
         } else {
-            service = {
-                id: txtID,
-                name: txtName ? txtName : '',
-                description: txtDescription ? txtDescription : '',
-                priceDescription: htmlRaw ? htmlRaw : '',
-                price: txtPrice ? txtPrice : 0,
-                priceDetails: priceDetailItems ? priceDetailItems : '',
-                serviceType: this.props.serviceType,
-                type: this.props.serviceType,
+            var { txtID, txtName, txtDescription, txtPrice, isEditing, priceDetailItems } = this.state;
+            let htmlRaw = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+
+            let service = null;
+            if (isEditing) {
+                service = {
+                    id: txtID,
+                    name: txtName ? txtName : '',
+                    description: txtDescription ? txtDescription : '',
+                    priceDescription: htmlRaw ? htmlRaw : '',
+                    price: txtPrice ? txtPrice : 0,
+                    priceDetails: priceDetailItems ? priceDetailItems : '',
+                    serviceType: this.props.serviceType,
+                    type: this.props.serviceType,
+                }
+                this.props.onUpdate(service, this.props.serviceType);
+
+            } else {
+                service = {
+                    id: txtID,
+                    name: txtName ? txtName : '',
+                    description: txtDescription ? txtDescription : '',
+                    priceDescription: htmlRaw ? htmlRaw : '',
+                    price: txtPrice ? txtPrice : 0,
+                    priceDetails: priceDetailItems ? priceDetailItems : '',
+                    serviceType: this.props.serviceType,
+                    type: this.props.serviceType,
+                }
+                this.props.onAdd(service, this.props.serviceType);
             }
-            this.props.onAdd(service, this.props.serviceType);
+            this.setState({
+                isEditing: false,
+                txtID: '',
+                txtName: '',
+                txtDescription: '',
+                txtPriceDescription: '',
+                txtPrice: '',
+                editorState: EditorState.createEmpty(),
+                price: "",
+                applyDate: "",
+                priceDetailItems: []
+            })
+            this.props.onLoading(true);
         }
-        this.setState({
-            isEditing: false,
-            txtID: '',
-            txtName: '',
-            txtDescription: '',
-            txtPriceDescription: '',
-            txtPrice: '',
-            editorState: EditorState.createEmpty(),
-            price: "",
-            applyDate: "",
-            priceDetailItems: []
-        })
-        this.props.onLoading(true);
     }
 
     handlePriceDetailItemNameChange = idx => evt => {
@@ -124,7 +151,7 @@ class ServicesPriceForm extends Component {
     handlePriceDetailItemApplyDateChange = idx => evt => {
         const newPriceDetailItems = this.state.priceDetailItems.map((priceDetailItem, sidx) => {
             if (idx !== sidx) return priceDetailItem;
-            return { ...priceDetailItem, price: priceDetailItem.price, applyDate: evt.target.value };
+            return { ...priceDetailItem, price: priceDetailItem.price ? priceDetailItem.price : 0, applyDate: evt.target.value };
         });
 
         this.setState({ priceDetailItems: newPriceDetailItems });
@@ -224,7 +251,7 @@ class ServicesPriceForm extends Component {
             style: 'currency',
             currency: 'VND',
         });
-        var { txtName, txtDescription, txtPrice, isEditing, editorState, priceDetailItems } = this.state;
+        var { txtName, txtDescription, txtPrice, isEditing, editorState, priceDetailItems,validateMsg } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -278,7 +305,7 @@ class ServicesPriceForm extends Component {
                                             <div className="priceDetailItem">
                                                 <div className="form-group">
                                                     <TextField
-                                                        label="Thông tin, khuyến mãi, giá theo ngày,.."
+                                                        label="Giá theo ngày"
                                                         name="txtTitle"
                                                         className="form-input"
                                                         value={priceDetailItem.price}
@@ -326,7 +353,29 @@ class ServicesPriceForm extends Component {
                         <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>
-
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                    open={(validateMsg !== '')}
+                    onClose={this.handleActionSnackbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<h5>{validateMsg}</h5>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={this.handleActionSnackbarClose}
+                        >
+                            <CloseIcon />
+                        </IconButton>,
+                    ]}
+                />
                 </div>
             </div >
 

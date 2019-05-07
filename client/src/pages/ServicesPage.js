@@ -24,6 +24,9 @@ class ServicesPage extends Component {
             case Constant.TYPE_WEDDING_DRESS:
                 title = Constant.DRESSES_PAGE_TITLE;
                 break;
+            default:
+                title =''
+                break;
         }
         this.setState({
             pageTitle: title

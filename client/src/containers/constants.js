@@ -47,6 +47,16 @@ export const MSG_SIMILAR_OLD_PASSOWRD = 'Mật khẩu mới trùng với mật k
 export const MSG_REQUEST_LOGIN = 'Vui lòng đăng nhập lại !'
 export const MSG_PASSWORD_LENGTH = 'Mật khẩu mới phải từ 5 ký tự trở lên'
 
+export const getCheckValidateMessage = (serviceName , msgCode)=>{
+    switch(msgCode){
+        case 'REQUIRED':
+            return serviceName+' không được để trống';
+        default:
+            return '';
+    }
+}
+
+
 
 
 

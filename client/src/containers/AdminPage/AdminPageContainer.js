@@ -340,7 +340,6 @@ class AdminPageContainer extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         var { isLoading, searchValue } = this.state;
         if (nextProps.isLoading !== isLoading) {
             this.setState({
@@ -474,9 +473,6 @@ class AdminPageContainer extends Component {
                                 />
                             </div>
                         </Typography>
-                        <Button onClick={this.logout} variant="outlined" color="primary" style={{ width: '20%', marginLeft: '200px', color: 'white', float: 'right', background: 'red' }}>
-                            Đăng xuất
-                        </Button>
                         <div style={{ marginRight: 20, position: 'absolute', right: '0' }}>{isLoading ? 'Đang xử lý' : ''}</div>
                     </Toolbar>
                 </AppBar>
@@ -504,6 +500,12 @@ class AdminPageContainer extends Component {
                         {/*DAnh sách các menu ở đây  */}
                         {this.renderServicesMenu(menus)}
                         <Divider />
+                        <ListItem className="text-center" >
+                        <Button onClick={this.logout} variant="outlined" color="primary" style={{ width: '100%' }}>
+                            Đăng xuất
+                        </Button>
+                        </ListItem>
+                        
                     </List>
 
                 </Drawer>

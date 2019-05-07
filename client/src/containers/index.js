@@ -7,6 +7,8 @@ import TopDressesContainer from './HomePage/top-dresses/TopDressesContainer';
 import TopVideosContainer from './HomePage/top-videos/TopVideosContainer';
 import AboutUsContainer from './HomePage/about-us/AboutUsContainer';
 import QuoteContainer from './HomePage/quote/QuoteContainer';
+import Appointment from './HomePage/Appointment';
+
 
 import ServiceContainer from './UserPage/ServiceContainer';
 import AlbumDetailsPageContainer from './UserPage/AlbumDetailsPage/AlbumDetailsPageContainer';
@@ -26,6 +28,7 @@ export {
     TopVideosContainer,
     AboutUsContainer,
     QuoteContainer,
+    Appointment,
 
     //Albums page
     ServiceContainer,

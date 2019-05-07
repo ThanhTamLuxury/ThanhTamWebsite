@@ -134,7 +134,6 @@ const adminPage = (state = initialState, action) => {
         case Constants.FETCH_BANNERS:
             return Object.assign({}, state, {
                 bannerResponse: action.response,
-                statusCode: action.statusCode,
                 isUpdate: false,
                 isLoading:false,
                 statusCode:200,
