@@ -8,6 +8,8 @@ class DressDetailsPage extends Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
+        document.title = Constant.DRESSDETAILS_PAGE_TITLE
+
     }
 
     render() {
