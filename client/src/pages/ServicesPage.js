@@ -28,6 +28,7 @@ class ServicesPage extends Component {
                 title =''
                 break;
         }
+        document.title = title
         this.setState({
             pageTitle: title
         })

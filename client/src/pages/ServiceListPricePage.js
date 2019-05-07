@@ -32,6 +32,7 @@ class ServiceListPricePage extends Component {
         this.setState({
             pageTitle: title
         })
+        document.title = title
         window.scrollTo(0, 0);
     }
     render() {

@@ -42,7 +42,7 @@ export const DRESSDETAILS_PAGE_TITLE = 'Chi tiết Áo cưới';
 
 export const PRICE_ALBUMS_PAGE_TITLE = 'Bảng giá Albums';
 export const PRICE_VIDEO_PAGE_TITLE = 'Bảng giá quay Videos';
-export const PRICE_ALL_IN_PAGE_TITLE = 'Bảng giá trọn gói';
+export const PRICE_ALL_IN_PAGE_TITLE = 'Bảng giá Trọn gói';
 
 
 export const TYPE_ALBUM = 'ALBUM';

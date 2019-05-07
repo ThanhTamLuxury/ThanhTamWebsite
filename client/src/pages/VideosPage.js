@@ -11,6 +11,8 @@ import { ServiceContainer } from './../containers/index';
 class VideosPage extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
+        document.title = Constant.VIDEO_PAGE_TITLE
+
     }
     render() {
         return (

@@ -15,7 +15,7 @@ class Appointment extends Component {
           <h3 className="gla_subtitle">Đặt lịch hẹn</h3>
           <div className="row">
             <div className="col-md-8 col-md-push-2">
-              <form action={"https://formspree.io/"+email} method="POST">
+              <form action={"https://formspree.io/"+ email} method="POST">
                 <div className="row">
                   <div className="col-md-6">
                     <label>Họ và tên*</label>

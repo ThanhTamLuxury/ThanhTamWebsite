@@ -11,6 +11,8 @@ import { ServiceContainer } from './../containers/index';
 class DressesPage extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
+        document.title = Constant.DRESSES_PAGE_TITLE
+        
     }
     render() {
         return (
