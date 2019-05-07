@@ -153,12 +153,17 @@ export const login = async (username, password, redirect, dispatch) => {
     
     if (response) {
         if (response.status === 401) {
+            dispatch(Actions.loginError());
             logout();
         }
         else if (response.status === 200) {
             localStorage.setItem('USER', response.headers.authorization);
             localStorage.setItem('USERNAME', username);
+            dispatch(Actions.logIn(username))
             redirect();
+        }
+        else {
+            dispatch(Actions.loginError())   
         }
     }
 }

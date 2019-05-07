@@ -19,6 +19,8 @@ const initialState = {
     idArr: [],
     messages: '',
     aboutUsDetails: null,
+    failedLogin: false,
+    failedLoginMsg: Constants.MSG_ERROR_LOGIN,
 };
 
 const adminPage = (state = initialState, action) => {
@@ -39,13 +41,20 @@ const adminPage = (state = initialState, action) => {
             });
         case Constants.LOG_IN:
             return Object.assign({}, state, {
-                user: action.user
+                failedLogin: false,
+                username: action.username
             });
         case Constants.LOG_OUT:
             localStorage.removeItem('ADMIN');
             return Object.assign({}, state, {
                 isLogin: false
             });
+        case Constants.FAILED_LOGIN:
+            return {
+                ...state,
+                failedLogin: true,
+            }
+            
         case Constants.FETCH_SERVICES:
             return Object.assign({}, state, {
                 servicesResponse: action.servicesResponse,
