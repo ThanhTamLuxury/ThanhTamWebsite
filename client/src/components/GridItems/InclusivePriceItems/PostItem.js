@@ -45,26 +45,27 @@ class PostItem extends Component {
     componentDidMount() {
         let serviceType = this.props.serviceType;
         let path = '';
+        let label = '';
         switch (serviceType) {
             case Constant.TYPE_ALBUM:
                 path = Constant.SLUG_ALBUM
+                label = "Album"
                 break;
             case Constant.TYPE_VIDEO:
                 path = Constant.SLUG_VIDEO
+                label = "Video"
                 break;
-            // case Constant.TYPE_FULL_WEDDING_DAY:
-            //     path = Constant.
-            //     break;
         }
         this.setState({
-            toRelatedPath: path
+            toRelatedPath: path,
+            label:label,
         })
     }
 
     render() {
         
         var { post,serviceType } = this.props;
-        var { toRelatedPath } = this.state;
+        var { toRelatedPath,label } = this.state;
 
         var formatter = new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -104,7 +105,7 @@ class PostItem extends Component {
                             <AddIcon />
                         </Fab>
                         <div className="pull-right">
-                            <Link to={"/"+toRelatedPath + post.id + "/" + post.slug} className="btn">{serviceType? serviceType+' tham khảo' :''}</Link>
+                            {(serviceType && serviceType !== Constant.TYPE_FULL_WEDDING_DAY ? <Link to={"/"+toRelatedPath + post.id + "/" + post.slug} className="btn">{label+' tham khảo'}</Link> :null) }
                         </div>
                         
                     </div>

@@ -18,7 +18,7 @@ const homePage = (state = initialState, action) => {
             return Object.assign({}, state, {
                 topAlbums: action.topAlbums
             });
-        case Types.FETCH_TOPVIEOS:
+        case Types.FETCH_TOPVIDEOS:
             return Object.assign({}, state, {
                 topVideos: action.topVideos
             });

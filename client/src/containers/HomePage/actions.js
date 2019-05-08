@@ -16,7 +16,7 @@ export const actFetchTopAlbumsJson = (topAlbums) => {
 }
 export const actFetchTopVideosJson = (topVideos) => {
     return {
-        type : Types.FETCH_TOPVIEOS,
+        type : Types.FETCH_TOPVIDEOS,
         topVideos
     }
 }
