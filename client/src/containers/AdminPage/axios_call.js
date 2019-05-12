@@ -18,7 +18,7 @@ export const axios_search_services = (searchValue, serviceType, page, size) => {
         if (page > 0) {
             page--;
         }
-        return callApi(`service/search?serviceType=${serviceType}&searchValue=${searchValue}&page=${page}&size=${size}`, 'GET', null, 'ADMIN').then(res => {
+        return callApi(`service/search?serviceType=${serviceType}&searchValue=${searchValue}&page=${page}&size=${size}`, 'GET', null).then(res => {
             if (res != null) {
                 dispatch(Actions.actFetchServies(res.data));
             }
@@ -27,13 +27,13 @@ export const axios_search_services = (searchValue, serviceType, page, size) => {
 }
 // Fetch
 export const axios_fetch_serviceByID = async (id,dispatch) => {
-       let res = await callApi(`service/${id}`, 'GET', null, 'ADMIN');
+       let res = await callApi(`service/${id}`, 'GET', null);
         if (res != null) {
                 handleResponse(res,dispatch,Constants.FETCH_SERVICEBYID);
         }
 }
 export const axios_get_banners = async (dispatch) => {
-    let res = await callApi(`banner`, 'GET', null, 'ADMIN');
+    let res = await callApi(`banner`, 'GET', null);
     if (res != null) {
         handleResponse(res, dispatch, Constants.FETCH_BANNERS, '');
     }

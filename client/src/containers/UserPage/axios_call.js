@@ -32,7 +32,7 @@ export const axios_fetch_price_services = (serviceType, page, size) => {
 }
 // Fetch
 export const axios_fetch_serviceByID = async (id, dispatch) => {
-    let res = await callApi(`service/${id}`, 'GET', null, 'ADMIN')
+    let res = await callApi(`service/${id}`, 'GET', null)
     if (res != null) {
         handleResponse(res, dispatch, Constants.FETCH_SERVICEBYID);
     }
@@ -42,12 +42,6 @@ const handleResponse = async (res, dispatch, action, msg) => {
     switch (status) {
         case 200:
             await dispatch(Actions.is2xx(action, res.data));
-            break;
-        case 401:
-            await dispatch(Actions.isNot2xx(401, Constants.MSG_REQUEST_LOGIN));
-            break;
-        case 403:
-            await dispatch(Actions.isNot2xx(403, Constants.MSG_REQUEST_LOGIN));
             break;
         case 404:
             await dispatch(Actions.isNot2xx(404, Constants.MSG_NOT_FOUND_SERVICEITEM));

@@ -6,6 +6,7 @@ const initialState = {
     isLogin: false,
     isLoading: false,
     statusCode: 200,
+    messages:'',
 };
 
 const userPage = (state = initialState, action) => {

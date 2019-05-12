@@ -7689,9 +7689,13 @@ img.avatar {
 	margin-bottom: 1em!important;
 	flex-basis: 200px;
 }
+.login-container label {
+	font-size: 1.5rem!important;
+}
+ 
 .login-container input {
 	font-family: inherit;
-	font-size: 1.2em!important;
+	font-size: 1.4em!important;
 }
 .admin_content form {
 	margin: auto;
