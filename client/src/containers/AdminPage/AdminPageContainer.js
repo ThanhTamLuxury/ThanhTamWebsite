@@ -237,23 +237,27 @@ const styles = theme => ({
 
 
 class AdminPageContainer extends Component {
-    state = {
-        serviceType: '',
-        serviceID: 1,
-        isLoading: false,
-        isUpdate: false,
-        open: true,
-        toggleOpen: false,
-        tabLabel: 'Trang quản lý',
-        displayingTab: Constant.SERVICE_ADMIN,
-        isUploadFinished: false,
-        uploadMessages: [],
-        msgAction: '',
-        searchValue: '',
-        txtSearch: '',
-        isSearch: false,
-        messages: '',
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            serviceType: '',
+            serviceID: 1,
+            isLoading: false,
+            isUpdate: false,
+            open: true,
+            toggleOpen: false,
+            tabLabel: 'Trang quản lý',
+            displayingTab: Constant.SERVICE_ADMIN,
+            isUploadFinished: false,
+            uploadMessages: [],
+            msgAction: '',
+            searchValue: '',
+            txtSearch: ' ',
+            isSearch: false,
+            messages: '',
+        };
+    }
+    
 
     handleToggleClick = (text) => {
         this.setState({
@@ -467,7 +471,7 @@ class AdminPageContainer extends Component {
                                         input: classes.inputInput,
                                     }}
                                     name="txtSearch"
-                                    value={txtSearch}
+                                    value={txtSearch || ''}
                                     onChange={this.onChange}
                                     onBlur={this.handleBlur}
                                 />

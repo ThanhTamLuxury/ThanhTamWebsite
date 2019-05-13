@@ -37,11 +37,12 @@ class ListItemsService extends Component {
         let{searchValue,serviceType}= this.props;
         if(searchValue){
             this.props.searchServices(searchValue,serviceType, this.state.page, this.state.rowsPerPage);
+            this.props.onLoading(true);
         }else{
             this.props.fetchServicesList(this.props.serviceType, this.state.page, this.state.rowsPerPage);
             this.setState({
                 isSearching: false,
-                serviceType :this.props.serviceType
+                serviceType :this.props.serviceType,
             })
             this.props.onLoading(true);
             if (this.props.servicesResponse != null) {
@@ -152,7 +153,7 @@ class ListItemsService extends Component {
                     <Table  >
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left"><Checkbox checked={selected.length === data.length} onClick={this.onSelectAllClick} /></TableCell>
+                                <TableCell align="left"><Checkbox checked={selected && (selected.length === data.length)} onClick={this.onSelectAllClick} /></TableCell>
                                 <TableCell align="left" >Tên</TableCell>
                                 {serviceType === Constant.SERVICE_WEDDING_DRESS ? null : <TableCell align="left">Giá hôm nay (VNĐ)</TableCell>}
                                 <TableCell align="left">Chi tiết</TableCell>
