@@ -20,6 +20,15 @@ class InfoForm extends Component {
             messages:'',
         };
     }
+    componentWillReceiveProps(nextProps){
+        const USERNAME = localStorage.getItem('USERNAME');
+        if(this.state.txtUsername===''){
+            this.setState({
+                txtUsername: USERNAME ? USERNAME:'',
+            })
+        }
+        
+    }
     componentWillMount(){
         const USERNAME = localStorage.getItem('USERNAME');
         this.setState({
