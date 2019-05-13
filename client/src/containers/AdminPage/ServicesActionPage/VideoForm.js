@@ -43,12 +43,6 @@ class VideoForm extends Component {
         this.setState({
             [name]: target.value
         });
-        if (name === 'txtName') {
-            let slug = generate_slug(target.value);
-            this.setState({
-                txtSlug: slug
-            })
-        }
     }
     componentDidMount() {
         let id = this.props.serviceID;
@@ -90,10 +84,10 @@ class VideoForm extends Component {
     };
 
     checkValidation = () => {
-        var { txtName, txtSlug } = this.state;
+        var { txtName, txtLink } = this.state;
         if ((txtName == null) || (txtName === '')) {
             return Constant.getCheckValidateMessage('Tên albums', 'REQUIRED');
-        } else if ((txtSlug == null) || (txtSlug === '')) {
+        } else if ((txtLink == null) || (txtLink === '')) {
             return Constant.getCheckValidateMessage('Đường dẫn', 'REQUIRED');
         } else {
             return '';
