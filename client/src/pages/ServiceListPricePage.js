@@ -28,6 +28,9 @@ class ServiceListPricePage extends Component {
             case Constant.PRICE_INCLUSIVE:
                 title = Constant.PRICE_ALL_IN_PAGE_TITLE;
                 break;
+            default:
+                title = Constant.LABEL_HOME;
+                break;
         }
         this.setState({
             pageTitle: title

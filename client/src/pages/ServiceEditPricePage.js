@@ -31,6 +31,9 @@ class ServiceEditPricePage extends Component {
                 case Constant.TYPE_FULL_WEDDING_DAY:
                     document.title = Constant.LABEL_FULL_WEDDING_DAY_EDIT;
                     break;
+                default:
+                    history.push('/notfound');
+                break; 
 
             }
         } else {

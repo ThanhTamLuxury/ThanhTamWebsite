@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { logOut, onLoading } from '../actions';
-import { login, axios_update_password } from '../axios_call';
+import {  onLoading } from '../actions';
+import {  axios_update_password } from '../axios_call';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
@@ -80,14 +80,14 @@ class InfoForm extends Component {
         return (
             <div style={{ minWidth: '400px' }}>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group">
                             <TextField
                                 label="Tên tài khoản"
                                 name="txtUsername"
                                 className="form-input"
-                                value={txtUsername}
+                                value={txtUsername || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -97,7 +97,7 @@ class InfoForm extends Component {
                                 label="Mật khẩu cũ"
                                 type ="password"
                                 name="txtOldPassword"
-                                value={txtOldPassword}
+                                value={txtOldPassword || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -109,7 +109,7 @@ class InfoForm extends Component {
                                 name="txtNewPassword"
                                 type ="password"
                                 className="form-input"
-                                value={txtNewPassword}
+                                value={txtNewPassword || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />

@@ -32,6 +32,9 @@ class ServiceAddPage extends Component {
                 case Constant.TYPE_FULL_WEDDING_DAY:
                     document.title = Constant.LABEL_FULL_WEDDING_DAY_ADD;
                     break;
+                default:
+                    history.push('/notfound');
+                break; 
             }
         }else{
             history.push('/notfound');
@@ -41,7 +44,7 @@ class ServiceAddPage extends Component {
         
     }
     render() {
-        var {serviceType,id, tabCode} = this.state;
+        var {serviceType, tabCode} = this.state;
         return (
             <div className="gla_page" id="gla_page">
                 <section className="gla_content admin_content">

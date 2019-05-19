@@ -120,10 +120,10 @@ class AlbumForm extends Component {
         if (nextProps.isUpdate === true) {
             let id = this.props.serviceID;
             if (id) {
+                this.props.onResetProps();
                 this.props.fetchServiceItem(id);
                 this.props.onLoading(true);
             }
-            this.props.onResetProps();
         }
         let serviceItem = nextProps.serviceItem;
         if (serviceItem != null) {
@@ -241,13 +241,13 @@ class AlbumForm extends Component {
     }
     render() {
         var { txtName, txtDescription, txtSlug, isEditing, images, mainImage, validateMsg } = this.state;
-        return (
+        return ( 
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group text-center">
-                            <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="album main image" />
+                            <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="album main" />
                             <br /><br />
                             <input
                                 name="mainImage"
@@ -270,7 +270,7 @@ class AlbumForm extends Component {
                                 label="Tên album"
                                 name="txtName"
                                 className="form-input"
-                                value={txtName}
+                                value={txtName || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -280,7 +280,7 @@ class AlbumForm extends Component {
                                 label="Đường dẫn"
                                 name="txtSlug"
                                 className="form-input"
-                                value={txtSlug}
+                                value={txtSlug || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -291,7 +291,7 @@ class AlbumForm extends Component {
                                 multiline
                                 label="Mô tả"
                                 name="txtDescription"
-                                value={txtDescription}
+                                value={txtDescription || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"

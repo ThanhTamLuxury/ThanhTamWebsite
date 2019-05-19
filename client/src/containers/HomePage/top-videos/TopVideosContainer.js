@@ -26,8 +26,7 @@ class TopVideosContainer extends Component {
     }
 
     render() {
-        var { topVideos,aboutUsDetails } = this.props;
-        console.log(aboutUsDetails);
+        var { topVideos } = this.props;
         return (
             <section className="gla_section gla_image_bck gla_fixed" data-stellar-background-ratio="0.2" data-image="images/headers/14815177364_46f0b9d71e_k.jpg" style={{ backgroundImage: 'url("images/headers/14815177364_46f0b9d71e_k.jpg")', backgroundAttachment: 'fixed', backgroundPosition: '50% 54px' }}>
                 <div className="container">

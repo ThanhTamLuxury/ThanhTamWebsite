@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { generate_slug } from './../../../methods/function_lib';
-import * as Constant from './../../constants';
 import { connect } from 'react-redux';
 import { axios_get_banners, axios_uploadBanner, axios_updateBanners } from '../axios_call';
 import Button from '@material-ui/core/Button';
@@ -9,7 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import DragSortableList from 'react-drag-sortable'
 import IconButton from '@material-ui/core/IconButton';
-import { onLoading, actOnAddService, reset } from '../actions';
+import { onLoading, reset } from '../actions';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 
@@ -52,7 +50,7 @@ class BannerForm extends Component {
             this.props.onLoading(true);
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isUpdate == true) {
+        if (nextProps.isUpdate === true) {
             this.props.getBanners();
             this.props.onResetProps();
         }
@@ -167,12 +165,11 @@ class BannerForm extends Component {
         return result;
     }
     render() {
-        var { isEditing } = this.state;
         let listItems = this.onRenderList();
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
 
                     <form onSubmit={this.onSave} >
                         <div className="form-group">

@@ -16,8 +16,6 @@ import DressDetailsPageContainer from './UserPage/DressDetailsPage/DressDetailsP
 import ServicePriceContainer from './UserPage/ServicePriceContainer';
 // import ServiceListPrice from './UserPage/page/ServiceListPrice';
 
-import InclusivePricePageContainer from './InclusivePricePage/InclusivePricePageContainer';
-import VideosPricePageContainer from './VideosPricePage/VideosPricePageContainer';
 import AdminPageContainer from './AdminPage/AdminPageContainer';
 export {
     //Home Page
@@ -38,9 +36,6 @@ export {
 
     // Price pages
     ServicePriceContainer,
-    // ServiceListPrice,
-    InclusivePricePageContainer,
-    VideosPricePageContainer,
 
     //Admin page
     AdminPageContainer,

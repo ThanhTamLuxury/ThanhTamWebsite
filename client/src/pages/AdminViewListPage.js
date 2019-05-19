@@ -24,16 +24,18 @@ class AdminViewListPage extends Component {
                 switch(params.serviceType){
                     case Constant.SERVICE_ALBUM:
                         document.title = Label.LABEL_ALBUMS
-                    break;
+                        break;
                     case Constant.SERVICE_WEDDING_DRESS:
                         document.title = Label.LABEL_WEDDING_DRESSES                    
-                    break;
+                        break;
                     case Constant.SERVICE_WEDDING_VIDEO:
                         document.title = Label.LABEL_WEDDING_VIDEOS                    
-                    break;
+                        break;
                     case Constant.SERVICE_FULL_WEDDING_DAY:
                         document.title = Label.LABEL_FULL_WEDDING_DAY                                        
-                    break;
+                        break;
+                    default:
+                        history.push('/notfound');
                 }
             }
         } else {
@@ -53,16 +55,18 @@ class AdminViewListPage extends Component {
             switch(params.serviceType){
                 case Constant.SERVICE_ALBUM:
                     document.title = Label.LABEL_ALBUMS
-                break;
+                    break;
                 case Constant.SERVICE_WEDDING_DRESS:
                     document.title = Label.LABEL_WEDDING_DRESSES                    
-                break;
+                    break;
                 case Constant.SERVICE_WEDDING_VIDEO:
                     document.title = Label.LABEL_WEDDING_VIDEOS                    
-                break;
+                    break;
                 case Constant.SERVICE_FULL_WEDDING_DAY:
                     document.title = Label.LABEL_FULL_WEDDING_DAY                                        
-                break;
+                    break;
+                default:
+                        history.push('/notfound');
             }
         } else {
             history.push('/notfound');

@@ -35,10 +35,11 @@ import AlbumForm from './ServicesActionPage/AlbumForm';
 import DressForm from './ServicesActionPage/DressForm';
 import VideoForm from './ServicesActionPage/VideoForm';
 import ServicesPriceForm from './ServicesActionPage/ServicesPriceForm';
-import { actChangeMenu, onLoading, onAdding, reset } from './actions';
+import { actChangeMenu, onLoading, reset } from './actions';
 import BannerForm from './ServicesActionPage/BannerForm';
 import { history } from '../../App';
 import InfoForm from './ServicesActionPage/InfoForm';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 
 function HomeIcon(props) {
     return (
@@ -409,7 +410,7 @@ class AdminPageContainer extends Component {
                         history.push(`/admin`);
                     }
                     break;
-                case 500:
+                default:
                     history.push('/notfound');
                     break;
             }
@@ -432,7 +433,7 @@ class AdminPageContainer extends Component {
     }
     render() {
         const { classes, theme } = this.props;
-        const { displayingTab, serviceType, isLoading, uploadMessages, messages, txtSearch, searchValue, isSearch, serviceID } = this.state;
+        const { displayingTab, serviceType, isLoading, uploadMessages, messages, txtSearch, searchValue, serviceID } = this.state;
         let isDisplayingSearch = (displayingTab === Constant.SERVICE_ALBUM || displayingTab === Constant.SERVICE_WEDDING_DRESS || displayingTab === Constant.SERVICE_WEDDING_VIDEO || displayingTab === Constant.SERVICE_FULL_WEDDING_DAY)
         return (
             <div className={classes.root}>
@@ -504,10 +505,10 @@ class AdminPageContainer extends Component {
                         {/*DAnh sách các menu ở đây  */}
                         {this.renderServicesMenu(menus)}
                         <Divider />
-                        <ListItem className="text-center" >
-                        <Button onClick={this.logout} variant="outlined" color="primary" style={{ width: '100%' }}>
-                            Đăng xuất
-                        </Button>
+                        <ListItem className="text-center"  >
+                        {this.state.open ? <Button onClick={this.logout} variant="outlined" color="primary" style={{ width: '100%' }}>Đăng xuất</Button> :<KeyboardArrowLeft variant="outlined" color="primary"/>}
+                        
+                        {/*  */}
                         </ListItem>
                         
                     </List>
@@ -610,6 +611,8 @@ class AdminPageContainer extends Component {
                 return <StarBorder />;
             case Constant.TAB_PASSWORD_EDIT:
                 return <LockIcon />;
+            default:
+                return <StarBorder />;
 
         }
     }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as Constant from '../../constants';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
-import { EditorState, convertToRaw, ContentState, convertFromHTML } from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
@@ -70,7 +70,7 @@ class ServicesPriceForm extends Component {
     };
     
     checkValidation = ()=>{
-        var {txtName, txtSlug, txtPrice} = this.state;   
+        var {txtName,txtPrice} = this.state;   
         if((txtName == null) || (txtName === '')){
             return Constant.getCheckValidateMessage('Tên albums','REQUIRED');
         }else if((txtPrice == null) ||(txtPrice === '')){
@@ -203,7 +203,7 @@ class ServicesPriceForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isUpdate == true) {
+        if (nextProps.isUpdate === true) {
             let id = this.props.serviceID;
             if (id) {
                 this.props.fetchServiceItem(id);
@@ -243,22 +243,19 @@ class ServicesPriceForm extends Component {
     }
 
     render() {
-        var formatter = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-        });
+        
         var { txtName, txtDescription, txtPrice, isEditing, editorState, priceDetailItems,validateMsg } = this.state;
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group">
                             <TextField
                                 label="Tên bảng giá"
                                 name="txtName"
                                 className="form-input"
-                                value={txtName}
+                                value={txtName || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -268,7 +265,7 @@ class ServicesPriceForm extends Component {
                                 label="Thông tin"
                                 multiline
                                 name="txtDescription"
-                                value={txtDescription}
+                                value={txtDescription || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -279,7 +276,7 @@ class ServicesPriceForm extends Component {
                                 label="Giá khởi điểm"
                                 name="txtPrice"
                                 className="form-input"
-                                value={txtPrice}
+                                value={txtPrice || 0}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -304,7 +301,7 @@ class ServicesPriceForm extends Component {
                                                         label="Giá theo ngày"
                                                         name="txtTitle"
                                                         className="form-input"
-                                                        value={priceDetailItem.price}
+                                                        value={priceDetailItem.price || ''}
                                                         onChange={this.handlePriceDetailItemNameChange(idx)}
                                                         variant="outlined"
                                                     />
@@ -314,7 +311,7 @@ class ServicesPriceForm extends Component {
                                                     <TextField
                                                         label="Ngày áp dụng"
                                                         name="applyDate"
-                                                        value={priceDetailItem.applyDate}
+                                                        value={priceDetailItem.applyDate || ''}
                                                         onChange={this.handlePriceDetailItemApplyDateChange(idx)}
                                                         type="date"
                                                         InputLabelProps={{
@@ -345,7 +342,7 @@ class ServicesPriceForm extends Component {
                                 onChange={this.handleEditorChange}
                             />
                         </div>
-                        <h2></h2>
+                        <h2> </h2>
                         <Button type="submit" variant="contained" color="primary" style={{ width: '20%', margin: 'auto' }}>
                             {isEditing ? "Lưu lại" : "Thêm mới"}</Button>
                     </form>

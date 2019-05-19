@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
-import { onLoading, actOnAddService, reset } from '../actions';
+import { onLoading, reset } from '../actions';
 
 class AlbumForm extends Component {
 
@@ -50,7 +50,7 @@ class AlbumForm extends Component {
         })
     }
     onUploadMultipleImages = (e) => {
-        var { isEditing, images } = this.state;
+        var { images } = this.state;
         var target = e.target;
         const files = Array.from(target.files);
         if (files) {
@@ -140,16 +140,16 @@ class AlbumForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isUpdate == true) {
+        if (nextProps.isUpdate === true) {
             let id = this.props.serviceID;
             if (id) {
+                this.props.onResetProps();
                 this.props.fetchServiceItem(id);
                 this.props.onLoading(true);
             }
-            this.props.onResetProps();
         }
         let serviceItem = nextProps.serviceItem;
-        if (serviceItem != null) {
+        if (serviceItem !== null) {
             this.setState({
                 isEditing: true,
                 txtID: serviceItem.id,
@@ -170,7 +170,7 @@ class AlbumForm extends Component {
     }
     onSave = (e) => {
         e.preventDefault();
-        var { txtID, txtName, imageItems, txtDescription, txtShortDescription, txtSlug, images, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
+        var { txtID, txtName, imageItems, txtDescription, txtShortDescription, txtSlug, imagesFiles, mainImage, isEditing, mainImageFile } = this.state;
         let check = this.checkValidation();
         if(check !== ''){
             this.setState({
@@ -255,10 +255,10 @@ class AlbumForm extends Component {
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group text-center">
-                            <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="Dress main image" />
+                            <img style={{ width: 'auto', height: '150px', border: '1px solid black' }} src={mainImage} alt="Dress main " />
                             <br /><br />
                             <input
                                 name="mainImage"
@@ -280,7 +280,7 @@ class AlbumForm extends Component {
                                 label="Tên áo cưới"
                                 name="txtName"
                                 className="form-input"
-                                value={txtName}
+                                value={txtName || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -290,7 +290,7 @@ class AlbumForm extends Component {
                                 label="Đường dẫn"
                                 name="txtSlug"
                                 className="form-input"
-                                value={txtSlug}
+                                value={txtSlug || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -301,7 +301,7 @@ class AlbumForm extends Component {
                                 multiline
                                 label="Miêu tả ngắn"
                                 name="txtShortDescription"
-                                value={txtShortDescription}
+                                value={txtShortDescription || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -313,7 +313,7 @@ class AlbumForm extends Component {
                                 multiline
                                 label="Đặc điểm nổi bật"
                                 name="txtDescription"
-                                value={txtDescription}
+                                value={txtDescription || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"

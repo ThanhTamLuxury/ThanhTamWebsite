@@ -53,7 +53,7 @@ onContactUs = ()=>{
         </div>
         <div className="gla_post_more clearfix">
           <div className="pull-left">
-            <a onClick={() => this.onContactUs()} className="btn bootbox">Liên hệ ngay</a>
+            <div onClick={() => this.onContactUs()} className="btn bootbox">Liên hệ ngay</div>
           </div>
         </div>
         <Snackbar

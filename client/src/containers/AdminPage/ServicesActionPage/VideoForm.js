@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import * as Constant from '../../constants';
 import { connect } from 'react-redux';
-import { generate_slug } from './../../../methods/function_lib'
 import Button from '@material-ui/core/Button';
 import { axios_fetch_serviceByID, axios_add_update_service } from '../axios_call';
-import { onLoading, onAdding, reset } from '../actions';
+import { onLoading, reset } from '../actions';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
@@ -52,13 +51,14 @@ class VideoForm extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isUpdate == true) {
+        if (nextProps.isUpdate === true) {
             let id = this.props.serviceID;
             if (id) {
+                this.props.onResetProps();
                 this.props.fetchServiceItem(id);
                 this.props.onLoading(true);
             }
-            this.props.onResetProps();
+            
         }
 
         let serviceItem = nextProps.serviceItem;
@@ -150,14 +150,14 @@ class VideoForm extends Component {
         return (
             <div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group">
                             <TextField
                                 label="Tên video"
                                 name="txtName"
                                 className="form-input"
-                                value={txtName}
+                                value={txtName || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -166,7 +166,7 @@ class VideoForm extends Component {
                             <TextField
                                 label="Đường dẫn"
                                 name="txtLink"
-                                value={txtLink}
+                                value={txtLink || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -179,7 +179,7 @@ class VideoForm extends Component {
                                 multiline
                                 label="Đặc điểm nổi bật"
                                 name="txtDescription"
-                                value={txtDescription}
+                                value={txtDescription || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -221,7 +221,8 @@ class VideoForm extends Component {
 }
 const mapStateToProps = state => {
     return {
-        serviceItem: state.adminPage.serviceItem
+        serviceItem: state.adminPage.serviceItem,
+        isUpdate: state.adminPage.isUpdate,
     }
 
 }

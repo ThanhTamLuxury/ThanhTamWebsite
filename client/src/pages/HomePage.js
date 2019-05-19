@@ -20,7 +20,7 @@ class HomePage extends Component {
             <div>
                 <Header />
                 <div className="gla_page" id="gla_page">
-                    <a href="#" className="gla_top ti ti-angle-up " />
+                    <span style={{cursor:'pointer'}} className="gla_top ti ti-angle-up " />
                     {/* <div className="gla_music_icon">
                     <i className="ti ti-music" />
                 </div> */}

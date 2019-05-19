@@ -57,7 +57,7 @@ class ServicePriceContainer extends Component {
         }
     }
     onChangePage =(newPage) => {
-        if(newPage != this.state.curPage){
+        if(newPage !== this.state.curPage){
             this.props.onLoading(true);
             this.props.fetchPriceServices(this.props.serviceType, newPage, 8);
             this.setState({
@@ -69,7 +69,7 @@ class ServicePriceContainer extends Component {
     renderPageList = (totalPage, curPage) => {
         var result = [];
         for (var i = 1; i <= totalPage; i++) {
-            result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} value={i} >{i}</a></li>);
+            result.push(<li style={{ cursor: 'pointer' }} key={i} className={curPage === i ? 'active' : ''}><a onClick={this.onChangePage(i)} value={i} >{i}</a></li>);
         }
         return result;
     }
@@ -87,13 +87,13 @@ class ServicePriceContainer extends Component {
                     <nav className="gla_blog_pag">
                         <ul className="pagination">
                             <li>
-                                <a onClick={curPage > 1 ? this.onChangePage(curPage - 1, totalPage) : null}>
+                                <a  onClick={curPage > 1 ? this.onChangePage(curPage - 1, totalPage) : null}>
                                     <i className="ti ti-angle-left" />
                                 </a>
                             </li>
                             {this.renderPageList(totalPage, curPage)}
                             <li>
-                                <a onClick={curPage < totalPage ? this.onChangePage(curPage + 1) : null}>
+                                <a  onClick={curPage < totalPage ? this.onChangePage(curPage + 1) : null}>
                                     <i className="ti ti-angle-right" />
                                 </a>
                             </li>

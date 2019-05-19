@@ -74,7 +74,7 @@ class SliderContainer extends React.PureComponent {
                                 </p>
                             </div>
                         </div>
-                        <a href='#' className="gla_scroll_down gla_go" onClick={() => this.onSlide()} style={{ cursor: 'pointer' }}>
+                        <a className="gla_scroll_down gla_go" onClick={() => this.onSlide()}>
                             <b />
                             Scroll
             </a>

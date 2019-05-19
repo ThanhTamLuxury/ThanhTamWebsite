@@ -3,50 +3,6 @@ import { DressItem } from './../../../components/index';
 import { connect } from 'react-redux';
 import { axios_fetch_TopDresses } from './../axios_call';
 
-const topDressesJson ={
-    description :'',
-    dresses : [
-        {
-            id: 1,
-            name: 'Áo cưới trắng quá trời là cute',
-            image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-            slug: 'dresses/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-        },
-        {
-            id: 2,
-            name: 'Áo cưới đỏ quá trời là dễ thương',
-            image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-            slug: 'dresses/2/chup-hinh-cuoi-tai-ha-loi'
-        },
-        {
-            id: 3,
-            name: 'Áo cưới vàng quá trời là lộng lẫy',
-            image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-            slug: 'dresses/3/chup-hinh-cuoi-tai-da-lot'
-        }
-    ]
-}
-const description = "Our ceremony and reception will be held at the Liberty House. Located on the Hudson River, it has a beautiful, unobstructed view of the World Trade One building and a convenient ferry that runs between it and Manhattan."
-const dresses = [
-    {
-        id: 1,
-        name: 'Áo cưới trắng quá trời là cute',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'dresses/1/chup-hinh-cuoi-tai-bien-hoa-dong-nai'
-    },
-    {
-        id: 2,
-        name: 'Áo cưới đỏ quá trời là dễ thương',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'dresses/2/chup-hinh-cuoi-tai-ha-loi'
-    },
-    {
-        id: 3,
-        name: 'Áo cưới vàng quá trời là lộng lẫy',
-        image: '/images/wedding_m/600x600/beatriz-perez-moya-191993.jpg',
-        slug: 'dresses/3/chup-hinh-cuoi-tai-da-lot'
-    }
-];
 
 
 const renderTopDresses = (dresses) => {

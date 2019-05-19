@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AlbumItem, DressItem, VideoItem, PostItem, DetailedExpansionPanel } from '../../components/index';
+import { AlbumItem, DressItem, VideoItem } from '../../components/index';
 import { connect } from 'react-redux';
 import { axios_fetch_services } from './axios_call';
 import { onLoading, reset } from './actions';
@@ -25,6 +25,8 @@ const renderService = (services, serviceType) => {
                     return (
                         <VideoItem key={index} video={item} />
                     );
+                default : 
+                    return 'Not found'
             }
 
         });

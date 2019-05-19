@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { AdminPageContainer } from '../containers/index';
 import {LABEL_PASSWORD_EDIT,TAB_PASSWORD_EDIT} from '../constants/Constant';
-import { history } from '../App';
 
 class AdminChangePasswordPage extends Component {
 
@@ -17,7 +16,6 @@ class AdminChangePasswordPage extends Component {
                
     }
     render() {
-        var { serviceType,tabCode } = this.state;
         return (
             <div className="gla_page" id="gla_page">
                 <section className="gla_content admin_content">

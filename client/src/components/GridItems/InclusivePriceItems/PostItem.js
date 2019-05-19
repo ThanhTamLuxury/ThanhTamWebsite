@@ -55,6 +55,10 @@ class PostItem extends Component {
                 path = Constant.SLUG_VIDEO
                 label = "Video"
                 break;
+            default :
+                path = '/'
+                label = "Home"
+                break;
         }
         this.setState({
             toRelatedPath: path,
@@ -99,8 +103,8 @@ class PostItem extends Component {
                     {/*End Content */}
                     <p />
                     <div className="price-details">
-                        <a className="price"><span>{formatter.format(post.price)}</span>
-                        </a>
+                        <div className="price"><span>{formatter.format(post.price)}</span>
+                        </div>
                         <Fab size="small" className="price-more" color="primary" aria-label="Xem thêm giá tham khảo" onClick={this.handleClickOpen} >
                             <AddIcon />
                         </Fab>

@@ -32,7 +32,7 @@ class AboutUsContainer extends Component {
                         </div>
                         <div className="col-md-5 col-sm-5">
                             <h4>Địa điểm </h4><br />
-                            <iframe src={aboutUsDetails.googleLocation} width="90%" height="260em" frameBorder={0} style={{ border: 0, marginTop: '-20px' }} allowFullScreen />
+                            <iframe title ={aboutUsDetails.address} src={aboutUsDetails.googleLocation} width="90%" height="260em" frameBorder={0} style={{ border: 0, marginTop: '-20px' }} allowFullScreen />
                         </div>
                     </div>}
                 <div className="row">

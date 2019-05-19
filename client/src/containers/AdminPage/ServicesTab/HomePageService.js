@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as Constant from '../../constants';
 import TextField from '@material-ui/core/TextField';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Button from '@material-ui/core/Button';
@@ -42,7 +41,7 @@ class HomePageService extends Component {
         this.props.fetchAboutUsDetails();
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isUpdate == true) {
+        if (nextProps.isUpdate === true) {
             this.props.fetchAboutUsDetails();
             this.props.onLoading(true);
             this.props.onResetProps();
@@ -80,19 +79,19 @@ class HomePageService extends Component {
         this.props.onLoading(true);
     }
     render() {
-        var { txtAddress, txtPhoneNo, txtEmail, txtLocation, isEditing } = this.state;
+        var { txtAddress, txtPhoneNo, txtEmail, txtLocation } = this.state;
         return (
             <div style={{ minWidth: '400px' }}>
                 <h2>Thông tin liên lạc</h2>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2></h2>
+                    <h2> </h2>
                     <form onSubmit={this.onSave} >
                         <div className="form-group">
                             <TextField
                                 label="Địa chỉ"
                                 name="txtAddress"
                                 className="form-input"
-                                value={txtAddress}
+                                value={txtAddress || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -101,7 +100,7 @@ class HomePageService extends Component {
                             <TextField
                                 label="Số điện thoại"
                                 name="txtPhoneNo"
-                                value={txtPhoneNo}
+                                value={txtPhoneNo || ''}
                                 className="form-input"
                                 onChange={this.onChange}
                                 variant="outlined"
@@ -112,7 +111,7 @@ class HomePageService extends Component {
                                 label="Địa chỉ email"
                                 name="txtEmail"
                                 className="form-input"
-                                value={txtEmail}
+                                value={txtEmail || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />
@@ -122,7 +121,7 @@ class HomePageService extends Component {
                                 label="Địa chỉ liên hệ"
                                 name="txtLocation"
                                 className="form-input"
-                                value={txtLocation}
+                                value={txtLocation || ''}
                                 onChange={this.onChange}
                                 variant="outlined"
                             />

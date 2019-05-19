@@ -74,7 +74,7 @@ class LoginContainer extends Component {
                             label="Tên tài khoản"
                             className="form-input"
                             name="txtUsername"
-                            value={txtUsername}
+                            value={txtUsername || ''}
                             onChange={this.onChange}
                         />
                         <br />
@@ -83,7 +83,7 @@ class LoginContainer extends Component {
                             type="password"
                             className="form-input"
                             name="txtPassword"
-                            value={txtPassword}
+                            value={txtPassword || ''}
                             onChange={this.onChange}
                         />
                         <br /><br />
