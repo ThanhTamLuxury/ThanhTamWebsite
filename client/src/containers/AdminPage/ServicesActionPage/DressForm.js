@@ -277,7 +277,7 @@ class AlbumForm extends Component {
                         </div>
                         <div className="form-group">
                             <TextField
-                                label="Tên váy cưới"
+                                label="Tên áo cưới"
                                 name="txtName"
                                 className="form-input"
                                 value={txtName}
